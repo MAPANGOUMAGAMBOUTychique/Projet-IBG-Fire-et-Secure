@@ -18,5 +18,340 @@
             </ul>
         </nav>
     </header>
+
+    <h1>Postuler dès maintenant !</h1>
+
+    <section id="Postuler">
+            <h2>Informations</h2>
+             <form action="" method="post" enctype="multipart/form-data">
+                <fieldset>
+                <legend><h3>État Civil et Obligations légales</h3></legend>
+                <div class="form-group">
+                    <label for="nom">Nom :</label>
+                    <input type="text" name="user_name" id="nom" placeholder="Votre nom" required>
+                </div>
+                <div class="form-group">
+                    <label for="prenom">Prénom :</label>
+                    <input type="text" name="user_prenom" id="prenom" placeholder="Votre prénom" required>
+                </div>
+                <div class="form-group">
+                    <label for="Date_de_naissance">Date de naissance :</label>
+                    <input type="date" name="user_Date_de_naissance" id="Date_de_naissance" min="1950-01-01" max="2006-12-31" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-mail :</label>
+                    <input type="email" name="user_email" id="email" placeholder="domaine@gmail.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="Telephone">Numéro de Téléphone :</label>
+                    <input type="tel" name="user_phone" id="Telephone" placeholder="06 00 00 00 00" pattern="(\+33|0)[1-9](\s?\d{2}){4}" title="Format attendu : +33 ou 0 suivi de chiffres" required>
+                </div>
+                <div class="form-group">
+                    <label for="nationalite"> Nationalité</label>
+                    <div class="custom-select-container">
+                        <input type="hidden" name="user_nationalite" id="selected-nat">
+                        <div class="select-display" id="select-trigger">Choisir une nationalité...</div>
+                        <ul class="options-list" id="options-list" style="display: none; border: 1px solid #ccc; list-style: none; padding: 0; max-height: 200px; overflow-y: auto;">
+                            <li data-value="Française"><img src="https://flagcdn.com/16x12/fr.png" alt=""> Française</li>
+                            <li data-value="Belge"><img src="https://flagcdn.com/16x12/be.png" alt=""> Belge</li>
+                            <li data-value="Suisse"><img src="https://flagcdn.com/16x12/ch.png" alt=""> Suisse</li>
+                            <li data-value="Portugaise"><img src="https://flagcdn.com/16x12/pt.png" alt=""> Portugaise</li>
+                            <li data-value="Italienne"><img src="https://flagcdn.com/16x12/it.png" alt=""> Italienne</li>
+                            <li data-value="Espagnole"><img src="https://flagcdn.com/16x12/es.png" alt=""> Espagnole</li>
+                            <li data-value="Allemande"><img src="https://flagcdn.com/16x12/de.png" alt=""> Allemande</li>
+
+                            <li data-value="Ivoirienne"><img src="https://flagcdn.com/16x12/ci.png" alt=""> Ivoirienne</li>
+                            <li data-value="Sénégalaise"><img src="https://flagcdn.com/16x12/sn.png" alt=""> Sénégalaise</li>
+                            <li data-value="Camerounaise"><img src="https://flagcdn.com/16x12/cm.png" alt=""> Camerounaise</li>
+                            <li data-value="Béninoise"><img src="https://flagcdn.com/16x12/bj.png" alt=""> Béninoise</li>
+                            <li data-value="Guinéenne"><img src="https://flagcdn.com/16x12/gn.png" alt=""> Guinéenne</li>
+                            <li data-value="Malienne"><img src="https://flagcdn.com/16x12/ml.png" alt=""> Malienne</li>
+                            <li data-value="Togolaise"><img src="https://flagcdn.com/16x12/tg.png" alt=""> Togolaise</li>
+                            <li data-value="Gabonaise"><img src="https://flagcdn.com/16x12/ga.png" alt=""> Gabonaise</li>
+                            <li data-value="Congolaise (RDC)"><img src="https://flagcdn.com/16x12/cd.png" alt=""> Congolaise (RDC)</li>
+                            <li data-value="Congolaise (Brazza)"><img src="https://flagcdn.com/16x12/cg.png" alt=""> Congolaise (Brazza)</li>
+
+                            <li data-value="Marocaine"><img src="https://flagcdn.com/16x12/ma.png" alt=""> Marocaine</li>
+                            <li data-value="Algérienne"><img src="https://flagcdn.com/16x12/dz.png" alt=""> Algérienne</li>
+                            <li data-value="Tunisienne"><img src="https://flagcdn.com/16x12/tn.png" alt=""> Tunisienne</li>
+
+                            <li data-value="Canadienne"><img src="https://flagcdn.com/16x12/ca.png" alt=""> Canadienne</li>
+                            <li data-value="Américaine"><img src="https://flagcdn.com/16x12/us.png" alt=""> Américaine</li>
+                            <li data-value="Haïtienne"><img src="https://flagcdn.com/16x12/ht.png" alt=""> Haïtienne</li>
+                     
+                        </ul>
+                    </div>    
+                </div>
+                <div class="form-group">
+                    <label for="Lieu_de_naissance">Lieu de naissance :</label>
+                    <input type="text" name="user_lieu_de_naissance" id="Lieu_de_naissance" placeholder="Ville de votre naissance" required>
+                </div>
+                <div class="form-group">
+                    <label for="Numero_carte_professionel">Numéro de Carte Professionnel(CNAPS) :</label>
+                    <input type="text" name="user_numero_cnaps" id="Numero_carte_professionel" placeholder="CAR-000-202X-XX-XXXXXXX" pattern="CAR-[0-9]{3}-[0-9]{4}-[0-1][0-9]-[0-9A-Z]{8}" title="Le format doit ressembler à : CAR-000-2025-01-01-A1B2C3D4" required>
+                </div>
+                <div class="form-group">
+                    <label for="Date_expiration_carte_pro">Date d'expiration de la carte professionnelle :</label>
+                    <input type="date" name="user_expiration_carte_pro" id="Date_expiration_carte_pro" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="Casier_judiciaire">Casier judiciere :</label>
+                    <input type="file" name="user_casier_judiciaire" id="Casier_judiciaire" class="form-control">
+                </div>
+                </fieldset>
+
+                <fieldset>
+                         <legend><h3>Qualifications Techniques(le "Coeur du métier)</h3></legend>
+                <div class="form-group">
+                    <label for="Diplomes_Sécurite_Privee">Diplômes Sécurité Privée (Sélectionnez vos diplomes et joignez les justificatifs) :</label>
+                    <div class="diploma-item">
+                        <input type="checkbox" name="diplomes[]" id="ssiap1" value="SSIAP 1 " onchange="toggleUpload('upload_ssiap1')">
+                    </div>
+                    <div class="diploma-item">
+                        <input type="checkbox" id="ssiap2" name="diplomes[]" value="SSIAP 2" onchange="toggleUpload('upload_ssiap2')">
+                    <label for="ssiap2">SSIAP 2</label>
+                        <input type="file" id="upload_ssiap2" name="justificatif_ssiap2" accept=".pdf" style="display:none;">
+                    </div>
+
+                    <div class="diploma-item">
+                        <input type="checkbox" id="cqp" name="diplomes[]" value="CQP-APS" onchange="toggleUpload('upload_cqp')">
+                        <label for="cqp">CQP / TFP APS</label>
+                        <input type="file" id="upload_cqp" name="justificatif_cqp" accept=".pdf" style="display:none;">
+                    </div>
+
+                    <div class="diploma-item">
+                        <input type="checkbox" id="sst" name="diplomes[]" value="SST" onchange="toggleUpload('upload_sst')">
+                        <label for="sst">SST (Secourisme)</label>
+                        <input type="file" id="upload_sst" name="justificatif_sst" accept=".pdf" style="display:none;">
+                    </div>
+
+                    <div class="diploma-item">
+                        <input type="checkbox" id="autre_diplome_check" name="diplomes[]" value="Autre" onchange="toggleAutre()">
+                        <label for="autre_diplome_check">Autre diplôme</label>
+                        
+                        <div id="section_autre" style="display:none; margin-top: 10px; padding-left: 20px;">
+                            <input type="text" name="nom_autre_diplome" placeholder="Nom du diplôme">
+                            <label>Justificatif :</label>
+                            <input type="file" name="justificatif_autre" accept=".pdf">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                <label>Diplômes Sécurité Incendie (Sélectionnez vos niveaux et joignez les justificatifs) :</label>
+                
+                <div class="diploma-item">
+                    <input type="checkbox" id="incendie_ssiap1" name="diplomes_incendie[]" value="SSIAP 1" onchange="toggleUpload('upload_incendie_ssiap1')">
+                    <label for="incendie_ssiap1">SSIAP 1 (Agent)</label>
+                    <input type="file" id="upload_incendie_ssiap1" name="justificatif_incendie_ssiap1" accept=".pdf" style="display:none;">
+                </div>
+
+                <div class="diploma-item">
+                    <input type="checkbox" id="incendie_ssiap2" name="diplomes_incendie[]" value="SSIAP 2" onchange="toggleUpload('upload_incendie_ssiap2')">
+                    <label for="incendie_ssiap2">SSIAP 2 (Chef d'équipe)</label>
+                    <input type="file" id="upload_incendie_ssiap2" name="justificatif_incendie_ssiap2" accept=".pdf" style="display:none;">
+                </div>
+
+                <div class="diploma-item">
+                    <input type="checkbox" id="incendie_ssiap3" name="diplomes_incendie[]" value="SSIAP 3" onchange="toggleUpload('upload_incendie_ssiap3')">
+                    <label for="incendie_ssiap3">SSIAP 3 (Chef de service)</label>
+                    <input type="file" id="upload_incendie_ssiap3" name="justificatif_incendie_ssiap3" accept=".pdf" style="display:none;">
+                </div>
+
+                <div class="diploma-item">
+                    <input type="checkbox" id="epi" name="diplomes_incendie[]" value="EPI" onchange="toggleUpload('upload_epi')">
+                    <label for="epi">EPI (Équipier de Première Intervention)</label>
+                    <input type="file" id="upload_epi" name="justificatif_epi" accept=".pdf" style="display:none;">
+                </div>
+
+                <div class="diploma-item">
+                    <input type="checkbox" id="autre_incendie_check" name="diplomes_incendie[]" value="Autre Incendie" onchange="toggleAutreIncendie()">
+                    <label for="autre_incendie_check">Autre formation Incendie</label>
+                    
+                    <div id="section_autre_incendie" style="display:none; margin-top: 10px; padding-left: 20px;">
+                        <input type="text" name="nom_autre_incendie" placeholder="Nom de la formation (ex: ERP, IGH...)">
+                        <label>Justificatif :</label>
+                        <input type="file" name="justificatif_autre_incendie" accept=".pdf">
+                    </div>
+                </div>
+                </div>
+                <div class="form-group">
+                    <label for="Secourisme">Diplome de secourisme (PCS1, SST...) :</label>
+                    <input type="file" name="user_secourist" id="Secourisme" class="form-control" accept=".pdf, .jpg, .png">
+                </div>
+                <div class="form-group">
+                    <label for="Habilitations_electrique">Habilitations Électriques</label>
+                    <div class="diploma-item">
+                        <label for="hab_h0b0">H0-B0-H0V (Opérations d'ordre non-électrique)</label>
+                        <input type="checkbox" name="habilitations[]" id="hab_h0b0" value="H0-B0">
+                        <div id="section_h0b0">
+                        <label for="date_h0b0">Date de recyclage :</label>
+                        <input type="date" name="date_validite_h0b0" id="date_h0b0">
+                        <label for="upload_h0b0">Justificatif (PDF) :</label>
+                        <input type="file" name="justificatif_h0b0" id="upload_h0b0">
+                        </div>
+                    </div>
+                    <div class="diploma-item">
+                    <input type="checkbox" id="hab_bsbe" name="habilitations[]" value="BS-BE">
+                    <label for="hab_bsbe">BS / BE Manœuvre (Interventions simples)</label>
+                    
+                    <div id="section_bsbe">
+                        <label for="date_bsbe">Date de recyclage :</label>
+                        <input type="date" id="date_bsbe" name="date_validite_bsbe">
+                        
+                        <label for="upload_bsbe">Justificatif (PDF) :</label>
+                        <input type="file" id="upload_bsbe" name="justificatif_bsbe" accept=".pdf">
+                    </div>
+                </div>
+
+                <div class="diploma-item">
+                    <input type="checkbox" id="hab_autre" name="habilitations[]" value="Autre">
+                    <label for="hab_autre">Autre habilitation (B1, B2, BR, BC, HE...)</label>
+                    
+                    <div id="section_hab_autre">
+                        <input type="text" name="nom_autre_hab" placeholder="Indiquez le symbole (ex: BR, B2V...)">
+                        
+                        <label>Date de recyclage :</label>
+                        <input type="date" name="date_validite_hab_autre">
+                        
+                        <label>Justificatif (PDF) :</label>
+                        <input type="file" name="justificatif_hab_autre" accept=".pdf">
+                    </div>
+                </div>
+                </div>
+                </fieldset>
+
+                <fieldset>
+                        <legend><h3>Aptitudes Physiques et Mobilité</h3></legend>
+                <div class="form-group">
+                    <label for="Aptitude_physique_medicale">Date de la dernière visite médicale :</label>
+                    <input type="date" name="user_date_visite_medicale" id="Aptitude_physique_medicale" required>
+                </div>
+                <div class="form-group">
+                    <label for="Permis_de_conduire">Permis de conduire (B) :</label>
+                    <input type="text" name="user_permis" id="Permis_de_conduire" placeholder="Oui ou non" required>
+                </div>
+                <div class="form-group">
+                    <label for="Vehicule">Etes vous véhiculé ?</label>
+                    <input type="text" name="user_vehicule" id="Vehicule" placeholder="Oui ou non" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Aptitude visuelle :</label>
+                    <div class="form-check">
+                        <label for="value_ok" class="form-check-label">Acuité visuelle et distinction des couleurs conformes au poste</label>
+                        <input type="radio" name="aptitude_vue" id="vue_conforme" value="conforme" checked class="form-check-input">
+                    </div>
+                    <div class="form-check">
+                        <label for="vue_ok" class="form-check-label">Présence d'une correction ou anomalie (ex:daltonisme)</label>
+                        <input type="radio" name="aptitude_vue" id="vue_conforme" value="conforme" class="form-check-label">
+                    </div>
+                </div>
+                </fieldset>
+
+                <fieldset>
+                        <legend><h3>Disponibilités et Conditions</h3></legend>
+                <div class="form-group">
+                    <label for="Contrat_recherche">Type de contrats recherché (un seul choix est possible):</label>
+                    <div>
+                        <label for="solo_cdi">CDI</label>
+                        <input type="radio" name="contrat_unique" id="solo_cdi" value="CDI">
+                    </div>
+                    <div>
+                        <label for="solo_cdd">CDD</label>
+                        <input type="radio" id="solo_cdd" name="contrat_unique" value="CDD">
+                    </div>
+
+                    <div>
+                        <label for="solo_interim">Intérim</label>
+                        <input type="radio" id="solo_interim" name="contrat_unique" value="Interim">
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Disponibilite_horaire">Disponibilités horaires :</label>
+                    <textarea name="user_disponibilitr" id="Disponibilite_horaire" rows="3" placeholder="Ex: Disponible du 5 Janvier au.. de 8h à 1 4h "class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="rayon">Mobilité géographique</label>
+                    <div>
+                        <input type="range" name="mobilite_rayon" id="rayon" min="0" max="200" step="5" value="50" oninput="updatekmText(this.value)">
+                        <p>Rayon de <span id="valeur-km">50</span>KM autour du domicile</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Acceptez-vous le port de l'uniforme ?</label>
+                    <div>
+                        <label for="Uniforme_oui">Oui</label>
+                        <input type="radio" name="acceptation_uniforme" id="uniforme_oui" value="oui" required>
+                    </div>
+                    <div>
+                        <label for="Uniforme_non">NON</label>
+                        <input type="radio" name="acceptation_uniforme" id="uniforme_non" value="non">
+                    </div>
+                </div>
+                </fieldset>
+
+                <fieldset>
+                        <legend><h3>Documents de candidature</h3></legend>
+                <div class="form-group">
+                    <label for="Cv">CV (Curriculum Vitae) :</label>
+                    <input type="file" name="user_cv" id="Cv" accept=".pdf" required>
+                </div>
+                <div class="form-group">
+                    <label for="Lettre_de_motivation">Lettre de motivation :</label>
+                    <input type="file" name="user_lettre_de_motivation" id="Lettre_de_motivation" accept=".pdf">
+                </div>
+                </fieldset>
+
+
+                <button type="submit" class="btn-submit">Envoyer</button>
+
+             </form>
+    </section>
+
+    <section id="MessageEnvoyer">
+        <img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE">
+        <p>Votre candidature a été envoyer avec succès !</p>
+    </section>
+    
+            <footer>
+        <ul>
+            <li><a href="Accueil.html"><img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE"></a></li>
+            <li>
+                <article>
+                    <h4>Siège social IBG FIRE ET SECURE</h4>
+                    <p>24 allée de la mer d'iroise 44600 Saint-Nazaire</p>
+                </article>
+            </li>
+            <li>
+                <article>
+                    <h4>Nos Services</h4>
+                    <ul>
+                        <li><a href="Accueil.html#SecuriteEtIncendie">Sécurité et Incendie</a></li>
+                        <li><a href="Accueil.html#GardiennageEtSurveillance">Gardiennage et Surveillance</a></li>
+                        <li><a href="Accueil.html#TechnologieEtTelesurveillance">Technologie et Télésurveillance</a></li>
+                        <li><a href="Accueil.html#ConseilEtExpertise">Conseil et Expertise</a></li>
+                    </ul>                
+                   
+                </article>
+            </li>
+            <li>
+                <h4>Liens</h4>
+                <nav>
+                    <ul>
+                        <li><a href="MentionsLégales.html">Mentions légales</a></li>
+                        <li><a href="Accueil.html">Accueil</a></li>
+                        <li><a href="NousContacter.html">Nous contacter</a></li>
+                        <li><a href="Postuler.html">Je postule</a></li>
+                        <li><a href="SeConnecter.html">Se connecter</a></li>
+                        <li><a href="CreerUnCompte.html">Créer un compte</a></li>
+                    </ul>
+                </nav>
+               
+            </li>
+        </ul>
+    </footer>
 </body>
+      
+
 </html>
