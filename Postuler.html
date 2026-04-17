@@ -106,6 +106,8 @@
                     <label for="Diplomes_Sécurite_Privee">Diplômes Sécurité Privée (Sélectionnez vos diplomes et joignez les justificatifs) :</label>
                     <div class="diploma-item">
                         <input type="checkbox" name="diplomes[]" id="ssiap1" value="SSIAP 1 " onchange="toggleUpload('upload_ssiap1')">
+                        <label for="ssiap1">SSIAP 1</label>
+                        <input type="file" name="user_justificatif_ssiap1" id="upload_ssiap1" accept=".pdf" style="display:none">
                     </div>
                     <div class="diploma-item">
                         <input type="checkbox" id="ssiap2" name="diplomes[]" value="SSIAP 2" onchange="toggleUpload('upload_ssiap2')">
@@ -238,12 +240,12 @@
                 <div class="form-group">
                     <label for="">Aptitude visuelle :</label>
                     <div class="form-check">
-                        <label for="value_ok" class="form-check-label">Acuité visuelle et distinction des couleurs conformes au poste</label>
+                        <label for="vue_conforme" class="form-check-label">Acuité visuelle et distinction des couleurs conformes au poste</label>
                         <input type="radio" name="aptitude_vue" id="vue_conforme" value="conforme" checked class="form-check-input">
                     </div>
                     <div class="form-check">
-                        <label for="vue_ok" class="form-check-label">Présence d'une correction ou anomalie (ex:daltonisme)</label>
-                        <input type="radio" name="aptitude_vue" id="vue_conforme" value="conforme" class="form-check-label">
+                        <label for="vue_non_conforme" class="form-check-label">Présence d'une correction ou anomalie (ex:daltonisme)</label>
+                        <input type="radio" name="aptitude_vue" id="vue_non_conforme" value="conforme" class="form-check-label">
                     </div>
                 </div>
                 </fieldset>
