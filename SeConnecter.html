@@ -18,5 +18,72 @@
             </ul>
         </nav>
     </header>
+    <main>
+        <h1>Connexion Employé</h1>
+        <form action="" method="post">
+            <div class="form-group">
+                <label for="Email_employe">Email :</label>
+                <input type="email" name="user_email" id="Email_employe" placeholder="Ex :domaine@gmail.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="Mot_de_passe_employe">Mot de Passe :</label>
+                <input type="password" name="user_mot_de_passe" id="Mot_de_passe_employe" required>
+            </div>
+
+            <button type="submit">Connexion</button>
+        </form>
+
+        <h1>Connexion Entreprise</h1>
+        <form action="" method="post">
+            <div class="form-group">
+                <label for="Numero_siret">Numéro SIRET :</label>
+                <input type="text" name="user_siret" id="Numero_siret" placeholder="123 456 789 00012" pattern="[0-9]{14}" title="Le SIRET doit être composé de 14 chiffres" required>
+            </div>
+            <div class="form-group">
+                <label for="Mot_de_passe_entreprise">Mot de Passe :</label>
+                <input type="password" name="user_mot_de_passe_entreprise" id="Mot_de_passe_entreprise" required>
+            </div>
+
+            <button type="submit">Connexion</button>
+        </form>
+    </main>
+        <footer>
+        <ul>
+            <li><a href="Accueil.html"><img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE"></a></li>
+            <li>
+                <article>
+                    <h4>Siège social IBG FIRE ET SECURE</h4>
+                    <p>24 allée de la mer d'iroise 44600 Saint-Nazaire</p>
+                </article>
+            </li>
+            <li>
+                <article>
+                    <h4>Nos Services</h4>
+                    <ul>
+                        <li><a href="#SecuriteEtIncendie">Sécurité et Incendie</a></li>
+                        <li><a href="#GardiennageEtSurveillance">Gardiennage et Surveillance</a></li>
+                        <li><a href="#TechnologieEtTelesurveillance">Technologie et Télésurveillance</a></li>
+                        <li><a href="#ConseilEtExpertise">Conseil et Expertise</a></li>
+                    </ul>                
+                   
+                </article>
+            </li>
+            <li>
+                <h4>Liens</h4>
+                <nav>
+                    <ul>
+                        <li><a href="MentionsLégales.html">Mentions légales</a></li>
+                        <li><a href="Accueil.html">Accueil</a></li>
+                        <li><a href="NousContacter.html">Nous contacter</a></li>
+                        <li><a href="Postuler.html">Je postule</a></li>
+                        <li><a href="SeConnecter.html">Se connecter</a></li>
+                        <li><a href="CreerUnCompte.html">Créer un compte</a></li>
+                    </ul>
+                </nav>
+               
+            </li>
+        </ul>
+    </footer>
 </body>
 </html>

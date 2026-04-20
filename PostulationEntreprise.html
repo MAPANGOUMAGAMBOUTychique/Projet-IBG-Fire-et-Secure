@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Postulation emploi</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="Accueil.html"><img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo"></a></li>
+                <li><a href="Accueil.html">Accueil</a></li>
+                <li><a href="NousContacter.html">Nous contacter</a></li>
+                <li><a href="Postuler.html">Postuler</a></li>
+                <li><a href="SeConnecter.html">Se connecter</a></li>
+                <li><a href="CreerUnCompte.html">Créer un compte</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Création du Compte Entreprise</h1>
+        <section>
+            <form action="" method="post">
+                <h2>Identité de l'entreprise</h2>
+                <div class="form-group">
+                    <label for="Raison_social">Raison sociale :</label>
+                    <input type="text" name="user_nom_entreprise" id="Raison_social" placeholder="Nom officiel de l'entreprise" required>
+                </div>
+                <div class="form-group">
+                    <label for="Numero_siret">SIRET :</label>
+                    <input type="text" name="user_siret_entreprise" id="Numero_siret" placeholder="123 456 789 00012" pattern="[0-9]{14}" title="Le numéro SIRET doit etre composé de 12 caractère" required>
+                </div>
+                <div class="form-group">
+                    <label for="Code_NAF">Code NAF / APE (Optionnel) :</label>
+                    <input type="text" name="user_code_naf" id="code_naf" placeholder="Ex: 8010Z" pattern="[0-9]{4}[A-Z]" title="Le code NAF doit comporter 4 chiffres suivis d'une lettre majuscule" maxlength="5">
+                </div>
+                <div class="form-group">
+                    <label for="Numero_de_tva">Numéro de TVA intracommunautaire :</label>
+                    <input type="text" name="user_numero_de_tva" id="Numero_de_tva" placeholder="FR 00 123456789" pattern="FR[0-9]{11}" title="Le format doit être FR suivi de 11 chiffres (ex: FR00123456789)" required>
+                </div>
+
+                <h2>Adresse du siège social</h2>
+                <div class="form-group">
+                    <label for="Adresse_postale-complete">Adresse postale complère :</label>
+                    <textarea name="user_adresse" id="Adresse_postale_complete" rows="3" placeholder="N°, rue, code postal et ville" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="Pays">Pays du siège social :</label>
+                    <div class="custom-select-container">
+                        <input type="hidden" name="user_pays" id="selected-nat" required>
+                        <div class="select-display" id="select-trigger" tabindex="0">
+                            Choisir un pays...
+                        </div>
+                        <ul class="options-list" id="options-list" style="display: none; border: 1px solid #ccc; list-style: none; padding: 0; max-height: 300px; overflow-y: auto; background: white; position: absolute; width: 100%; z-index: 1000;">
+                            <li data-value="Allemagne"><img src="https://flagcdn.com/16x12/de.png" alt=""> Allemagne</li>
+                            <li data-value="Autriche"><img src="https://flagcdn.com/16x12/at.png" alt=""> Autriche</li>
+                            <li data-value="Belgique"><img src="https://flagcdn.com/16x12/be.png" alt=""> Belgique</li>
+                            <li data-value="Espagne"><img src="https://flagcdn.com/16x12/es.png" alt=""> Espagne</li>
+                            <li data-value="France"><img src="https://flagcdn.com/16x12/fr.png" alt=""> France</li>
+                            <li data-value="Italie"><img src="https://flagcdn.com/16x12/it.png" alt=""> Italie</li>
+                            <li data-value="Luxembourg"><img src="https://flagcdn.com/16x12/lu.png" alt=""> Luxembourg</li>
+                            <li data-value="Monaco"><img src="https://flagcdn.com/16x12/mc.png" alt=""> Monaco</li>
+                            <li data-value="Pays-Bas"><img src="https://flagcdn.com/16x12/nl.png" alt=""> Pays-Bas</li>
+                            <li data-value="Portugal"><img src="https://flagcdn.com/16x12/pt.png" alt=""> Portugal</li>
+                            <li data-value="Royaume-Uni"><img src="https://flagcdn.com/16x12/gb.png" alt=""> Royaume-Uni</li>
+                            <li data-value="Suisse"><img src="https://flagcdn.com/16x12/ch.png" alt=""> Suisse</li>
+
+                            <li data-value="Algérie"><img src="https://flagcdn.com/16x12/dz.png" alt=""> Algérie</li>
+                            <li data-value="Bénin"><img src="https://flagcdn.com/16x12/bj.png" alt=""> Bénin</li>
+                            <li data-value="Burkina Faso"><img src="https://flagcdn.com/16x12/bf.png" alt=""> Burkina Faso</li>
+                            <li data-value="Cameroun"><img src="https://flagcdn.com/16x12/cm.png" alt=""> Cameroun</li>
+                            <li data-value="Congo-Brazzaville"><img src="https://flagcdn.com/16x12/cg.png" alt=""> Congo-Brazzaville</li>
+                            <li data-value="Congo-Kinshasa"><img src="https://flagcdn.com/16x12/cd.png" alt=""> Congo-Kinshasa (RDC)</li>
+                            <li data-value="Côte d'Ivoire"><img src="https://flagcdn.com/16x12/ci.png" alt=""> Côte d'Ivoire</li>
+                            <li data-value="Gabon"><img src="https://flagcdn.com/16x12/ga.png" alt=""> Gabon</li>
+                            <li data-value="Guinée"><img src="https://flagcdn.com/16x12/gn.png" alt=""> Guinée</li>
+                            <li data-value="Mali"><img src="https://flagcdn.com/16x12/ml.png" alt=""> Mali</li>
+                            <li data-value="Maroc"><img src="https://flagcdn.com/16x12/ma.png" alt=""> Maroc</li>
+                            <li data-value="Sénégal"><img src="https://flagcdn.com/16x12/sn.png" alt=""> Sénégal</li>
+                            <li data-value="Togo"><img src="https://flagcdn.com/16x12/tg.png" alt=""> Togo</li>
+                            <li data-value="Tunisie"><img src="https://flagcdn.com/16x12/tn.png" alt=""> Tunisie</li>
+
+                            <li data-value="Argentine"><img src="https://flagcdn.com/16x12/ar.png" alt=""> Argentine</li>
+                            <li data-value="Brésil"><img src="https://flagcdn.com/16x12/br.png" alt=""> Brésil</li>
+                            <li data-value="Canada"><img src="https://flagcdn.com/16x12/ca.png" alt=""> Canada</li>
+                            <li data-value="États-Unis"><img src="https://flagcdn.com/16x12/us.png" alt=""> États-Unis</li>
+                            <li data-value="Haïti"><img src="https://flagcdn.com/16x12/ht.png" alt=""> Haïti</li>
+                            <li data-value="Mexique"><img src="https://flagcdn.com/16x12/mx.png" alt=""> Mexique</li>
+
+                            <li data-value="Australie"><img src="https://flagcdn.com/16x12/au.png" alt=""> Australie</li>
+                            <li data-value="Chine"><img src="https://flagcdn.com/16x12/cn.png" alt=""> Chine</li>
+                            <li data-value="Émirats Arabes Unis"><img src="https://flagcdn.com/16x12/ae.png" alt=""> Émirats Arabes Unis</li>
+                            <li data-value="Inde"><img src="https://flagcdn.com/16x12/in.png" alt=""> Inde</li>
+                            <li data-value="Japon"><img src="https://flagcdn.com/16x12/jp.png" alt=""> Japon</li>
+                            <li data-value="Qatar"><img src="https://flagcdn.com/16x12/qa.png" alt=""> Qatar</li>
+                        </ul>
+                    </div>
+
+                </div>
+                <h2>Contact référent (L'administrateur du compte)</h2>
+                <div class="form-group">
+                    <label for="Nom_et_prenom">Nom et Prénom du responsable :</label>
+                    <input type="text" name="user_nom_prenom" id="Nom_et_prenom" required>
+                </div>
+                <div class="form-group">
+                    <label for="Fonction_entreprise">Fonction dans l'entreprise :</label>
+                    <input type="text" name="user_fonction" id="Fonction_entreprise" placeholder="ex:Gérant, Responsable Sécurité..." required>
+                </div>
+                <h2>Sécurité du Compte</h2>
+                <div class="form-group">
+                    <label for="Mot_de_passe">Mot de passe :</label>
+                    <input type="password" name="user_mot_de_passe" id="Mot_de_passe" placeholder="8 caractères minimum" minlength="8" required>
+                </div>
+                <div class="form-group">
+                    <label for="Confirmation_mot-de-passe">Confirmation du mot de passe :</label>
+                    <input type="password" name="user_conmimation_mot_de_passe" id="Confirmation_mot-de-passe" required>
+                
+                </div>
+
+                <button type="submit">Envoyer</button>
+            </form>
+            
+            <section class="Creation_entreprise">
+                <img src="image/Logo_IBG_FS-removebg-preview.png" alt="LOGO IBG FIRE ET SECURE">
+                <p>Votre compte Entreprise a été Créer avec succès !</p>
+            </section>
+        </section>
+    </main>
+        <footer>
+        <ul>
+            <li><a href="Accueil.html"><img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE"></a></li>
+            <li>
+                <article>
+                    <h4>Siège social IBG FIRE ET SECURE</h4>
+                    <p>24 allée de la mer d'iroise 44600 Saint-Nazaire</p>
+                </article>
+            </li>
+            <li>
+                <article>
+                    <h4>Nos Services</h4>
+                    <ul>
+                        <li><a href="#SecuriteEtIncendie">Sécurité et Incendie</a></li>
+                        <li><a href="#GardiennageEtSurveillance">Gardiennage et Surveillance</a></li>
+                        <li><a href="#TechnologieEtTelesurveillance">Technologie et Télésurveillance</a></li>
+                        <li><a href="#ConseilEtExpertise">Conseil et Expertise</a></li>
+                    </ul>                
+                   
+                </article>
+            </li>
+            <li>
+                <h4>Liens</h4>
+                <nav>
+                    <ul>
+                        <li><a href="MentionsLégales.html">Mentions légales</a></li>
+                        <li><a href="Accueil.html">Accueil</a></li>
+                        <li><a href="NousContacter.html">Nous contacter</a></li>
+                        <li><a href="Postuler.html">Je postule</a></li>
+                        <li><a href="SeConnecter.html">Se connecter</a></li>
+                        <li><a href="CreerUnCompte.html">Créer un compte</a></li>
+                    </ul>
+                </nav>
+               
+            </li>
+        </ul>
+    </footer>
+</body>
+</html>
