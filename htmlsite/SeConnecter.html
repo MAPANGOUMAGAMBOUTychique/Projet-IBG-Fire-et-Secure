@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mot de Passe oublié</title>
+    <title>Se connecter</title>
 </head>
 <body>
     <header>
@@ -19,22 +19,42 @@
         </nav>
     </header>
     <main>
-        <h1>Mot de Passe oublié</h1>
+        <section class="Connexion">
+        <h1>Connexion Employé</h1>
         <form action="" method="post">
             <div class="form-group">
-            <label for="E-mail_utilisateur_entreprise">E-mail :</label>
-            <input type="email" name="user_email_entraprise" id="E-mail_utilisateur_entreprise" placeholder="Ex: service@gmail.com" required>
-        </div>
+                <label for="Email_employe">Email :</label>
+                <input type="email" name="user_email" id="Email_employe" placeholder="Ex :domaine@gmail.com" required>
+            </div>
 
-        <button type="submit">Envoyer</button>
+            <div class="form-group">
+                <label for="Mot_de_passe_employe">Mot de Passe :</label>
+                <input type="password" name="user_mot_de_passe" id="Mot_de_passe_employe" required>
+                <a href="MotDePasseOublier.html" >Mot de passe oublié ?</a>
+            </div>
+
+            <button type="submit">Connexion</button>
         </form>
-
-        <section id="Envoyé_email">
-            <img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE">
-            <p>Vous recevriez en lien de réinitialisation du votre mot de passe</p>
         </section>
+
+        <section class="Connexion">
+        <h1>Connexion Entreprise</h1>
+        <form action="" method="post">
+            <div class="form-group">
+                <label for="Numero_siret">Numéro SIRET :</label>
+                <input type="text" name="user_siret" id="Numero_siret" placeholder="123 456 789 00012" pattern="[0-9\s]{14,18}" title="Le SIRET doit être composé de 14 chiffres" required>
+            </div>
+            <div class="form-group">
+                <label for="Mot_de_passe_entreprise">Mot de Passe :</label>
+                <input type="password" name="user_mot_de_passe_entreprise" id="Mot_de_passe_entreprise" required>
+            </div>
+
+            <button type="submit">Connexion</button>
+        </form>
+        </section>
+
     </main>
-    <footer>
+        <footer>
         <ul>
             <li><a href="Accueil.html"><img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE"></a></li>
             <li>

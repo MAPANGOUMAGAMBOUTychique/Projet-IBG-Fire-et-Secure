@@ -24,7 +24,7 @@
     <main>
         <h1>Nom de l'entreprise</h1>
         <section id="Compte_entreprise">
-            <form action="" method="get">
+            <form action="" method="post">
                 <div>
                     <label for="Nom_entreprise">Nom de l'entreprise</label>
                     <input type="text" name="user_nom_entreprise" id="Nom_entreprise">
@@ -185,10 +185,14 @@
             </section>
 
             <section id="Supression_compte_entreprise">
-                <a href="#Supression_compte"></a>Suprimer le compte</button>
-                <p id="Supression_compte">Voulez-vous vraiment suprimer le compte ?</p>
-                <a href="#Compte_entreprise_suprimer"><button>Oui</button></a>
-                <a href="#Modification_compte"><button>Non</button></a>
+                <button type="button" onclick="document.getElementByIdId('confirmation_suppression').style.display = 'block'">
+                    suprimer le compte
+                </button>
+                <div id="confirmation_suppression">
+                    <p>Voulez_vous vraiment suprimer le compte ? Cette action est irréversible</p>
+                    <button type="submit">Oui suprimer</button>
+                    <button type="button" onclick="document.getElementById('confirmation_supression') = style.display = 'none'">Non</button>
+                </div>
             </section>
             <p id="Compte_entreprise_suprimer">Votre compte a été suprimer</p>
     </main>
