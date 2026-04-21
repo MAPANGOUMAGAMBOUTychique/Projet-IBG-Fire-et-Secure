@@ -3,34 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Créer un compte</title>
+    <title>Définition du mot de passe</title>
+    <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
     <header>
         <nav>
-            <ul>
-                <li><a href="Accueil.html"><img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo"></a></li>
-                <li><a href="Accueil.html">Accueil</a></li>
-                <li><a href="NousContacter.html">Nous contacter</a></li>
-                <li><a href="Postuler.html">Postuler</a></li>
-                <li><a href="SeConnecter.html">Se connecter</a></li>
-                <li><a href="CreerUnCompte.html">Créer un compte</a></li>
-            </ul>
+        <ul>
+            <li><a href="index.html"><img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo"></a></li>
+            <li><a href="Accueil.html">Accueil</a></li>
+            <li><a href="NousContacter.html">Nous contacter</a></li>
+            <li><a href="Postuler.html">Postuler</a></li>
+            <li><a href="SeConnecter.html">Se connecter</a></li>
+            <li><a href="CreerUnCompte.html">Créer un compte</a></li>
+        </ul>
         </nav>
     </header>
     <main>
-        <h1>Création du Compte</h1>
+        <section>
+                <h1>Définissez votre mot de passe !</h1>
+                <form action="" method="post">
+                    <h2>Mot de passe</h2>
+                    <div class="form-group">
+                        <label for="Mot_de_passe">Mot de Passe :</label>
+                        <input type="password" name="user_mot_de_passe" id="Mot_de_passe" minlength="8" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="Confirmation_Mot_de_passe">Confirmation du mot de Passe :</label>
+                        <input type="password" name="user_confirm_mot_de_passe" id="Confirmation_Mot_de_passe" minlength="8" required>
+                    </div>
 
-        <section class="Particulier">
-                <a href="Postuler.html"><h2>Je suis un Particulier</h2></a>
-                <a href="Postuler.html"><img src="image/Un particulier-1557862921-37829c790f19.avif" alt="Image particulier"></a>
+                    <button type="submit">Confirmer</button>
+                </form>
         </section>
-        <section class="Entreprise">
-                <a href="PostulationEntreprise.html"><h2>Je suis une Entreprise</h2></a>
-                <a href="PostulationEntreprise.html"><img src="image/Une entreprise-1676357175001-dec2a4bf4241.avif" alt="Une entreprise"></a>
+
+        <section id="Compte_creeer">
+            <img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE">
+            <p>Votre compte Employeur a été créé avec succès !</p>
         </section>
+
     </main>
-    <footer>
+        <footer>
         <ul>
             <li><a href="Accueil.html"><img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE"></a></li>
             <li>

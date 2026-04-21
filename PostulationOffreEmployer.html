@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Identification</title>
+    <title>Postulation employer</title>
+    <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
     <header>
         
             <nav>
                 <ul>
-                <li><a href="Accueil.html"><img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE"></a></li>
+                <li><a href="index.html"><img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE"></a></li>
                 <li><a href="Accueil.html">Accueil</a></li> 
                 <li><a href="NousContacter.html">Nous contacter</a></li> 
                 <li><a href="Postuler.html">Postuler</a></li> 
@@ -22,13 +23,48 @@
         
     </header>
     <main>
-        <form action="" method="post">
-            <div class="form-group">
-            <label for="E-mail_solicitation">E-mail</label>
-            <input type="email" name="user_email_solicitation" id="E-mail_solicitation" required>
+        <h1>Nom de l'offre</h1>
+
+        <section id="Entreprise_particulier">
+            <h2>Nom de l'entreprise ou duParticulier</h2>
+            <div class="Offre-group">
+                <h3>Description</h3>
+                <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
             </div>
-            <button type="submit">Envoyer</button>
-        </form>
+        </section>
+        <section id="Competences">
+            <h2>Compétences</h2>
+            <div class="Offre-group">
+                <ul>
+                    <li>Accueil</li>
+                    <li>Accueil</li>
+                    <li>Accueil</li>
+                    <li>Accueil</li>
+                    <li>Accueil</li>
+                    <li>Accueil</li>
+
+                </ul>
+            </div>
+        </section>
+        <section id="Document_candidature">
+            <form action="" method="post" enctype="multipart/form-data">
+                <div class="Offre-group">
+                <label for="cv">CV :</label>
+                <input type="file" name="user_cv" id="cv" accept=".pdf" required>
+            </div>
+            <div class="Offre-group">
+                <label for="Lettre_de_motivation">Lettre de motivation :</label>
+                <input type="file" name="user_lettre_de_motivation" id="Lettre_de_motivation" accept=".pdf" required>
+            </div>
+
+            <button type="submit">Postuler</button>
+
+            </form>
+        </section>
+        <section id="Cadidature_envoyee">
+            <img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE">
+            <p>Votre candidature a été envoyer avec succès ! </p>
+        </section>
     </main>
     <footer>
         <ul>
@@ -67,5 +103,6 @@
             </li>
         </ul>
     </footer>
+    
 </body>
 </html>

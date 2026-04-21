@@ -1,48 +1,41 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Définition du mot de passe</title>
+    <title>Mot de Passe oublié</title>
+    <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
     <header>
         <nav>
-        <ul>
-            <li><a href="Accueil.html"><img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo"></a></li>
-            <li><a href="Accueil.html">Accueil</a></li>
-            <li><a href="NousContacter.html">Nous contacter</a></li>
-            <li><a href="Postuler.html">Postuler</a></li>
-            <li><a href="SeConnecter.html">Se connecter</a></li>
-            <li><a href="CreerUnCompte.html">Créer un compte</a></li>
-        </ul>
+            <ul>
+                <li><a href="index.html"><img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo"></a></li>
+                <li><a href="Accueil.html">Accueil</a></li>
+                <li><a href="NousContacter.html">Nous contacter</a></li>
+                <li><a href="Postuler.html">Postuler</a></li>
+                <li><a href="SeConnecter.html">Se connecter</a></li>
+                <li><a href="CreerUnCompte.html">Créer un compte</a></li>
+            </ul>
         </nav>
     </header>
     <main>
-        <section>
-                <h1>Définissez votre mot de passe !</h1>
-                <form action="" method="post">
-                    <h2>Mot de passe</h2>
-                    <div class="form-group">
-                        <label for="Mot_de_passe">Mot de Passe :</label>
-                        <input type="password" name="user_mot_de_passe" id="Mot_de_passe" minlength="8" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="Confirmation_Mot_de_passe">Confirmation du mot de Passe :</label>
-                        <input type="password" name="user_confirm_mot_de_passe" id="Confirmation_Mot_de_passe" minlength="8" required>
-                    </div>
+        <h1>Mot de passe oublié</h1>
+        <form action="" method="post">
+            <div class="form-group">
+            <label for="E-mail_utilisateur_entreprise">E-mail :</label>
+            <input type="email" name="user_email_entreprise" id="E-mail_utilisateur_entreprise" placeholder="Ex: service@gmail.com" required>
+        </div>
 
-                    <button type="submit">Confirmer</button>
-                </form>
-        </section>
+        <button type="submit">Envoyer</button>
+        </form>
 
-        <section id="Compte_creeer">
+        <section id="Envoyé_email">
             <img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE">
-            <p>Votre compte Employeur a été créé avec succès !</p>
+            <p>Vous allez recevoir un e-mail contenant un lien pour réinitialisr votre mot de passe.</p>
         </section>
-
     </main>
-        <footer>
+    <footer>
         <ul>
             <li><a href="Accueil.html"><img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE"></a></li>
             <li>
