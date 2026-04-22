@@ -1,6 +1,89 @@
- 
-.body 
+
+body
 {
-    background-color:black; /*Couleure de fond des pages*/
-     
+    background-color:white; /*Couleure de fond des pages*/
+    font-family:sans-serif;
+}
+
+header
+{
+    background-color:aqua;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    gap:20px;
+
+}
+
+header nav ul
+{
+    display: flex;
+    list-style: none;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0;
+    padding: 0;
+    gap: 50px;
+    color: black;
+}
+
+header nav ul li a
+{
+    color: black;
+    font-weight: bold;
+    font-size: 18px;
+    text-decoration: none;
+    font-family:Arial, Helvetica, sans-serif;
+    position: relative;
+    padding: 10px 20px;
+    display: inline-block;
+    transition: color 0.3s;
+    z-index: 1;
+}
+
+header nav ul li a::after 
+{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    border-radius: 50px;
+    transform: scale(0);
+    transition: 0.4s ease-out;
+    z-index: -1;
+   
+
+}
+
+header nav ul li a:hover::after
+{
+    transform: rotate(1.1);
+}
+
+header nav ul li a:hover
+{
+    color: white;
+}
+
+
+ 
+
+.logo-navbar
+{
+    width: 300px; 
+    
+
+}
+.navbar
+{
+    color:black;
+}
+
+footer
+{
+    background-color: aqua;
 }
