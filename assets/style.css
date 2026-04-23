@@ -12,7 +12,7 @@ header
     align-items: center;
     justify-content: space-between;
     padding: 10px 20px;
-    gap:20px;
+    gap:100px;
 
 }
 
@@ -32,13 +32,12 @@ header nav ul li a
 {
     color: black;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 20px;
     text-decoration: none;
     font-family:Arial, Helvetica, sans-serif;
     position: relative;
     padding: 10px 20px;
     display: inline-block;
-    transition: color 0.3s;
     z-index: 1;
 }
 
@@ -50,10 +49,10 @@ header nav ul li a::after
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: black;
+    border: 2px solid black;
     border-radius: 50px;
     transform: scale(0);
-    transition: 0.4s ease-out;
+    transition: 0.3s ease-out;
     z-index: -1;
    
 
@@ -61,18 +60,19 @@ header nav ul li a::after
 
 header nav ul li a:hover::after
 {
-    transform: rotate(1.1);
+    transform: scale(1);
+    background-color: rgb(208, 52, 35);
 }
 
 header nav ul li a:hover
 {
-    color: white;
+    color: black;
+     
 }
 
 
- 
 
-.logo-navbar
+.logo
 {
     width: 300px; 
     
@@ -86,4 +86,93 @@ header nav ul li a:hover
 footer
 {
     background-color: aqua;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px 20px 0 20px;
+    margin-top: 100px;
+    
 }
+
+footer > ul /*Signifie "cible uniquement la liste qui est juste au dessous*/
+{
+    display: flex;
+    list-style: none;
+    justify-content: space-between;
+    margin: 0;
+    padding: 0;
+    color: black;
+    width: 100%;
+    max-width: 1200 px;
+}
+
+ 
+
+.footer-bottom
+{
+    width: 100%;
+    text-align: center;
+    border-top: 1px solid #000;
+    margin-top: 40px;
+    padding: 20px 0;
+}
+
+.formulaire
+{
+    max-width: 600px;
+    margin: 40px;
+    padding: 30px;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+}
+
+.form-group
+{
+    margin-bottom: 20px;
+}
+
+.form-group label /*label pour une méilleure visinilité*/
+{
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+}
+
+.form-group input,
+.form-group textarea
+{
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    box-sizing: border-box; /*Important pour ne pas dépasser le cadre*/
+    transition: 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus
+{
+    outline: none;
+    border-color: #333;
+    box-shadow: 0 0 5px rgba(51,, 51, 51, 0.2);
+}
+
+.btn-submit
+{
+    display: block;
+    width: 100%;
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+

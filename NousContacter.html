@@ -5,26 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nous contacter</title>
     <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/NousContacter.css">
 </head>
 <body>
     <header>
-        <nav>
-            <ul>
-                <li><a href="index.html"><img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo"></a></li>
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="NousContacter.html">Nous contacter</a></li>
-                <li><a href="Postuler.html">Postuler</a></li>
-                <li><a href="SeConnecter.html">Se connecter</a></li>
-                <li><a href="CreerUnCompte.html">Créer un compte</a></li>
-            </ul>
-        </nav>
+        <a href="index.html"><img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo"></a>
+            <nav class="navbar">
+                <ul>
+                <li><a href="index.html">Accueil</a></li> 
+                <li><a href="NousContacter.html">Nous contacter</a></li> 
+                <li><a href="Postuler.html">Postuler</a></li> 
+                <li><a href="SeConnecter.html">Se connecter</a></li> 
+                <li><a href="CreerUnCompte.html">Créer un compte</a></li> 
+                </ul>
+                
+            </nav>
+        
     </header>
     <main>
 
         <section id="contact">
             <h1>Nous contacter !</h1>
 
-            <form action="" method="post" class="contact-form">
+            <form action="" method="post" class="formulaire">
                 <div class="form-group">
                     <label for="nom">Nom :</label>
                     <input type="text" name="user_name" id="nom"  placeholder="Votre nom" required>
@@ -55,9 +58,9 @@
             <p>Votre message a été envoyé avec succès !</p>
         </section>
     </main>
-        <footer>
+    <footer>
         <ul>
-            <li><a href="Accueil.html"><img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE"></a></li>
+            <li><a href="Accueil.html"><img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo"></a></li>
             <li>
                 <article>
                     <h4>Siège social IBG FIRE ET SECURE</h4>
@@ -68,10 +71,9 @@
                 <article>
                     <h4>Nos Services</h4>
                     <ul>
-                        <li><a href="Accueil.html#SecuriteEtIncendie">Sécurité et Incendie</a></li>
-                        <li><a href="Accueil.html#GardiennageEtSurveillance">Gardiennage et Surveillance</a></li>
-                        <li><a href="Accueil.html#TechnologieEtTelesurveillance">Technologie et Télésurveillance</a></li>
-                        <li><a href="Accueil.html#ConseilEtExpertise">Conseil et Expertise</a></li>
+                        <li><a href="#SecuriteEtIncendie">Sécurité et Incendie</a></li>
+                        <li><a href="#GardiennageEtSurveillance">Gardiennage et Surveillance</a></li>
+                        <li><a href="#ConseilEtExpertise">Conseil et Expertise</a></li>
                     </ul>                
                    
                 </article>
@@ -87,10 +89,13 @@
                         <li><a href="SeConnecter.html">Se connecter</a></li>
                         <li><a href="CreerUnCompte.html">Créer un compte</a></li>
                     </ul>
-                </nav>
-               
+                </nav> 
             </li>
         </ul>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 IBG FIRE ET SECURE. Tous droits réservés.</p>
+        </div>
     </footer>
 </body>
 </html>

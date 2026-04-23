@@ -25,7 +25,7 @@
     <main>
         <h1>Nom de l'entreprise</h1>
         <section id="Compte_entreprise">
-            <form action="" method="post">
+            <form action="" method="post" class="formulaire">
                 <div>
                     <label for="Nom_entreprise">Nom de l'entreprise</label>
                     <input type="text" name="user_nom_entreprise" id="Nom_entreprise">
@@ -39,14 +39,14 @@
                     <input type="password" name="user_mot_de_passe_entreprise" id="Mot_de_passe_entreprise">
                 </div>
 
-                <a href="#Modification_compte"><button type="submit">Modifier</button></a>             
+                <a href="#Modification_compte"><button type="submit" class="btn-submit">Modifier</button></a>             
             </form>
         </section>
 
         <section id="Modification_compte">
             <p>Voulez vous vraiment modifier vos informations ?</p>
-            <a href="#Compte_modifier"><button type="submit">Oui</button></a>
-            <a href="#Compte_entreprise"><button type="submit">Non</button></a>
+            <a href="#Compte_modifier"><button type="submit" class="btn-submit">Oui</button></a>
+            <a href="#Compte_entreprise"><button type="submit" class="btn-submit">Non</button></a>
         </section>
 
          
@@ -191,8 +191,8 @@
                 </button>
                 <div id="confirmation_suppression">
                     <p>Voulez_vous vraiment suprimer le compte ? Cette action est irréversible</p>
-                    <button type="submit">Oui suprimer</button>
-                    <button type="button" onclick="document.getElementById('confirmation_supression') = style.display = 'none'">Non</button>
+                    <button type="submit" class="btn-submit">Oui suprimer</button>
+                    <button type="button" onclick="document.getElementById('confirmation_supression') = style.display = 'none'" class="btn-submit">Non </button>
                 </div>
             </section>
             <p id="Compte_entreprise_suprimer">Votre compte a été suprimer</p>

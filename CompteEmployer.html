@@ -22,7 +22,7 @@
     <main>
         <h1>Nom de l'employer</h1>
         <section id="Compte_entreprise">
-            <form action="" method="post">
+            <form action="" method="post" class="formulaire">
                 <div>
                     <label for="Nom_entreprise">Nom de l'entreprise</label>
                     <input type="text" name="user_nom_entreprise" id="Nom_entreprise">
@@ -36,14 +36,14 @@
                     <input type="password" name="user_mot_de_passe_entreprise" id="Mot_de_passe_entreprise">
                 </div>
 
-                <a href="#Modification_compte"><button type="submit">Modifier</button></a>             
+                <a href="#Modification_compte"><button type="submit" class="btn-submit">Modifier</button></a>             
             </form>
         </section>
 
         <section id="Modification_compte">
             <p>Voulez vous vraiment modifier vos informations ?</p>
-            <a href="#Compte_modifier"><button type="submit">Oui</button></a>
-            <a href="#Compte_entreprise"><button type="submit">Non</button></a>
+            <a href="#Compte_modifier"><button type="submit" class="btn-submit">Oui</button></a>
+            <a href="#Compte_entreprise"><button type="submit" class="btn-submit">Non</button></a>
         </section>
 
          
@@ -185,8 +185,8 @@
             <section id="Supression_compte_entreprise">
                 <a href="#Supression_compte"></a>Suprimer le compte</button>
                 <p id="Supression_compte">Voulez-vous vraiment suprimer le compte ?</p>
-                <a href="#Compte_entreprise_suprimer"><button>Oui</button></a>
-                <a href="#Modification_compte"><button>Non</button></a>
+                <a href="#Compte_entreprise_suprimer"><button class="btn-submit">Oui</button></a>
+                <a href="#Modification_compte"><button class="btn-submit">Non</button></a>
             </section>
             <p id="Compte_entreprise_suprimer">Votre compte a été suprimer</p>
     </main>
