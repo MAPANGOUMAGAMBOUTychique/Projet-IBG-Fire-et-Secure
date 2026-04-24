@@ -1,0 +1,29 @@
+.reponse {
+    max-width: 600px;
+    width: 90%;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column; /* C'est cette ligne qui fait tout basculer en vertical */
+    align-items: center;    /* Centre tout horizontalement */
+    gap: 15px;              /* Espace vertical entre l'image, le texte et le bloc boutons */
+    background-color: aqua;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.conteneur_bouton
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.logo_text
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}

@@ -13,6 +13,7 @@ header
     justify-content: space-between;
     padding: 10px 20px;
     gap:100px;
+    border-radius: 20px;
 
 }
 
@@ -83,6 +84,12 @@ header nav ul li a:hover
     color:black;
 }
 
+h1
+{
+    margin-left: 100px;
+    margin-top: 100px;
+}
+
 footer
 {
     background-color: aqua;
@@ -91,6 +98,7 @@ footer
     justify-content: center;
     padding: 20px 20px 0 20px;
     margin-top: 100px;
+    border-radius: 20px;
     
 }
 
@@ -103,7 +111,7 @@ footer > ul /*Signifie "cible uniquement la liste qui est juste au dessous*/
     padding: 0;
     color: black;
     width: 100%;
-    max-width: 1200 px;
+    max-width: 1200px;
 }
 
  
@@ -119,8 +127,9 @@ footer > ul /*Signifie "cible uniquement la liste qui est juste au dessous*/
 
 .formulaire
 {
+    
     max-width: 600px;
-    margin: 40px;
+    margin: 40px auto;
     padding: 30px;
     background-color: #ffffff;
     border: 1px solid #e0e0e0;
@@ -131,6 +140,7 @@ footer > ul /*Signifie "cible uniquement la liste qui est juste au dessous*/
 .form-group
 {
     margin-bottom: 20px;
+    
 }
 
 .form-group label /*label pour une méilleure visinilité*/
@@ -158,7 +168,7 @@ footer > ul /*Signifie "cible uniquement la liste qui est juste au dessous*/
 {
     outline: none;
     border-color: #333;
-    box-shadow: 0 0 5px rgba(51,, 51, 51, 0.2);
+    box-shadow: 0 0 5px rgba(51,51, 51, 0.2);
 }
 
 .btn-submit
@@ -174,5 +184,33 @@ footer > ul /*Signifie "cible uniquement la liste qui est juste au dessous*/
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease;
+}
+
+.reponse
+{
+ max-width: 600px;
+ width: 90%;
+ margin: 20px auto; /*centrage du bloc horizontalement*/
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ gap: 15px;
+ background-color:aqua;
+ padding: 15px;
+ border-radius: 8px;
+ text-align: center;
+}
+
+.reponse img
+{
+    width: 100px;
+}
+
+.modifier
+{
+    max-width: 600px;
+    width: 60%;
+    display: flex;
+    align-items: center;
 }
 

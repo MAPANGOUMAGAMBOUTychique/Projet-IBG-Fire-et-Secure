@@ -5,50 +5,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Compte Employer</title>
     <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/CompteEmployer.css">
+    <script src="js/pages/CompteEmployer.js" defer></script>
 </head>
 <body>
     <header>
-        <nav>
-            <ul>
-                <li><a href="index.html"><img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo"></a></li>
-                <li><a href="Accueil.html">Accueil</a></li>
-                <li><a href="NousContacter.html">Nous contacter</a></li>
-                <li><a href="Postuler.html">Postuler</a></li>
-                <li><a href="SeConnecter.html">Se connecter</a></li>
-                <li><a href="CreerUnCompte.html">Créer un compte</a></li>
-            </ul>
-        </nav>
+        <a href="index.html"><img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo"></a>
+            <nav class="navbar">
+                <ul>
+                <li><a href="index.html">Accueil</a></li> 
+                <li><a href="NousContacter.html">Nous contacter</a></li> 
+                <li><a href="Postuler.html">Postuler</a></li> 
+                <li><a href="SeConnecter.html">Se connecter</a></li> 
+                <li><a href="CreerUnCompte.html">Créer un compte</a></li> 
+                </ul>
+                
+            </nav>
+        
     </header>
     <main>
         <h1>Nom de l'employer</h1>
-        <section id="Compte_entreprise">
+        <section id="Compte_entreprise" >
             <form action="" method="post" class="formulaire">
-                <div>
+                <div class="form-group">
                     <label for="Nom_entreprise">Nom de l'entreprise</label>
-                    <input type="text" name="user_nom_entreprise" id="Nom_entreprise">
+                    <input type="text" name="user_nom_entreprise" id="Nom_entreprise" disabled>
                 </div>
-                <div>
+                <div class="form-group">
                     <label for="Email_entreprise">E-mail de l'entreprise :</label>
-                    <input type="email" name="user_email_entreprise" id="Email_entreprise">
+                    <input type="email" name="user_email_entreprise" id="Email_entreprise" disabled>
                 </div>
-                <div>
+                <div class="form-group">
                     <label for="Mot_de_passe_entreprise">Mot de passe :</label>
-                    <input type="password" name="user_mot_de_passe_entreprise" id="Mot_de_passe_entreprise">
+                    <input type="password" name="user_mot_de_passe_entreprise" id="Mot_de_passe_entreprise" disabled>
                 </div>
 
-                <a href="#Modification_compte"><button type="submit" class="btn-submit">Modifier</button></a>             
+                <div class="conteneur_bouton">
+                <button type="button" class="btn-submit" id="boutton_modifier">Modifier</button>
+                <button type="submit" class="btn-submit" id="boutton_enregistrer" style="display: none;">Enrégistrer</button>
+                </div>
+                             
             </form>
         </section>
 
-        <section id="Modification_compte">
-            <p>Voulez vous vraiment modifier vos informations ?</p>
-            <a href="#Compte_modifier"><button type="submit" class="btn-submit">Oui</button></a>
-            <a href="#Compte_entreprise"><button type="submit" class="btn-submit">Non</button></a>
+        <section id="Modification_compte" class="reponse" style="display: none;"> 
+            <div class="logo_text">
+            <img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE">
+            <p id="confirmation_modification">Voulez vous vraiment modifier vos informations ?</p>
+            </div>
+
+            <div class="conteneur_bouton">
+            <button type="button" id="btn_oui" class="btn-submit">Oui</button>
+            <button type="submit" id="btn_non" class="btn-submit">Non</button>
+            </div>
+
         </section>
 
          
 
-        <p id="Compte_modifier">Informations modifier !</p>
+        <p id="Compte_modifier" class="reponse" style="display: none;">Informations modifier !</p>
 
         <section id="services">
             <h2>Liste des offres</h2>
@@ -193,7 +208,7 @@
      
     <footer>
         <ul>
-            <li><a href="Accueil.html"><img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE"></a></li>
+            <li><a href="Accueil.html"><img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo"></a></li>
             <li>
                 <article>
                     <h4>Siège social IBG FIRE ET SECURE</h4>
@@ -206,7 +221,6 @@
                     <ul>
                         <li><a href="#SecuriteEtIncendie">Sécurité et Incendie</a></li>
                         <li><a href="#GardiennageEtSurveillance">Gardiennage et Surveillance</a></li>
-                        <li><a href="#TechnologieEtTelesurveillance">Technologie et Télésurveillance</a></li>
                         <li><a href="#ConseilEtExpertise">Conseil et Expertise</a></li>
                     </ul>                
                    
@@ -223,10 +237,13 @@
                         <li><a href="SeConnecter.html">Se connecter</a></li>
                         <li><a href="CreerUnCompte.html">Créer un compte</a></li>
                     </ul>
-                </nav>
-               
+                </nav> 
             </li>
         </ul>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 IBG FIRE ET SECURE. Tous droits réservés.</p>
+        </div>
     </footer>
 </body>
 </html>
