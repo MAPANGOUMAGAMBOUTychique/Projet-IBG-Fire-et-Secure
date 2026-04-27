@@ -49,52 +49,9 @@
     background-color: #000;
 }
 
-.service-grid
+section h2
 {
-    display: flex;
-    flex-wrap: wrap; /*Permet de passer à la ligne automatiquement sur mot*/
-    gap: 20px; /*Crée un espace propre entre les articles*/
-    list-style: none; /*Suprime les puces de la liste*/
-    padding: 0; /*Nettoie les marges par défaut des listes */
-}
-
-.service-grid li
-{
-    flex: 1; /*Chaque article prendra la mème latgeur*/
-    min-width: 300px; /*Largeur minimale : sil'écran est trop petit, ils passeront à la ligne*/
-}
-
-.service-grid article
-{
-    display: block;/*On le laisse en block, c'est mieux dans une flexbox*/
-    height: 100%; /*Permet aux cartes d'avoir la même hauteur*/
-    border: 1px solid #add;
-    padding: 15px;
-}
-
-.service-grid article img
-{
-    width: 100%; /*L'image occupe toute la largeur de l'argiche*/
-    height: 200px; /*Définit une hauteur fixe pour toutes les images*/
-    object-fit: cover; /*La propriété magique: Recadre l'image pour qu'elle remplisse l'espace sans se déformer */
-    display: block;
-}
-
-.btn-solliciter
-{
-    background-color: #333;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 50px;
-    cursor: pointer; /*change le curseur en main au survol*/
-    font-weight: bold;
-    transition: background-color 0.3s;
-}
-
-.btn-solliciter:hover
-{
-    background-color: #000;
+    margin-left: 100px;
 }
 
 section h3

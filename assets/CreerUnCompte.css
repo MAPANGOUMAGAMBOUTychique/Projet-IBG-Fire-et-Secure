@@ -1,0 +1,16 @@
+.compte
+{
+    display: flex;
+    margin-top: 100px;
+    justify-content: center;
+}
+
+.compte img
+{
+    width: 500px;
+    height: 500px;
+    object-fit: covec; /*Rogne l'image sans etre étiré*/
+    object-position: center; /*Centre l'image dans le cadre */
+    border-radius: 100px;
+    
+}

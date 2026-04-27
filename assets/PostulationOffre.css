@@ -1,0 +1,21 @@
+.Offre
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Offre-group
+{
+    border: 5px solid #333;
+    padding: 40px;
+    background-color: #f9f9f9;
+    border-radius: 15px;
+    margin: 20px;
+    margin-left: auto;
+    width: 600px;
+    height: 500px;
+    object-fit: cover; /* L'image sera rognée pour remplir le carré sans être étirée */
+    object-position: center; /* Centre l'image dans le cadre */
+}
+

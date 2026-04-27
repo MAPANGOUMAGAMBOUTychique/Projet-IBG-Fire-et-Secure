@@ -1,16 +1,3 @@
-.reponse {
-    max-width: 600px;
-    width: 90%;
-    margin: 20px auto;
-    display: flex;
-    flex-direction: column; /* C'est cette ligne qui fait tout basculer en vertical */
-    align-items: center;    /* Centre tout horizontalement */
-    gap: 15px;              /* Espace vertical entre l'image, le texte et le bloc boutons */
-    background-color: aqua;
-    padding: 15px;
-    border-radius: 8px;
-    text-align: center;
-}
 
 .conteneur_bouton
 {
@@ -26,4 +13,36 @@
     align-items: center;
     justify-content: center;
     gap: 15px;
+}
+
+section h2
+{
+    margin-left: 100px;
+}
+section h3
+{
+    text-align: center; /*Centre le texte*/
+    margin-top: 50px; /*Espace important au-dessus*/
+    margin-bottom: 20px; /*Espace en dessous*/
+   
+}
+
+.btn-suprimer
+{
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 50px;
+    cursor: pointer; /*change le curseur en main au survol*/
+    font-weight: bold;
+    transition: background-color 0.3s;
+    margin-left: auto;
+    display: flex;
+    margin-top: 100px;
+}
+
+.btn-suprimer:hover
+{
+    background-color: #000;
 }
