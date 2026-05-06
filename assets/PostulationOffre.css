@@ -1,21 +1,45 @@
-.Offre
+.container
 {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    gap: 30px; 
+    margin: 0 auto;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
-.Offre-group
+.colonne-gauche, .colonne-droite
 {
-    border: 5px solid #333;
-    padding: 40px;
-    background-color: #f9f9f9;
-    border-radius: 15px;
-    margin: 20px;
-    margin-left: auto;
-    width: 600px;
-    height: 500px;
-    object-fit: cover; /* L'image sera rognée pour remplir le carré sans être étirée */
-    object-position: center; /* Centre l'image dans le cadre */
+    flex: 1; /*Chaque colonne prend la moitié de l'espace */
+    
 }
 
+.colonne-gauche
+{
+    background-color: #e0e0e0;
+    padding: 20px;
+    border-radius: 20px;
+    border: 2px solid #333333;
+   
+}
+
+.box-competences
+{
+    background-color: #e0e0e0;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    border: 2px solid #333333;
+}
+  
+.colonne-droite
+{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+form
+{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

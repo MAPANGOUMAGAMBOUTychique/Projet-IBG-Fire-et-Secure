@@ -61,3 +61,20 @@ section h3
     margin-bottom: 20px; /*Espace en dessous*/
    
 }
+
+/*Etat initial: invisible et légèrement décalé vers le bas */
+
+.reveal-item
+{
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/*Etat final: visible et à sa place */
+
+.reveal-item.visible
+{
+    opacity: 1;
+    transform: translateY(0);
+}
