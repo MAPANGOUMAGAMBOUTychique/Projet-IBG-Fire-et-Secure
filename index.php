@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compte Employer</title>
+    <title>Accueil | IBG FIRE ET SECURE</title>
     <link rel="stylesheet" href="assets/style.css">
-    <link rel="stylesheet" href="assets/CompteEmployer.css">
-    <script src="js/pages/CompteEmployer.js" defer></script>
+    <link rel="stylesheet" href="assets/index.css">
+    <script src="js/global.js" defer></script>
 </head>
 <body>
     <header>
@@ -24,88 +24,60 @@
         
     </header>
     <main>
-        <h1>Nom de l'employer</h1>
-        <section id="Compte_entreprise" >
-            <form action="" method="post" class="formulaire">
-                <div class="form-group">
-                    <label for="Nom_entreprise">Nom de l'entreprise</label>
-                    <input type="text" name="user_nom_entreprise" id="Nom_entreprise">
-                </div>
-                <div class="form-group">
-                    <label for="Email_entreprise">E-mail de l'entreprise :</label>
-                    <input type="email" name="user_email_entreprise" id="Email_entreprise">
-                </div>
-                <div class="form-group">
-                    <label for="Mot_de_passe_entreprise">Mot de passe :</label>
-                    <input type="password" name="user_mot_de_passe_entreprise" id="Mot_de_passe_entreprise">
-                </div>
-
-                <div class="conteneur_bouton">
-                <button type="button" class="btn-submit" id="boutton_modifier">Modifier</button>
-                <button type="submit" class="btn-submit" id="boutton_enregistrer">Enrégistrer</button>
-                </div>
-                             
-            </form>
+        <section>
+            <h1>IBG FIRE ET SECURE</h1>
+            <p>
+                Votre sécurité est notre priorité absolue. Chez IBG Fire et Secure, nous conjuguons expertise technologique et présence humaine pour protéger vos biens, vos infrastructures et vos collaborateurs. Spécialistes du gardiennage et de la prévention des risques d'incendie, nous déployons des solutions sur mesure pour garantir une sérénité totale au quotidien. Faites le choix d'une vigilance sans faille et d'une protection adaptée à vos exigences les plus strictes.
+            </p>
         </section>
 
- 
+        <form action=" " method="get" class="search_bar">
+            <label for="search-input">Recherchez un service</label>
+            <input 
+              type="search"
+              id="search-input"
+              name="q"
+              placeholder="Recherchez votre besoin !"
+              required
+            >
+            <button type="submit">
+                Rechercher
+            </button>
+        </form>
 
-        <section id="Modification_compte"> 
-
-            <div class="reponse">
-            <img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE">
-            <p id="confirmation_modification">Voulez vous vraiment modifier vos informations ?</p>
-            </div>
-
-            <div class="oui-non">
-                    <button class="btn-solliciter">Oui</button>
-                    <button class="btn-solliciter">Non</button>
-            </div>
-
-            <div class="reponse">
-                <img src="image/Logo_IBG_FS-removebg-preview.png" alt="image logo IBG FIRE ET SECURE">
-                <p id="Supression_compte" class="logo_text">Vos informations ont été modifier avec succès !</p>
-            </div>
-
-        </section>
-
-         
-
-        <p id="Compte_modifier" class="reponse" style="display: none;">Informations modifier !</p>
-
-        <section id="services">
-            <h2>Liste des offres</h2>
+        <section id="services"> 
+            <h2>Nos Services</h2>
 
             <section id="GardiennageEtSurveillance">
                  <h3>Pôle Gardiennage et Surveillance</h3>
                 <ul class="service-grid">
                     
-                    <li>
+                    <li class="reveal-items">
                         <article>
                                 <h4>Surveillance Statique et controle d'Accès</h4>
-                                <img src="image/Jour4/Image gardinnage et sécurité-1682125948844-e2dc8996b0f0.avif" alt="Image Surveillace statique et controle">
+                                <img src="image/Jour4/Image gardinnage et sécurité-1682125948844-e2dc8996b0f0.avif" alt="Image Surveillace statique et controle" class="surveillance-control">
                                 <p> Nos agents de sécurité qualifiés assurent un contrôle rigoureux des flux de personnes, de véhicules et de marchandises. En combinant vigilance humaine et protocoles de vérification stricts, nous garantissons l'étanchéité de vos périmètres. Qu'il s'agisse de sites industriels sensibles ou de complexes tertiaires, notre mission est de prévenir toute intrusion tout en préservant la fluidité de vos accès quotidiens.</p>
-                                <a href="PostulationEmployer.html" class="btn-solliciter" >Postuler</a>
+                                <a href="Identification.html" class="btn-solliciter">Solliciter</a>
                         </article>
                         
                     </li>
                         
-                    <li>
+                    <li class="reveal-items">
                         <article>
                                 <h4>Rondes de Surveillance et Sécurité Mobile</h4>
                                 <img src="image/Jour4/Image rpnde de surveillance et sécurité mobile-1661499169247-81649e8667d8.avif" alt="Image Surveillance sécurité mobile">
                                 <p>Patrouilles mobiles, aléatoires ou programmées, effectuées en véhicule pour inspecter les points sensibles de vos sites. Nos agents assurent une présence dynamique et une surveillance étendue pour prévenir toute anomalie.</p>
-                                <a href="PostulationEmployer.html" class="btn-solliciter" >Postuler</a>
+                                <a href="Identification.html" class="btn-solliciter">Solliciter</a>
                         </article>
 
                     </li>
 
-                   <li>
+                   <li class="reveal-items">
                        <article>
                                <h4>Protection Événementielle</h4>
                                <img src="image/Jour4/Image protection evenementielle-1760228604788-db8a36d5c1a3.avif" alt="Image Protection Événement">
                                <p>Garantissez le succès et la sérénité de vos événements de haut standing. De la sécurisation des salons internationaux aux rassemblements privés exclusifs, nos équipes gèrent avec diplomatie et fermeté le contrôle des accès et la fluidité des flux de foule. Nous allions discrétion et vigilance pour offrir à vos invités un environnement sûr et prestigieux.</p>
-                               <a href="PostulationEmployer.html" class="btn-solliciter" >Postuler</a>
+                               <a href="Identification.html" class="btn-solliciter">Solliciter</a>
                        </article>
                        
                        
@@ -115,100 +87,83 @@
             </section>
                 
             <section id="SecuriteEtIncendie">
-                <h3>Pôle Sécurité Incendie</h2>
+                <h3>Pôle Sécurité Incendie</h3>
                 <ul class="service-grid">
 
-                <li>
+                <li class="reveal-items">
                     <article>
                             <h4>Prévention et Intervention Incendie (SSIAP)</h4>
                             <img src="image/Jour4/Image prévention et intervention incendie-1482173989-612x612.webp" alt="Image Prévention et intervention incendie">
                             <p>Nos agents certifiés SSIAP (niveaux 1, 2 et 3) assurent une veille constante contre les risques d'incendie. Experts en prévention, ils garantissent la conformité de vos installations par une vérification rigoureuse des équipements de secours et assurent une gestion exemplaire de l'évacuation et de la mise en sécurité des occupants en cas de sinistre.</p>
-                            <a href="PostulationEmployer.html" class="btn-solliciter" >Postuler</a>
+                            <a href="Identification.html" class="btn-solliciter">Solliciter</a>
                     </article>
                     
                 </li>
 
-                <li>
+                <li class="reveal-items">
                     <article>
                             <h4>Maintenance des Systèmes de Sécurité Incendie</h4>
                             <img src="image/Jour4/Image maintenance des systèmes incendies-1482775856-612x612.webp" alt="Image Maintenance de sécurité Incendie">
                             <p>Garantissez l'opérationnalité de vos dispositifs de secours. Nous réalisons des audits approfondis et la maintenance technique de vos systèmes de sécurité incendie (SSI) : alarmes, détecteurs de fumée, colonnes sèches et Robinets d'Incendie Armés (RIA). Nos interventions certifiées assurent la conformité de vos installations aux normes en vigueur et une réactivité optimale de vos équipements.</p>
-                            <a href="PostulationEmployer.html" class="btn-solliciter" >Postuler</a>
+                            <a href="Identification.html" class="btn-solliciter">Solliciter</a>
                     </article>
 
                 </li>
- 
-                <li>
+
+                <li class="reveal-items">
                     <article>
                         <h4>Formation et Exercices d'Évacuation</h4>
                         <img src="image/Evacuation-1663075966038-6b37cc036924.avif" alt="Image Formation d'ecercice d'evacuation">
                         <p>La préparation est la clé d'une gestion efficace des situations d'urgence. Nous formons vos équipes à adopter les bons réflexes et organisons des exercices d'évacuation grandeur nature pour tester vos procédures. En cas d'alerte, chaque seconde compte : nous vous aidons à bâtir une organisation fluide et sécurisée pour protéger toutes les personnes présentes dans vos locaux.</p>
-                        <a href="Identification.html" class="btn-solliciter">Postuler</a>
+                        <a href="Identification.html" class="btn-solliciter">Solliciter</a>
                     </article>
                 </li>
 
                 </ul>
             </section>
 
+             
             <section id="ConseilEtExpertise">
-                <h3>Pôle Conseil et Expertise</h2>
+                <h3>Pôle Conseil et Expertise</h3>
                 <ul class="service-grid">
 
-                <li>
+                <li class="reveal-items">
                     <article>
                             <h4>Audit et Conseil en Ingénierie et Sûreté</h4>
                             <img src="image/Jour4/Image conseil et expertise-1661695279211-dfc3866380d1.avif" alt="Image Audit et conseil ingénieur en sureté">
                             <p>Anticipez les menaces par une approche analytique de votre sûreté. Nos experts réalisent un audit complet des vulnérabilités de vos infrastructures, englobant les risques humains, techniques et organisationnels. À l'issue de cette étude de terrain, nous concevons un plan de sécurité sur mesure, optimisant vos ressources pour garantir une protection maximale et pérenne de vos sites.</p>
-                            <a href="PostulationEmployer.html" class="btn-solliciter" >Postuler</a>
+                            <a href="Identification.html" class="btn-solliciter">Solliciter</a>
                     </article>
                     
                 </li>
 
-                <li>
+                <li class="reveal-items">
                     <article>
                             <h4>Formation à la Gestion des Risques</h4>
                             <img src="image/Jour4/Image gestion des risques-1663089690804-1c6d97412b7a.avif" alt="Image gestion des risques">
                             <p>Développez une véritable culture de la prévention au sein de vos équipes. Nos experts certifiés forment vos collaborateurs aux gestes qui sauvent et à la manipulation des équipements d'extinction. En maîtrisant les réflexes de premiers secours et l’usage des extincteurs, votre personnel devient le premier maillon de votre chaîne de sécurité, garantissant une réactivité immédiate face à l'accident ou au début d'incendie</p>
-                            <a href="PostulationEmployer.html" class="btn-solliciter" >Postuler</a>
+                            <a href="Identification.html" class="btn-solliciter">Solliciter</a>
                     </article>
                     
                 </li>
 
-                <li>
+                <li class="reveal-items">
                     <article>
                             <h4>Sécurisation des Sites Sensibles</h4>
                             <img src="image/Jour4/Image sécurisation des sites sensibles-2248999048-612x612.webp" alt="Image Sécurisation des sites sensibles">
                             <p>Sécurisation des environnements critiques et sites à haut risque. Pour vos entrepôts de grande valeur, chantiers d'envergure ou zones industrielles isolées, nous déployons des dispositifs de protection renforcés. Alliant technologies de pointe et unités d'élite, notre approche garantit une surveillance hermétique de vos actifs les plus sensibles, même dans les conditions les plus exigeantes.</p>
-                            <a href="PostulationEmployer.html" class="btn-solliciter" >Postuler</a>
+                            <a href="Identification.html" class="btn-solliciter">Solliciter</a>
                     </article>
                     
                 </li>
 
                 </ul>
             </section>
+        </section>
+        
 
-            <section id="Supression_compte_employer">
-                <button type="button" class="btn-suprimer">Suprimer le compte</button>
-                <div class="reponse">
-                    <img src="image/Logo_IBG_FS-removebg-preview.png" alt="image logo IBG FIRE ET SECURE">
-                    <p id="Supression_compte" class="logo_text">Voulez-vous vraiment suprimer le compte ?</p>
-                </div>
-
-                <div class="oui-non">
-                    <button class="btn-solliciter">Oui</button>
-                    <button class="btn-solliciter">Non</button>
-                </div>
-
-                <div class="reponse">
-                    <img src="image/Logo_IBG_FS-removebg-preview.png" alt="image logo IBG FIRE ET SECURE">
-                    <p id="Supression_compte" class="logo_text">Votre compte a été suprimer</p>
-                </div>
- 
-
-            </section>
 
     </main>
-     
     <footer>
         <ul>
             <li><a href="Accueil.html"><img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo"></a></li>
@@ -234,7 +189,8 @@
                 <nav>
                     <ul>
                         <li><a href="MentionsLégales.html">Mentions légales</a></li>
-                        <li><a href="Accueil.html">Accueil</a></li>
+                        <li><a href="PolitiquesDeConfidentialités.html">Politique de Confidentialité</a></li>
+                        <li><a href="index.html">Accueil</a></li>
                         <li><a href="NousContacter.html">Nous contacter</a></li>
                         <li><a href="Postuler.html">Je postule</a></li>
                         <li><a href="SeConnecter.html">Se connecter</a></li>
