@@ -10,8 +10,8 @@
             "server": "localhost",
             "port": 3306,
             "driver": "MySQL",
-            "name": "IbgSecureMaBase",
-            "group": "Local",
+            "name": "IBG",
+            "group": "127.0.0.1",
             "database": "fire_secure",
             "username": "fire_secure_user"
         }

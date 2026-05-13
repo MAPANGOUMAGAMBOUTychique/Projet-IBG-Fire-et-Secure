@@ -1,0 +1,80 @@
+/* Titre principal en rouge */
+.main-title {
+    color: #e63326; /* Rouge IBG Fire & Secure */
+    font-family: Arial, sans-serif;
+    font-size: 1.8rem;
+    margin-left: 5%;
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+/* Bloc central gris */
+.content-box {
+    background-color: #dcdcdc; /* Gris clair identique aux autres pages */
+    width: 90%;
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 50px 60px;
+    min-height: 450px;
+    border-radius: 30px;
+}
+
+/* Style du tableau */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+}
+
+/* En-tête de la colonne des chiffres (en haut à droite) */
+.header-count {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1rem;
+    padding-bottom: 40px;
+    width: 35%;
+    line-height: 1.3;
+    color: #000;
+}
+
+/* Style des noms d'entreprises */
+.company-name {
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 20px 0;
+    text-align: left;
+    width: 65%;
+    color: #000;
+}
+
+/* Style des compteurs (14) */
+.count {
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-align: center;
+    padding: 20px 0;
+    color: #000;
+}
+
+/* Positionnement du bouton de déconnexion */
+.footer-action {
+    width: 90%;
+    max-width: 850px;
+    margin: 20px auto;
+    text-align: right;
+}
+
+.logout-link {
+    text-decoration: none;
+    color: #444;
+    background-color: #e0e0e0;
+    padding: 6px 15px;
+    border: 1px solid #ccc;
+    font-family: Arial, sans-serif;
+    font-size: 0.85rem;
+    border-radius: 2px;
+}
+
+.logout-link:hover {
+    background-color: #d4d4d4;
+}

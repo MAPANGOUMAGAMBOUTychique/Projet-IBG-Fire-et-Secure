@@ -13,7 +13,8 @@
         <a href="index.html"><img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo"></a>
             <nav class="navbar">
                 <ul>
-                <li><a href="index.html">Accueil</a></li> 
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="">Service</a></li> 
                 <li><a href="NousContacter.html">Nous contacter</a></li> 
                 <li><a href="Postuler.html">Postuler</a></li> 
                 <li><a href="SeConnecter.html">Se connecter</a></li> 

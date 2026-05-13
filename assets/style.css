@@ -7,7 +7,7 @@ body
 
 header
 {
-    background-color:aqua;
+    background-color:black;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -26,12 +26,12 @@ header nav ul
     margin: 0;
     padding: 0;
     gap: 50px;
-    color: black;
+    color: white;
 }
 
 header nav ul li a
 {
-    color: black;
+    color: white;
     font-weight: bold;
     font-size: 20px;
     text-decoration: none;
@@ -92,24 +92,26 @@ h1
 
 footer
 {
-    background-color: aqua;
+    background-color: black;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 20px 20px 0 20px;
+    padding: 20px 20px 5px 20px;
     margin-top: 100px;
     border-radius: 20px;
     
+/* --- AJOUTS POUR LA LARGEUR --- */
+ 
 }
 
 footer > ul /*Signifie "cible uniquement la liste qui est juste au dessous*/
 {
-    display: flex;
+    display: flex;                                           
     list-style: none;
     justify-content: space-between;
     margin: 0;
     padding: 0;
-    color: black;
+    color: white;
     width: 100%;
     max-width: 1200px;
 }
@@ -121,8 +123,9 @@ footer > ul /*Signifie "cible uniquement la liste qui est juste au dessous*/
     width: 100%;
     text-align: center;
     border-top: 1px solid #000;
-    margin-top: 40px;
-    padding: 20px 0;
+    margin-top: 1px;
+    margin-bottom: 1px;
+    padding: 1px 0;
 }
 
 .formulaire

@@ -1,0 +1,86 @@
+/* Style du conteneur principal (les blocs gris) */
+.container {
+    background-color: #dcdcdc; /* Gris comme sur l'image */
+    padding: 15px 25px;
+    margin: 10px auto 20px auto;
+    width: 90%;
+    max-width: 800px;
+    border-radius: 2px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    font-family: sans-serif;
+    border-radius: 30px;
+}
+
+.container h2 {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    color: #000;
+}
+
+/* Structure du tableau */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.statut-header {
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding-bottom: 10px;
+}
+
+.labels th {
+    font-weight: bold;
+    padding: 10px 5px;
+    font-size: 0.95rem;
+}
+
+/* Colonne des noms (Employer 1) */
+.name {
+    font-weight: bold;
+    text-align: left;
+    padding: 12px 0;
+    width: 30%;
+}
+
+/* Centrer les colonnes des boutons */
+td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* Création des ronds (cercles) */
+.dot {
+    height: 28px;
+    width: 28px;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+    border: none;
+}
+
+.yellow { background-color: #d4e12d; } /* Jaune */
+.green { background-color: #2be841; }  /* Vert */
+.red { background-color: #eb3b2a; }    /* Rouge */
+
+/* Bouton Se déconnecter */
+.logout-wrapper {
+    width: 90%;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: right;
+}
+
+.logout-btn {
+    background-color: #e0e0e0;
+    padding: 4px 12px;
+    text-decoration: none;
+    color: #333;
+    font-size: 0.85rem;
+    border: 1px solid #bbb;
+    display: inline-block;
+}
+
+.logout-btn:hover {
+    background-color: #ccc;
+}

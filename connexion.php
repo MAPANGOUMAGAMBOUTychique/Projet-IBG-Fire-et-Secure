@@ -1,16 +1,14 @@
 <?php
-$serveur = "localhost";
-$utilisateur = "fire_secure_user";
-$motDepasse = "Fsulre@ib1n";
-$nomBaseDeDonnees = "fire_secure";
+$host = '127.0.0.1';
+$dbname = 'fire_secure';
+$user = 'fire_secure_user';
+$password = 'Fsulre@ib1n';
 
 try {
-    $connexion = new PDO("mysql:host=$serveur;dbname=$fire_secure;charset=utf8", $utilisateur, $motDePasse);
-    // Définir le mode d'erreur de PDO sur Exception
-    $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "Connexion à la base de donnée réussie !";   
-
-    } catch(PDOExeption $e) {
-    echo "Erreur de connexion :" . $e->getMessage();
-    }
-    ?>
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    echo "Connexion réussie !";
+} catch (PDOException $e) {
+    die("Erreur : " . $e->getMessage());
+}
+?>

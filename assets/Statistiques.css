@@ -1,0 +1,63 @@
+/* Style du titre principal */
+.title {
+    text-align: left;
+    margin-left: 5%;
+    font-family: sans-serif;
+    color: #333;
+}
+
+/* Le conteneur gris principal */
+.stats-grid {
+    background-color: #dcdcdc; /* Gris clair identique à ton image */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 colonnes égales */
+    gap: 40px; /* Espace entre les blocs */
+    padding: 60px;
+    width: 90%;
+    max-width: 900px;
+    margin: 20px auto;
+    border-radius: px;
+}
+
+/* Chaque bloc de stat */
+.stat-card {
+    text-align: center;
+    font-family: sans-serif;
+}
+
+/* Libellé (Nombre d'entreprises, etc.) */
+.stat-card h3 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #000;
+}
+
+/* La valeur numérique */
+.stat-card .value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #000;
+}
+
+/* Lien de déconnexion */
+.logout-wrapper {
+    width: 90%;
+    max-width: 900px;
+    margin: 20px auto;
+    text-align: right;
+}
+
+.logout-link {
+    text-decoration: none;
+    color: #555;
+    font-family: sans-serif;
+    font-size: 0.9rem;
+    background-color: #eee;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+}
+
+.logout-link:hover {
+    background-color: #ddd;
+}

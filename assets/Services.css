@@ -1,0 +1,74 @@
+/* Style du titre en rouge */
+.main-title {
+    color: #e63326; /* Rouge identique à ton logo */
+    font-family: sans-serif;
+    font-size: 1.8rem;
+    margin-left: 5%;
+    margin-bottom: 40px;
+}
+
+/* Le grand bloc gris */
+.content-box {
+    background-color: #dcdcdc; /* Gris clair */
+    width: 90%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 60px;
+    border-radius: 30px;
+    min-height: 400px; /* Pour donner de la hauteur comme sur l'image */
+}
+
+/* Alignement du tableau */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: sans-serif;
+}
+
+/* En-tête du nombre de sollicitations */
+.header-count {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1rem;
+    padding-bottom: 30px;
+    width: 40%;
+    line-height: 1.2;
+}
+
+/* Style des noms de services */
+.service-name {
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 20px 0; /* Espace vertical entre les services */
+    text-align: left;
+}
+
+/* Style des chiffres (14) */
+.count {
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-align: center;
+    padding: 20px 0;
+}
+
+/* Bouton se déconnecter en bas à droite */
+.footer-action {
+    width: 90%;
+    max-width: 800px;
+    margin: 30px auto;
+    text-align: right;
+}
+
+.logout-link {
+    text-decoration: none;
+    color: #555;
+    background-color: #e0e0e0;
+    padding: 5px 12px;
+    border: 1px solid #ccc;
+    font-family: sans-serif;
+    font-size: 0.85rem;
+}
+
+.logout-link:hover {
+    background-color: #d0d0d0;
+}
