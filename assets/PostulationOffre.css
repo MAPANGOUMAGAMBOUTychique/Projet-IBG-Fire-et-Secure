@@ -8,8 +8,7 @@
 
 .colonne-gauche, .colonne-droite
 {
-    flex: 1; /*Chaque colonne prend la moitié de l'espace */
-    
+    flex: 1; /* Chaque colonne prend la moitié de l'espace */
 }
 
 .colonne-gauche
@@ -18,9 +17,8 @@
     padding: 20px;
     border-radius: 20px;
     border: 2px solid #333333;
-   
 }
-
+   
 .box-competences
 {
     background-color: #e0e0e0;
@@ -43,4 +41,3 @@ form
     flex-direction: column;
     gap: 10px;
 }
-
