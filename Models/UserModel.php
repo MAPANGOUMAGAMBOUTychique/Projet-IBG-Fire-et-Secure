@@ -1,5 +1,5 @@
 <?php
-require_once 'config/database.php'; // ✅ corrigé
+require_once __DIR__ . '/../config/connexion.php';
 
 class UserModel {
 

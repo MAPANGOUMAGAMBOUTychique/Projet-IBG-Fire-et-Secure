@@ -24,49 +24,47 @@
 
     <main>
 
-        <!-- Message d'erreur Employé / Admin -->
-        <section class="Connexion">
-            <h1>Connexion Employé</h1>
+<section class="Connexion">
+    <h1>Connexion Employé</h1>
 
-            <?php if (!empty($_GET['error'])): ?>
-                <p style="color:red;"><?= htmlspecialchars($_GET['error']) ?></p>
-            <?php endif; ?>
+    <?php if (!empty($_GET['error'])): ?>
+        <p style="color:red;"><?= htmlspecialchars($_GET['error']) ?></p>
+    <?php endif; ?>
 
-            <form action="/SiteIBGFireSecure/index.php?action=login" method="post" class="formulaire">
-                <div class="form-group">
-                    <label for="Email_employe">Email :</label>
-                    <input type="email" name="user_email" id="Email_employe" placeholder="Ex : domaine@gmail.com" required>
-                </div>
-                <div class="form-group">
-                    <label for="Mot_de_passe_employe">Mot de Passe :</label>
-                    <input type="password" name="user_mot_de_passe" id="Mot_de_passe_employe" required>
-                    <a href="/SiteIBGFireSecure/index.php?action=motdepasseoublie">Mot de passe oublié ?</a>
-                </div>
-                <button type="submit" class="btn-submit">Connexion</button>
-            </form>
-        </section>
+    <form action="index.php?action=login" method="post" class="formulaire">
+        <div class="form-group">
+            <label for="Email_employe">Email :</label>
+            <input type="email" name="user_email" id="Email_employe" placeholder="Ex : domaine@gmail.com" required>
+        </div>
+        <div class="form-group">
+            <label for="Mot_de_passe_employe">Mot de Passe :</label>
+            <input type="password" name="user_mot_de_passe" id="Mot_de_passe_employe" required>
+            <a href="index.php?action=motdepasseoublie">Mot de passe oublié ?</a>
+        </div>
+        <button type="submit" class="btn-submit">Connexion</button>
+    </form>
+</section>
 
-        <!-- Message d'erreur Entreprise -->
-        <section class="Connexion">
-            <h1>Connexion Entreprise</h1>
+<section class="Connexion">
+    <h1>Connexion Entreprise</h1>
 
-            <?php if (!empty($_GET['error'])): ?>
-                <p style="color:red;"><?= htmlspecialchars($_GET['error']) ?></p>
-            <?php endif; ?>
+    <?php if (!empty($_GET['error'])): ?>
+        <p style="color:red;"><?= htmlspecialchars($_GET['error']) ?></p>
+    <?php endif; ?>
 
-            <form action="/SiteIBGFireSecure/index.php?action=login" method="post" class="formulaire">
-                <div class="form-group">
-                    <label for="Numero_siret">Numéro SIRET :</label>
-                    <input type="text" name="user_siret" id="Numero_siret" placeholder="123 456 789 00012" pattern="[0-9\s]{14,18}" title="Le SIRET doit être composé de 14 chiffres" required>
-                </div>
-                <div class="form-group">
-                    <label for="Mot_de_passe_entreprise">Mot de Passe :</label>
-                    <input type="password" name="user_mot_de_passe_entreprise" id="Mot_de_passe_entreprise" required>
-                    <a href="/SiteIBGFireSecure/index.php?action=motdepasseoublie">Mot de passe oublié ?</a>
-                </div>
-                <button type="submit" class="btn-submit">Connexion</button>
-            </form>
-        </section>
+    <form action="index.php?action=login" method="post" class="formulaire">
+        <div class="form-group">
+            <label for="Numero_siret">Numéro SIRET :</label>
+            <input type="text" name="user_siret" id="Numero_siret" placeholder="123 456 789 00012" pattern="[0-9\s]{14,18}" title="Le SIRET doit être composé de 14 chiffres" required>
+        </div>
+        <div class="form-group">
+            <label for="Mot_de_passe_entreprise">Mot de Passe :</label>
+            <input type="password" name="user_mot_de_passe_entreprise" id="Mot_de_passe_entreprise" required>
+            <a href="index.php?action=motdepasseoublie">Mot de passe oublié ?</a>
+        </div>
+        <button type="submit" class="btn-submit">Connexion</button>
+    </form>
+</section>
 
     </main>
 
