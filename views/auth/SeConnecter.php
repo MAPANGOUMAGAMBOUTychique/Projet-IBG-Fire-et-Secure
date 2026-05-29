@@ -3,23 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Se connecter</title>
-    <link rel="stylesheet" href="/SiteIBGFireSecure/assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/index.css">
+    <link rel="stylesheet" href="../../assets/style.css">
+    <title>Nos Services</title>
 </head>
 <body>
-    <header>
-        <a href="/SiteIBGFireSecure/index.php">
-            <img src="/SiteIBGFireSecure/assets/image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo">
-        </a>
-        <nav class="navbar">
-            <ul>
-                <li><a href="/SiteIBGFireSecure/index.php">Accueil</a></li>
-                <li><a href="/SiteIBGFireSecure/index.php?action=contact">Nous contacter</a></li>
-                <li><a href="/SiteIBGFireSecure/index.php?action=postuler">Postuler</a></li>
-                <li><a href="/SiteIBGFireSecure/index.php?action=seconnecter">Se connecter</a></li>
-                <li><a href="/SiteIBGFireSecure/index.php?action=creercompte">Créer un compte</a></li>
-            </ul>
-        </nav>
+        <header>
+        <a href="index.php"><img src="../../assets/image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo"></a>
+            <nav class="navbar">
+                <ul>
+                <li><a href="../../index.php">Accueil</a></li> 
+                <li><a href="../../views/pages/NosServices.php">Nos services</a></li>
+                <li><a href="../../views/pages/NousContacter.php">Nous contacter</a></li> 
+                <li><a href="../../views/postulations/Postuler.php">Postuler</a></li> 
+                <li><a href="../../views/auth/SeConnecter.php">Se connecter</a></li> 
+                <li><a href="../../views/auth/CreerUnCompte.php">Créer un compte</a></li> 
+                </ul>
+                
+            </nav>
+        
     </header>
 
     <main>
@@ -39,7 +41,7 @@
         <div class="form-group">
             <label for="Mot_de_passe_employe">Mot de Passe :</label>
             <input type="password" name="user_mot_de_passe" id="Mot_de_passe_employe" required>
-            <a href="index.php?action=motdepasseoublie">Mot de passe oublié ?</a>
+            <a href="../../views/auth/MotDePasseOublier.php?action=motdepasseoublie">Mot de passe oublié ?</a>
         </div>
         <button type="submit" class="btn-submit">Connexion</button>
     </form>
@@ -60,7 +62,7 @@
         <div class="form-group">
             <label for="Mot_de_passe_entreprise">Mot de Passe :</label>
             <input type="password" name="user_mot_de_passe_entreprise" id="Mot_de_passe_entreprise" required>
-            <a href="index.php?action=motdepasseoublie">Mot de passe oublié ?</a>
+            <a href="../../views/auth/MotDePasseOublier.php?action=motdepasseoublie">Mot de passe oublié ?</a>
         </div>
         <button type="submit" class="btn-submit">Connexion</button>
     </form>
@@ -68,13 +70,9 @@
 
     </main>
 
-    <footer>
+<footer>
         <ul>
-            <li>
-                <a href="/SiteIBGFireSecure/index.php">
-                    <img src="/SiteIBGFireSecure/assets/image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo">
-                </a>
-            </li>
+            <li><a href="index.php"><img src="../../assets/image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo"></a></li>
             <li>
                 <article>
                     <h4>Siège social IBG FIRE ET SECURE</h4>
@@ -83,28 +81,25 @@
             </li>
             <li>
                 <article>
-                    <h4>Nos Services</h4>
-                    <ul>
-                        <li><a href="/SiteIBGFireSecure/index.php?action=accueil#SecuriteEtIncendie">Sécurité et Incendie</a></li>
-                        <li><a href="/SiteIBGFireSecure/index.php?action=accueil#GardiennageEtSurveillance">Gardiennage et Surveillance</a></li>
-                        <li><a href="/SiteIBGFireSecure/index.php?action=accueil#ConseilEtExpertise">Conseil et Expertise</a></li>
-                    </ul>
-                </article>
+
             </li>
             <li>
                 <h4>Liens</h4>
                 <nav>
                     <ul>
-                        <li><a href="/SiteIBGFireSecure/index.php?action=mentions">Mentions légales</a></li>
-                        <li><a href="/SiteIBGFireSecure/index.php">Accueil</a></li>
-                        <li><a href="/SiteIBGFireSecure/index.php?action=contact">Nous contacter</a></li>
-                        <li><a href="/SiteIBGFireSecure/index.php?action=postuler">Je postule</a></li>
-                        <li><a href="/SiteIBGFireSecure/index.php?action=seconnecter">Se connecter</a></li>
-                        <li><a href="/SiteIBGFireSecure/index.php?action=creercompte">Créer un compte</a></li>
+                        <li><a href="../../views/pages/MentionsLégales.php">Mentions légales</a></li>
+                        <li><a href="../../views/pages/PolitiquesDeConfidentialités.php">Politique de Confidentialité</a></li>
+                        <li><a href="../../index.php">Accueil</a></li>
+                        <li><a href="../../views/pages/NosServices.php">Nos Services</a></li>
+                        <li><a href="../../views/pages/NousContacter.php">Nous contacter</a></li>
+                        <li><a href="../../views/postulations/Postuler.php">Je postule</a></li>
+                        <li><a href="../../views/auth/SeConnecter.php">Se connecter</a></li>
+                        <li><a href="../../views/auth/CreerUnCompte.php">Créer un compte</a></li>
                     </ul>
-                </nav>
+                </nav> 
             </li>
         </ul>
+
         <div class="footer-bottom">
             <p>&copy; 2026 IBG FIRE ET SECURE. Tous droits réservés.</p>
         </div>

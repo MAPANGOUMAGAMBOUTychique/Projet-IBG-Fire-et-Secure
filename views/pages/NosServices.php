@@ -1,23 +1,25 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/index.css">
-    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="../../assets/index.css">
+    <link rel="stylesheet" href="../../assets/style.css">
     <title>Nos Services</title>
 </head>
 <body>
-    <header>
-        <a href="index.html"><img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo"></a>
+        <header>
+        <a href="index.php"><img src="../../assets/image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo"></a>
             <nav class="navbar">
                 <ul>
-                <li><a href="index.php">Accueil</a></li>
-                <li><a href="NosServices.html">Nos services</a></li> 
-                <li><a href="NousContacter.html">Nous contacter</a></li> 
-                <li><a href="Postuler.html">Postuler</a></li> 
-                <li><a href="SeConnecter.html">Se connecter</a></li> 
-                <li><a href="CreerUnCompte.html">Créer un compte</a></li> 
+                <li><a href="../../index.php">Accueil</a></li> 
+                <li><a href="../../views/pages/NosServices.php">Nos services</a></li>
+                <li><a href="../../views/pages/NousContacter.php">Nous contacter</a></li> 
+                <li><a href="../../views/postulations/Postuler.php">Postuler</a></li> 
+                <li><a href="../../views/auth/SeConnecter.php">Se connecter</a></li> 
+                <li><a href="../../views/auth/CreerUnCompte.php">Créer un compte</a></li> 
                 </ul>
                 
             </nav>
@@ -34,7 +36,7 @@
                     <li class="reveal-items">
                         <article>
                                 <h4>Surveillance Statique et controle d'Accès</h4>
-                                <img src="image/Jour4/Image gardinnage et sécurité-1682125948844-e2dc8996b0f0.avif" alt="Image Surveillace statique et controle" class="surveillance-control">
+                                <img src="../../assets/image/Jour4/Image gardinnage et sécurité-1682125948844-e2dc8996b0f0.avif" alt="Image Surveillace statique et controle" class="surveillance-control">
                                 <p> Nos agents de sécurité qualifiés assurent un contrôle rigoureux des flux de personnes, de véhicules et de marchandises. En combinant vigilance humaine et protocoles de vérification stricts, nous garantissons l'étanchéité de vos périmètres. Qu'il s'agisse de sites industriels sensibles ou de complexes tertiaires, notre mission est de prévenir toute intrusion tout en préservant la fluidité de vos accès quotidiens.</p>
                                 <a href="Identification.html" class="btn-solliciter">Solliciter</a>
                         </article>
@@ -44,7 +46,7 @@
                     <li class="reveal-items">
                         <article>
                                 <h4>Rondes de Surveillance et Sécurité Mobile</h4>
-                                <img src="image/Jour4/Image rpnde de surveillance et sécurité mobile-1661499169247-81649e8667d8.avif" alt="Image Surveillance sécurité mobile">
+                                <img src="../../assets/image/Jour4/Image rpnde de surveillance et sécurité mobile-1661499169247-81649e8667d8.avif" alt="Image Surveillance sécurité mobile">
                                 <p>Patrouilles mobiles, aléatoires ou programmées, effectuées en véhicule pour inspecter les points sensibles de vos sites. Nos agents assurent une présence dynamique et une surveillance étendue pour prévenir toute anomalie.</p>
                                 <a href="Identification.html" class="btn-solliciter">Solliciter</a>
                         </article>
@@ -54,7 +56,7 @@
                    <li class="reveal-items">
                        <article>
                                <h4>Protection Événementielle</h4>
-                               <img src="image/Jour4/Image protection evenementielle-1760228604788-db8a36d5c1a3.avif" alt="Image Protection Événement">
+                               <img src="../../assets/image/Jour4/Image protection evenementielle-1760228604788-db8a36d5c1a3.avif" alt="Image Protection Événement">
                                <p>Garantissez le succès et la sérénité de vos événements de haut standing. De la sécurisation des salons internationaux aux rassemblements privés exclusifs, nos équipes gèrent avec diplomatie et fermeté le contrôle des accès et la fluidité des flux de foule. Nous allions discrétion et vigilance pour offrir à vos invités un environnement sûr et prestigieux.</p>
                                <a href="Identification.html" class="btn-solliciter">Solliciter</a>
                        </article>
@@ -72,7 +74,7 @@
                 <li class="reveal-items">
                     <article>
                             <h4>Prévention et Intervention Incendie (SSIAP)</h4>
-                            <img src="image/Jour4/Image prévention et intervention incendie-1482173989-612x612.webp" alt="Image Prévention et intervention incendie">
+                            <img src="../../assets/image/Jour4/Image prévention et intervention incendie-1482173989-612x612.webp" alt="Image Prévention et intervention incendie">
                             <p>Nos agents certifiés SSIAP (niveaux 1, 2 et 3) assurent une veille constante contre les risques d'incendie. Experts en prévention, ils garantissent la conformité de vos installations par une vérification rigoureuse des équipements de secours et assurent une gestion exemplaire de l'évacuation et de la mise en sécurité des occupants en cas de sinistre.</p>
                             <a href="Identification.html" class="btn-solliciter">Solliciter</a>
                     </article>
@@ -82,7 +84,7 @@
                 <li class="reveal-items">
                     <article>
                             <h4>Maintenance des Systèmes de Sécurité Incendie</h4>
-                            <img src="image/Jour4/Image maintenance des systèmes incendies-1482775856-612x612.webp" alt="Image Maintenance de sécurité Incendie">
+                            <img src="../../assets/image/Jour4/Image maintenance des systèmes incendies-1482775856-612x612.webp" alt="Image Maintenance de sécurité Incendie">
                             <p>Garantissez l'opérationnalité de vos dispositifs de secours. Nous réalisons des audits approfondis et la maintenance technique de vos systèmes de sécurité incendie (SSI) : alarmes, détecteurs de fumée, colonnes sèches et Robinets d'Incendie Armés (RIA). Nos interventions certifiées assurent la conformité de vos installations aux normes en vigueur et une réactivité optimale de vos équipements.</p>
                             <a href="Identification.html" class="btn-solliciter">Solliciter</a>
                     </article>
@@ -92,7 +94,7 @@
                 <li class="reveal-items">
                     <article>
                         <h4>Formation et Exercices d'Évacuation</h4>
-                        <img src="image/Evacuation-1663075966038-6b37cc036924.avif" alt="Image Formation d'ecercice d'evacuation">
+                        <img src="../../assets/image/Evacuation-1663075966038-6b37cc036924.avif" alt="Image Formation d'ecercice d'evacuation">
                         <p>La préparation est la clé d'une gestion efficace des situations d'urgence. Nous formons vos équipes à adopter les bons réflexes et organisons des exercices d'évacuation grandeur nature pour tester vos procédures. En cas d'alerte, chaque seconde compte : nous vous aidons à bâtir une organisation fluide et sécurisée pour protéger toutes les personnes présentes dans vos locaux.</p>
                         <a href="Identification.html" class="btn-solliciter">Solliciter</a>
                     </article>
@@ -109,7 +111,7 @@
                 <li class="reveal-items">
                     <article>
                             <h4>Audit et Conseil en Ingénierie et Sûreté</h4>
-                            <img src="image/Jour4/Image conseil et expertise-1661695279211-dfc3866380d1.avif" alt="Image Audit et conseil ingénieur en sureté">
+                            <img src="../../assets/image/Jour4/Image conseil et expertise-1661695279211-dfc3866380d1.avif" alt="Image Audit et conseil ingénieur en sureté">
                             <p>Anticipez les menaces par une approche analytique de votre sûreté. Nos experts réalisent un audit complet des vulnérabilités de vos infrastructures, englobant les risques humains, techniques et organisationnels. À l'issue de cette étude de terrain, nous concevons un plan de sécurité sur mesure, optimisant vos ressources pour garantir une protection maximale et pérenne de vos sites.</p>
                             <a href="Identification.html" class="btn-solliciter">Solliciter</a>
                     </article>
@@ -119,7 +121,7 @@
                 <li class="reveal-items">
                     <article>
                             <h4>Formation à la Gestion des Risques</h4>
-                            <img src="image/Jour4/Image gestion des risques-1663089690804-1c6d97412b7a.avif" alt="Image gestion des risques">
+                            <img src="../../assets/image/Jour4/Image gestion des risques-1663089690804-1c6d97412b7a.avif" alt="Image gestion des risques">
                             <p>Développez une véritable culture de la prévention au sein de vos équipes. Nos experts certifiés forment vos collaborateurs aux gestes qui sauvent et à la manipulation des équipements d'extinction. En maîtrisant les réflexes de premiers secours et l’usage des extincteurs, votre personnel devient le premier maillon de votre chaîne de sécurité, garantissant une réactivité immédiate face à l'accident ou au début d'incendie</p>
                             <a href="Identification.html" class="btn-solliciter">Solliciter</a>
                     </article>
@@ -129,7 +131,7 @@
                 <li class="reveal-items">
                     <article>
                             <h4>Sécurisation des Sites Sensibles</h4>
-                            <img src="image/Jour4/Image sécurisation des sites sensibles-2248999048-612x612.webp" alt="Image Sécurisation des sites sensibles">
+                            <img src="../../assets/image/Jour4/Image sécurisation des sites sensibles-2248999048-612x612.webp" alt="Image Sécurisation des sites sensibles">
                             <p>Sécurisation des environnements critiques et sites à haut risque. Pour vos entrepôts de grande valeur, chantiers d'envergure ou zones industrielles isolées, nous déployons des dispositifs de protection renforcés. Alliant technologies de pointe et unités d'élite, notre approche garantit une surveillance hermétique de vos actifs les plus sensibles, même dans les conditions les plus exigeantes.</p>
                             <a href="Identification.html" class="btn-solliciter">Solliciter</a>
                     </article>
@@ -140,9 +142,9 @@
             </section>
         </section>
     </main>
-        <footer>
+<footer>
         <ul>
-            <li><a href="Accueil.html"><img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo"></a></li>
+            <li><a href="index.php"><img src="../../assets/image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo"></a></li>
             <li>
                 <article>
                     <h4>Siège social IBG FIRE ET SECURE</h4>
@@ -164,13 +166,14 @@
                 <h4>Liens</h4>
                 <nav>
                     <ul>
-                        <li><a href="MentionsLégales.html">Mentions légales</a></li>
-                        <li><a href="PolitiquesDeConfidentialités.html">Politique de Confidentialité</a></li>
-                        <li><a href="index.html">Accueil</a></li>
-                        <li><a href="NousContacter.html">Nous contacter</a></li>
-                        <li><a href="Postuler.html">Je postule</a></li>
-                        <li><a href="SeConnecter.html">Se connecter</a></li>
-                        <li><a href="CreerUnCompte.html">Créer un compte</a></li>
+                        <li><a href="../../views/pages/MentionsLégales.php">Mentions légales</a></li>
+                        <li><a href="../../views/pages/PolitiquesDeConfidentialités.php">Politique de Confidentialité</a></li>
+                        <li><a href="../../index.php">Accueil</a></li>
+                        <li><a href="../../views/pages/NosServices.php">Nos Services</a></li>
+                        <li><a href="../../views/pages/NousContacter.php">Nous contacter</a></li>
+                        <li><a href="../../views/postulations/Postuler.php">Je postule</a></li>
+                        <li><a href="../../views/auth/SeConnecter.php">Se connecter</a></li>
+                        <li><a href="../../views/auth/CreerUnCompte.php">Créer un compte</a></li>
                     </ul>
                 </nav> 
             </li>

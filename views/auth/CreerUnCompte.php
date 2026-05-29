@@ -3,20 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Créer un compte</title>
-    <link rel="stylesheet" href="assets/style.css">
-    <link rel="stylesheet" href="assets/CreerUnCompte.css">
+    <link rel="stylesheet" href="../../assets/index.css">
+    <link rel="stylesheet" href="../../assets/style.css">
+    <title>Création de compte | Site IBG FIRE ET SECURE</title>
 </head>
 <body>
     <header>
-        <a href="index.html"><img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo"></a>
+        <a href="index.php"><img src="../../assets/image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo"></a>
             <nav class="navbar">
                 <ul>
-                <li><a href="index.html">Accueil</a></li> 
-                <li><a href="NousContacter.html">Nous contacter</a></li> 
-                <li><a href="Postuler.html">Postuler</a></li> 
-                <li><a href="SeConnecter.html">Se connecter</a></li> 
-                <li><a href="CreerUnCompte.html">Créer un compte</a></li> 
+                <li><a href="../../index.php">Accueil</a></li> 
+                <li><a href="../../views/pages/NosServices.php">Nos services</a></li>
+                <li><a href="../../views/pages/NousContacter.php">Nous contacter</a></li> 
+                <li><a href="../../views/postulations/Postuler.php">Postuler</a></li> 
+                <li><a href="../../views/auth/SeConnecter.php">Se connecter</a></li> 
+                <li><a href="../../views/auth/CreerUnCompte.php">Créer un compte</a></li> 
                 </ul>
                 
             </nav>
@@ -27,21 +28,21 @@
 
         <section class="compte">
         <section class="Particulier">
-                <a href="Postuler.html"><h2>Je suis un Particulier</h2></a>
-                <a href="Postuler.html"><img src="image/Un particulier-1557862921-37829c790f19.avif" alt="Image particulier"></a>
+                <a href="../../views/postulations/Postuler.php"><h2>Je suis un Particulier</h2></a>
+                <a href="../../views/postulations/Postuler.php"><img src="../../assets/image/Un particulier-1557862921-37829c790f19.avif" alt="Image particulier"></a>
         </section>
         <section class="Entreprise">
-                <a href="PostulationEntreprise.html"><h2>Je suis une Entreprise</h2></a>
-                <a href="PostulationEntreprise.html"><img src="image/Une entreprise-1676357175001-dec2a4bf4241.avif" alt="Une entreprise"></a>
+                <a href="../../views/postulations/PostulationEntreprise.php"><h2>Je suis une Entreprise</h2></a>
+                <a href="../../views/postulations/PostulationEntreprise.php"><img src="../../assets/image/Une entreprise-1676357175001-dec2a4bf4241.avif" alt="Une entreprise"></a>
         </section>
         </section>
 
 
     </main>
 
-    <footer>
+<footer>
         <ul>
-            <li><a href="Accueil.html"><img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo"></a></li>
+            <li><a href="index.php"><img src="../../assets/image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo"></a></li>
             <li>
                 <article>
                     <h4>Siège social IBG FIRE ET SECURE</h4>
@@ -49,26 +50,20 @@
                 </article>
             </li>
             <li>
-                <article>
-                    <h4>Nos Services</h4>
-                    <ul>
-                        <li><a href="index.html#SecuriteEtIncendie">Sécurité et Incendie</a></li>
-                        <li><a href="index.html#GardiennageEtSurveillance">Gardiennage et Surveillance</a></li>
-                        <li><a href="index.html#ConseilEtExpertise">Conseil et Expertise</a></li>
-                    </ul>                
-                   
-                </article>
+
             </li>
             <li>
                 <h4>Liens</h4>
                 <nav>
                     <ul>
-                        <li><a href="MentionsLégales.html">Mentions légales</a></li>
-                        <li><a href="Accueil.html">Accueil</a></li>
-                        <li><a href="NousContacter.html">Nous contacter</a></li>
-                        <li><a href="Postuler.html">Je postule</a></li>
-                        <li><a href="SeConnecter.html">Se connecter</a></li>
-                        <li><a href="CreerUnCompte.html">Créer un compte</a></li>
+                        <li><a href="views/pages/MentionsLégales.php">Mentions légales</a></li>
+                        <li><a href="views/pages/PolitiquesDeConfidentialités.php">Politique de Confidentialité</a></li>
+                        <li><a href="index.php">Accueil</a></li>
+                        <li><a href="views/pages/NosServices.php">Nos Services</a></li>
+                        <li><a href="views/pages/NousContacter.php">Nous contacter</a></li>
+                        <li><a href="views/postulations/Postuler.php">Je postule</a></li>
+                        <li><a href="views/auth/SeConnecter.php">Se connecter</a></li>
+                        <li><a href="views/auth/CreerUnCompte.php">Créer un compte</a></li>
                     </ul>
                 </nav> 
             </li>

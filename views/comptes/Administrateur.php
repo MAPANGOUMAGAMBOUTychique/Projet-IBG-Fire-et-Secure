@@ -1,33 +1,25 @@
-<?php
-session_start();
-
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-    header('Location: /index.php');
-    exit;
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compte Administrateur | Site IBG FIRE ET SECURE</title>
-    <link rel="stylesheet" href="assets/style.css">
-    <link rel="stylesheet" href="assets/index.css">
-    <link rel="stylesheet" href="assets/Administrateur.css">
+    <link rel="stylesheet" href="../../assets/index.css">
+    <link rel="stylesheet" href="../../assets/style.css">
+    <link rel="stylesheet" href="../../assets/Administrateur.css">
+ 
+    <title>Nos Services</title>
 </head>
 <body>
     <header>
-        <a href="index.html"><img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo"></a>
+        <a href="index.html"><img src="../../assets/image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo"></a>
             <nav class="navbar">
                 <ul>
-                <li><a href="index.php">Accueil</a></li> 
-                <li><a href="Statistique.html">Statistiques</a></li> 
-                <li><a href="Entreprises.html">Entreprises</a></li> 
-                <li><a href="Employers.html">Employés</a></li> 
-                <li><a href="Services.html">Services</a></li>
-                <li><a href="Missions.html">Missions</a></li>  
+                <li><a href="../../index.php">Accueil</a></li> 
+                <li><a href="../../views/missions/Statistique.php">Statistiques</a></li> 
+                <li><a href="../../views/Entreprises/Entreprises.php">Entreprises</a></li> 
+                <li><a href="../../views/Entreprises/Employers.php">Employés</a></li> 
+                <li><a href="../../views/Entreprises/Services.php">Services</a></li>
+                <li><a href="../../views/missions/Missions.php">Missions</a></li>   
                 </ul>
                 
             </nav>
@@ -53,19 +45,19 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
             </thead>
             <tbody>
                 <tr>
-                    <td><a href="Postuler.html">Employer 1</a></td>
+                    <td><a href="../../views/postulations/Postuler.php">Employer 1</a></td>
                     <td><span class="dot yellow"></span></td>
                     <td><span class="dot green"></span></td>
                     <td><span class="dot red"></span></td>
                 </tr>
                 <tr>
-                    <td><a href="Postuler.html">Employer 1</a></td>
+                    <td><a href="../../views/postulations/Postuler.php">Employer 1</a></td>
                     <td><span class="dot yellow"></span></td>
                     <td><span class="dot green"></span></td>
                     <td><span class="dot red"></span></td>
                 </tr>
                 <tr>
-                    <td><a href="Postuler.html">Employer 1</a></td>
+                    <td><a href="../../views/postulations/Postuler.php">Employer 1</a></td>
                     <td><span class="dot yellow"></span></td>
                     <td><span class="dot green"></span></td>
                     <td><span class="dot red"></span></td>
@@ -91,19 +83,19 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
             </thead>
             <tbody>
                 <tr>
-                    <td><a href="PostulationEntreprise.html">Employer 1</a></td>
+                    <td><a href="../../views/postulations/PostulationEntreprise.php">Employer 1</a></td>
                     <td><span class="dot yellow"></span></td>
                     <td><span class="dot green"></span></td>
                     <td><span class="dot red"></span></td>
                 </tr>
                 <tr>
-                    <td><a href="PostulationEntreprise.html">Employer 1</a></td>
+                    <td><a href="../../views/postulations/PostulationEntreprise.php">Employer 1</a></td>
                     <td><span class="dot yellow"></span></td>
                     <td><span class="dot green"></span></td>
                     <td><span class="dot red"></span></td>
                 </tr>
                 <tr>
-                    <td><a href="PostulationEntreprise.html">Employer 1</a></td>
+                    <td><a href="../../views/postulations/PostulationEntreprise.php">Employer 1</a></td>
                     <td><span class="dot yellow"></span></td>
                     <td><span class="dot green"></span></td>
                     <td><span class="dot red"></span></td>
@@ -113,12 +105,12 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     </section>
 
     <div class="logout-wrapper">
-        <a href="index.php" class="logout-btn">Se déconnecter</a>
+        <a href="../../index.php" class="logout-btn">Se déconnecter</a>
     </div>
 </main>
-    <footer>
+<footer>
         <ul>
-            <li><a href="Accueil.html"><img src="image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo"></a></li>
+            <li><a href="index.php"><img src="../../assets/image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo"></a></li>
             <li>
                 <article>
                     <h4>Siège social IBG FIRE ET SECURE</h4>
@@ -127,25 +119,20 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
             </li>
             <li>
                 <article>
-                    <h4>Nos Services</h4>
-                    <ul>
-                        <li><a href="index.html#SecuriteEtIncendie">Sécurité et Incendie</a></li>
-                        <li><a href="index.html#GardiennageEtSurveillance">Gardiennage et Surveillance</a></li>
-                        <li><a href="index.html#ConseilEtExpertise">Conseil et Expertise</a></li>
-                    </ul>                
-                   
-                </article>
+
             </li>
             <li>
                 <h4>Liens</h4>
                 <nav>
                     <ul>
-                        <li><a href="MentionsLégales.html">Mentions légales</a></li>
-                        <li><a href="Accueil.html">Accueil</a></li>
-                        <li><a href="NousContacter.html">Nous contacter</a></li>
-                        <li><a href="Postuler.html">Je postule</a></li>
-                        <li><a href="SeConnecter.html">Se connecter</a></li>
-                        <li><a href="CreerUnCompte.html">Créer un compte</a></li>
+                        <li><a href="../../views/pages/MentionsLégales.php">Mentions légales</a></li>
+                        <li><a href="../../views/pages/PolitiquesDeConfidentialités.php">Politique de Confidentialité</a></li>
+                        <li><a href="../../index.php">Accueil</a></li>
+                        <li><a href="../../views/pages/NosServices.php">Nos Services</a></li>
+                        <li><a href="../../views/pages/NousContacter.php">Nous contacter</a></li>
+                        <li><a href="../../views/postulations/Postuler.php">Je postule</a></li>
+                        <li><a href="../../views/auth/SeConnecter.php">Se connecter</a></li>
+                        <li><a href="../../views/auth/CreerUnCompte.php">Créer un compte</a></li>
                     </ul>
                 </nav> 
             </li>
