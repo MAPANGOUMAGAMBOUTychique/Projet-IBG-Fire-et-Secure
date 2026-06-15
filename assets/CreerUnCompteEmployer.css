@@ -1,0 +1,23 @@
+/* Un peu de style pour harmoniser Select2 avec ton formulaire */
+.select2-container .select2-selection--single {
+    height: 44px !important;
+    border: 1px solid #ccc !important;
+    border-radius: 4px !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 42px !important;
+    display: flex !important;
+    align-items: center !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 42px !important;
+}
+/* Style des drapeaux dans la liste */
+.flag-img {
+    width: 20px;
+    height: auto;
+    margin-right: 10px;
+    vertical-align: middle;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
