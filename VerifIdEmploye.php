@@ -1,118 +1,392 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-// 1. Force l'affichage de toutes les erreurs PHP cachées par le serveur
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+ini_set('pcre.jit', 0); // Correctif pour l'allocation de mémoire JIT
 
-define('BASE_URL', 'http://localhost/StageTychique/SiteIbgFireEtSecure'); 
+define('BASE_URL', 'http://localhost/StageTychique/SiteIbgFireEtSecure');
 
-// 2. Sécurité : Vérification des droits d'accès de l'administrateur
-if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
+// 1. Sécurité : Admin uniquement
+if (!isset($_SESSION['user_id']) || strtolower($_SESSION['user_role']) !== 'admin') {
     header("Location: " . BASE_URL . "/SeConnecter.php");
     exit();
 }
 
-// 3. Vérification de la présence de l'ID dans l'URL
+// Vérification de la présence de l'identifiant
 if (!isset($_GET['id']) || empty($_GET['id'])) {
-    die('<div style="padding:20px; background:#f8d7da; color:#721c24; font-family:sans-serif; margin:20px; border-radius:5px;"><strong>❌ Erreur :</strong> L\'identifiant (ID) de la candidature est manquant dans l\'URL.</div>');
+    die('
+        <div style="font-family: Arial, sans-serif; text-align:center; max-width: 500px; margin: 60px auto; padding: 20px; background: #fff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+            <h2 style="color:#dc3545;">❌ Identifiant introuvable</h2>
+            <p style="color:#555; margin-bottom: 20px;">L\'identifiant de la candidature est manquant dans l\'URL.</p>
+            <a href="' . BASE_URL . '/Administrateur.php" style="display:inline-block; padding:10px 20px; background:#6c757d; color:white; text-decoration:none; border-radius:4px; font-weight:bold;">Retourner à l\'administration</a>
+        </div>
+    ');
 }
 
 try {
-    // Inscription sécurisée de la classe Database
     require_once 'Database.php';
-    
-    // Récupération de l'instance PDO
     $db = Database::getInstance();
-    
-    // Requête préparée sur la table "Candidature"
-    $stmt = $db->prepare("SELECT * FROM Candidature WHERE Id_Candidature = ?");
+
+    $stmt = $db->prepare("
+        SELECT c.*, u.Email_Utilisateur
+        FROM Candidature c
+        JOIN Utilisateur u ON c.Id_Utilisateur = u.Id_Utilisateur
+        WHERE c.Id_Candidature = ?
+          AND c.Type_Candidature = 'employe'
+    ");
     $stmt->execute([intval($_GET['id'])]);
     $cand = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Si aucun enregistrement ne correspond à cet ID
     if (!$cand) {
-        die('<div style="padding:20px; background:#fff3cd; color:#856404; font-family:sans-serif; margin:20px; border-radius:5px;"><strong>⚠️ Introuvable :</strong> Aucune candidature ne correspond à l\'ID ' . htmlspecialchars($_GET['id']) . ' dans la base de données.</div>');
+        die('
+            <div style="font-family: Arial, sans-serif; text-align:center; max-width: 500px; margin: 60px auto; padding: 20px; background: #fff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+                <h2 style="color:#ffc107;">⚠️ Introuvable</h2>
+                <p style="color:#555; margin-bottom: 20px;">Aucune candidature employé ne correspond à l\'ID ' . htmlspecialchars($_GET['id']) . '.</p>
+                <a href="' . BASE_URL . '/Administrateur.php" style="display:inline-block; padding:10px 20px; background:#6c757d; color:white; text-decoration:none; border-radius:4px; font-weight:bold;">Retourner à l\'administration</a>
+            </div>
+        ');
     }
 
 } catch (Throwable $e) {
-    // Capturateur universel de crash (S'affiche sous forme d'encadré rouge détaillé)
-    echo '<div style="padding:20px; background:#f8d7da; color:#721c24; border:1px solid #f5c6cb; font-family:monospace; margin:20px; border-radius:5px; line-height: 1.6;">';
-    echo '<h3 style="margin-top:0;">💥 Une erreur fatale est survenue !</h3>';
-    echo '<p><strong>Message de l\'erreur :</strong> ' . htmlspecialchars($e->getMessage()) . '</p>';
-    echo '<p><strong>Fichier coupable :</strong> ' . htmlspecialchars($e->getFile()) . '</p>';
-    echo '<p><strong>Ligne du crash :</strong> ' . $e->getLine() . '</p>';
-    echo '<hr style="border:0; border-top:1px solid #f5c6cb;">';
-    echo '<small>Vérifiez que le fichier Database.php est bien dans le même dossier et que vos tables/colonnes MySQL sont correctement orthographiées.</small>';
-    echo '</div>';
-    exit();
+    die('
+        <div style="font-family: Arial, sans-serif; text-align:left; max-width: 600px; margin: 60px auto; padding: 20px; background: #fff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+            <h2 style="color:#dc3545; margin-top:0;">💥 Erreur fatale technique</h2>
+            <p style="color:#555;"><strong>Message :</strong> ' . htmlspecialchars($e->getMessage()) . '</p>
+            <p style="color:#555;"><strong>Fichier :</strong> ' . htmlspecialchars($e->getFile()) . '</p>
+            <p style="color:#555;"><strong>Ligne :</strong> ' . $e->getLine() . '</p>
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="' . BASE_URL . '/Administrateur.php" style="display:inline-block; padding:10px 20px; background:#6c757d; color:white; text-decoration:none; border-radius:4px; font-weight:bold;">Retourner à l\'administration</a>
+            </div>
+        </div>
+    ');
+}
+
+// Fonctions helpers
+function val($v, string $fallback = 'Non renseigné'): string {
+    return htmlspecialchars(!empty($v) ? $v : $fallback);
+}
+
+function date_fr(?string $d): string {
+    return (!empty($d) && $d !== '0000-00-00') ? htmlspecialchars(date('d/m/Y', strtotime($d))) : 'Non renseignée';
+}
+
+/**
+ * Génère une URL propre et sécurisée pour les documents joints
+ */
+function generer_lien_doc(string $path_bdd): string {
+    $path_nettoye = ltrim(trim($path_bdd), '/');
+    $segments = explode('/', $path_nettoye);
+    if (!empty($segments)) {
+        $dernier_index = count($segments) - 1;
+        $segments[$dernier_index] = rawurlencode($segments[$dernier_index]);
+    }
+    $path_encode = implode('/', $segments);
+    return BASE_URL . '/' . $path_encode;
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vérification Dossier - <?= htmlspecialchars($cand['Nom_Candidature'] ?? 'Inconnu') ?></title>
+    <title>Dossier Employé - <?= val($cand['Prenom_Candidature'] . ' ' . $cand['Nom_Candidature']) ?> | IBG FIRE ET SECURE</title>
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/index.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/style.css">
     <style>
-        body { background-color: #f4f6f9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
-        .details-container { max-width: 800px; margin: 40px auto; padding: 30px; border: 1px solid #e3e6f0; background: #fff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-        h1 { color: #333; font-size: 24px; margin-top: 0; border-bottom: 2px solid #4e73df; padding-bottom: 10px; }
-        h3 { color: #4e73df; margin-top: 25px; border-bottom: 1px solid #e3e6f0; padding-bottom: 5px; }
-        .row { display: flex; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px solid #f8f9fc; padding-bottom: 8px; }
-        .label { font-weight: bold; color: #4e73df; width: 35%; }
-        .value { color: #5a5c69; width: 65%; text-align: left; }
-        .btn-back { display: inline-block; margin-bottom: 25px; padding: 10px 18px; background: #4e73df; color: #fff; text-decoration: none; border-radius: 4px; font-weight: bold; transition: background 0.2s; }
-        .btn-back:hover { background: #2e59d9; }
-        .doc-link { color: #1cc88a; text-decoration: none; font-weight: bold; }
-        .doc-link:hover { text-decoration: underline; }
-        .statut-badge { padding: 4px 10px; border-radius: 20px; font-size: 0.9em; font-weight: bold; background: #f6c23e; color: #fff; }
+        .dossier {
+            max-width: 750px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            padding: 30px;
+            font-family: Arial, sans-serif;
+        }
+        .dossier h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+            font-size: 1.4em;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+        .section-titre {
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #007bff;
+            font-weight: bold;
+            margin: 25px 0 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #eee;
+        }
+        .champ {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            gap: 12px;
+        }
+        .champ label {
+            font-weight: bold;
+            min-width: 200px;
+            color: #444;
+            font-size: 0.95em;
+            flex-shrink: 0;
+        }
+        .champ span {
+            color: #555;
+            font-size: 0.95em;
+        }
+        .statut-badge {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.85em;
+        }
+        .badge-attente  { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+        .badge-accepte  { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .badge-refuse   { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        
+        .description-box {
+            background: #f8f9fa;
+            border-left: 4px solid #6c757d;
+            padding: 15px;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            color: #555;
+            font-size: 0.92em;
+            line-height: 1.5;
+            margin-top: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .doc-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+            flex-wrap: wrap;
+        }
+        .doc-btn {
+            display: inline-block;
+            padding: 10px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9em;
+            text-align: center;
+        }
+        .doc-btn.cv  { background: #007bff; color: white; }
+        .doc-btn.lm  { background: #6c757d; color: white; }
+        .doc-btn.casier { background: #dc3545; color: white; }
+        .doc-absent { color: #999; font-style: italic; font-size: 0.9em; }
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0 20px;
+        }
+        @media (max-width: 600px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            .champ { flex-direction: column; gap: 4px; }
+            .champ label { min-width: 100%; }
+        }
     </style>
 </head>
 <body>
-    <div class="details-container">
-        <a href="Administrateur.php" class="btn-back">← Retour au panneau Admin</a>
-        
-        <h1>Dossier de candidature : <?= htmlspecialchars(($cand['Prenom_Candidature'] ?? '') . " " . ($cand['Nom_Candidature'] ?? '')) ?></h1>
-        <p>Statut actuel du dossier : <span class="statut-badge"><?= htmlspecialchars($cand['Statut_Candidature'] ?? 'Non défini') ?></span></p>
+    <header>
+        <a href="<?= BASE_URL ?>/index.php">
+            <img src="<?= BASE_URL ?>/assets/image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo">
+        </a>
+        <nav class="navbar">
+            <ul>
+                <li><a href="<?= BASE_URL ?>/Administrateur.php">Accueil Admin</a></li>
+                <li><a href="<?= BASE_URL ?>/Statistique.php">Statistiques</a></li>
+                <li><a href="<?= BASE_URL ?>/Entreprises.php">Entreprises</a></li>
+                <li><a href="<?= BASE_URL ?>/Employers.php">Employés</a></li>
+                <li><a href="<?= BASE_URL ?>/Services.php">Services</a></li>
+                <li><a href="<?= BASE_URL ?>/Missions.php">Missions</a></li>
+            </ul>
+        </nav>
+    </header>
 
-        <div class="row"><span class="label">Date de naissance :</span> <span class="value"><?= htmlspecialchars($cand['Date_Naissance_Candidature'] ?? 'Non renseignée') ?></span></div>
-        <div class="row"><span class="label">Lieu de naissance :</span> <span class="value"><?= htmlspecialchars($cand['Lieu_Naissance_Candidature'] ?? 'Non renseigné') ?></span></div>
-        <div class="row"><span class="label">Nationalité :</span> <span class="value"><?= htmlspecialchars($cand['Nationalite_Candidature'] ?? 'Non renseignée') ?></span></div>
-        <div class="row"><span class="label">Téléphone :</span> <span class="value"><?= htmlspecialchars($cand['Telephone_Candidature'] ?? 'Non renseigné') ?></span></div>
-        <div class="row"><span class="label">N° CNAPS :</span> <span class="value"><?= htmlspecialchars($cand['Numero_CNAPS_Candidature'] ?? 'Non renseigné') ?></span></div>
-        <div class="row"><span class="label">Expiration CNAPS :</span> <span class="value"><?= htmlspecialchars($cand['Expiration_CNAPS_Candidature'] ?? 'Non renseignée') ?></span></div>
-        <div class="row"><span class="label">Dernière Visite Médicale :</span> <span class="value"><?= htmlspecialchars($cand['Date_Visite_Med_Candidature'] ?? 'Non renseignée') ?></span></div>
-        <div class="row"><span class="label">Permis B :</span> <span class="value"><?= htmlspecialchars($cand['Permis_b_Candidature'] ?? 'Non renseigné') ?></span></div>
-        <div class="row"><span class="label">Véhiculé :</span> <span class="value"><?= htmlspecialchars($cand['Vehicule_Candidature'] ?? 'Non renseigné') ?></span></div>
-        <div class="row"><span class="label">Aptitude Visuelle :</span> <span class="value"><?= htmlspecialchars($cand['Aptitude_Vue_Candidature'] ?? 'Non renseignée') ?></span></div>
-        <div class="row"><span class="label">Type de contrat désiré :</span> <span class="value"><?= htmlspecialchars($cand['Type_Contrat_Candidature'] ?? 'Non renseigné') ?></span></div>
-        <div class="row"><span class="label">Rayon de mobilité :</span> <span class="value"><?= htmlspecialchars($cand['Mobilite_Rayon_Candidature'] ?? '0') ?> KM</span></div>
-        <div class="row"><span class="label">Uniforme accepté :</span> <span class="value"><?= htmlspecialchars($cand['Port_Uniforme_Candidature'] ?? 'Non renseigné') ?></span></div>
-        <div class="row" style="flex-direction: column;"><span class="label" style="width: 100%; margin-bottom: 5px;">Disponibilités :</span> <span class="value" style="width: 100%; background: #f8f9fc; padding: 10px; border-radius: 4px; border: 1px solid #eaecf4;"><?= nl2br(htmlspecialchars($cand['Disponibilites_Candidature'] ?? 'Aucune disponibilité saisie.')) ?></span></div>
+    <main>
+        <div class="dossier">
+            <h2>Dossier de Création de Compte Employé</h2>
 
-        <h3>Pièces Justificatives</h3>
-        <div class="row">
-            <span class="label">CV :</span> 
-            <span class="value">
-                <?= (!empty($cand['CV_Path_Candidature'])) ? '<a href="'.BASE_URL.'/'.$cand['CV_Path_Candidature'].'" target="_blank" class="doc-link">📄 Voir le CV (PDF)</a>' : 'Non fourni' ?>
-            </span>
+            <div class="section-titre">Statut du dossier</div>
+            <?php
+                $statut = strtolower(trim($cand['Statut_Candidature'] ?? ''));
+                $badge_class = match(true) {
+                    str_contains($statut, 'accept') => 'badge-accepte',
+                    str_contains($statut, 'refus')  => 'badge-refuse',
+                    default                          => 'badge-attente',
+                };
+            ?>
+            <div class="champ">
+                <label>État actuel :</label>
+                <span class="statut-badge <?= $badge_class ?>">
+                    <?= ucfirst(val($cand['Statut_Candidature'])) ?>
+                </span>
+            </div>
+            <div class="champ">
+                <label>Date de candidature :</label>
+                <span><?= date_fr($cand['Date_Candidature']) ?></span>
+            </div>
+
+            <div class="section-titre">Identité</div>
+            <div class="grid-2">
+                <div class="champ">
+                    <label>Nom :</label>
+                    <span><?= val($cand['Nom_Candidature']) ?></span>
+                </div>
+                <div class="champ">
+                    <label>Prénom :</label>
+                    <span><?= val($cand['Prenom_Candidature']) ?></span>
+                </div>
+                <div class="champ">
+                    <label>Date de naissance :</label>
+                    <span><?= date_fr($cand['Date_Naissance_Candidature']) ?></span>
+                </div>
+                <div class="champ">
+                    <label>Lieu de naissance :</label>
+                    <span><?= val($cand['Lieu_Naissance_Candidature']) ?></span>
+                </div>
+                <div class="champ">
+                    <label>Nationalité :</label>
+                    <span><?= val($cand['Nationalite_Candidature']) ?></span>
+                </div>
+                <div class="champ">
+                    <label>Téléphone :</label>
+                    <span><?= val($cand['Telephone_Candidature']) ?></span>
+                </div>
+            </div>
+            <div class="champ">
+                <label>Adresse e-mail :</label>
+                <span>
+                    <a href="mailto:<?= htmlspecialchars($cand['Email_Utilisateur']) ?>" style="color: #007bff; text-decoration: none; font-weight: bold;">
+                        <?= htmlspecialchars($cand['Email_Utilisateur']) ?>
+                    </a>
+                </span>
+            </div>
+
+            <div class="section-titre">Informations professionnelles</div>
+            <div class="grid-2">
+                <div class="champ">
+                    <label>N° CNAPS :</label>
+                    <span><?= val($cand['Numero_CNAPS_Candidature']) ?></span>
+                </div>
+                <div class="champ">
+                    <label>Expiration CNAPS :</label>
+                    <span><?= date_fr($cand['Expiration_CNAPS_Candidature']) ?></span>
+                </div>
+                <div class="champ">
+                    <label>Dernière visite médicale :</label>
+                    <span><?= date_fr($cand['Date_Visite_Med_Candidature']) ?></span>
+                </div>
+                <div class="champ">
+                    <label>Aptitude visuelle :</label>
+                    <span><?= val($cand['Aptitude_Vue_Candidature']) ?></span>
+                </div>
+                <div class="champ">
+                    <label>Type de contrat souhaité :</label>
+                    <span><?= val($cand['Type_Contrat_Candidature']) ?></span>
+                </div>
+                <div class="champ">
+                    <label>Rayon de mobilité :</label>
+                    <span><?= !empty($cand['Mobilite_Rayon_Candidature']) ? htmlspecialchars($cand['Mobilite_Rayon_Candidature']) . ' km' : 'Non renseigné' ?></span>
+                </div>
+                <div class="champ">
+                    <label>Permis B :</label>
+                    <span><?= val($cand['Permis_b_Candidature']) ?></span>
+                </div>
+                <div class="champ">
+                    <label>Véhicule :</label>
+                    <span><?= val($cand['Vehicule_Candidature']) ?></span>
+                </div>
+            </div>
+            <div class="champ">
+                <label>Port de l'uniforme :</label>
+                <span><?= val($cand['Port_Uniforme_Candidature']) ?></span>
+            </div>
+
+            <div class="section-titre">Disponibilités</div>
+            <div class="description-box">
+                <?= nl2br(htmlspecialchars($cand['Disponibilites_Candidature'] ?? 'Aucune disponibilité saisie.')) ?>
+            </div>
+
+            <div class="section-titre">Pièces justificatives</div>
+            <div class="champ" style="flex-direction: column; gap: 4px;">
+                <label>Documents transmis :</label>
+                <div class="doc-container">
+                    <?php if (!empty($cand['CV_Path_Candidature'])): ?>
+                        <a href="<?= generer_lien_doc($cand['CV_Path_Candidature']) ?>" target="_blank" class="doc-btn cv">📄 Consulter le CV</a>
+                    <?php else: ?>
+                        <span class="doc-absent">Aucun CV fourni</span>
+                    <?php endif; ?>
+
+                    <?php if (!empty($cand['Lettre_Motivation_Candidature'])): ?>
+                        <a href="<?= generer_lien_doc($cand['Lettre_Motivation_Candidature']) ?>" target="_blank" class="doc-btn lm">✉️ Lettre de motivation</a>
+                    <?php else: ?>
+                        <span class="doc-absent">Aucune lettre fournie</span>
+                    <?php endif; ?>
+
+                    <?php if (!empty($cand['Casier_Path_Candidature'])): ?>
+                        <a href="<?= generer_lien_doc($cand['Casier_Path_Candidature']) ?>" target="_blank" class="doc-btn casier">📋 Casier Judiciaire</a>
+                    <?php else: ?>
+                        <span class="doc-absent">Aucun casier fourni</span>
+                    <?php endif; ?>
+                </div>
+            </div>
+
+            <div style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px; text-align: center;">
+                <a href="<?= BASE_URL ?>/Administrateur.php" class="btn-submit" style="display: inline-block; text-decoration: none; width: auto; padding: 10px 30px;">← Retour au panneau Admin</a>
+            </div>
         </div>
-        <div class="row">
-            <span class="label">Lettre de Motivation :</span> 
-            <span class="value">
-                <?= (!empty($cand['Lettre_Motivation_Candidature'])) ? '<a href="'.BASE_URL.'/'.$cand['Lettre_Motivation_Candidature'].'" target="_blank" class="doc-link">📄 Voir la LM (PDF)</a>' : 'Non fournie' ?>
-            </span>
+    </main>
+
+    <footer>
+        <ul>
+            <li><a href="<?= BASE_URL ?>/index.php"><img src="<?= BASE_URL ?>/assets/image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo"></a></li>
+            <li>
+                <article>
+                    <h4>Siège social IBG FIRE ET SECURE</h4>
+                    <p>24 allée de la mer d'iroise 44600 Saint-Nazaire</p>
+                </article>
+            </li>
+            <li>
+                <article>
+                    <h4>Nos Services</h4>
+                    <ul>
+                        <li><a href="<?= BASE_URL ?>/NosServices.php#SecuriteEtIncendie">Sécurité et Incendie</a></li>
+                        <li><a href="<?= BASE_URL ?>/NosServices.php#GardiennageEtSurveillance">Gardiennage et Surveillance</a></li>
+                        <li><a href="<?= BASE_URL ?>/NosServices.php#ConseilEtExpertise">Conseil et Expertise</a></li>
+                    </ul>                
+                </article>
+            </li>
+            <li>
+                <h4>Liens</h4>
+                <nav>
+                    <ul>
+                        <li><a href="<?= BASE_URL ?>/MentionsLégales.php">Mentions légales</a></li>
+                        <li><a href="<?= BASE_URL ?>/PolitiquesDeConfidentialités.php">Politique de Confidentialité</a></li>
+                        <li><a href="<?= BASE_URL ?>/index.php">Accueil</a></li>
+                        <li><a href="<?= BASE_URL ?>/NosServices.php">Nos Services</a></li>
+                        <li><a href="<?= BASE_URL ?>/NousContacter.php">Nous contacter</a></li>
+                        <li><a href="<?= BASE_URL ?>/SeConnecter.php">Se connecter</a></li>
+                        <li><a href="<?= BASE_URL ?>/CreerUnCompte.php">Créer un compte</a></li>
+                    </ul>
+                </nav> 
+            </li>
+        </ul>
+        <div class="footer-bottom">
+            <p>&copy; 2026 IBG FIRE ET SECURE. Tous droits réservés.</p>
         </div>
-        <div class="row">
-            <span class="label">Casier Judiciaire :</span> 
-            <span class="value">
-                <?= (!empty($cand['Casier_Path_Candidature'])) ? '<a href="'.BASE_URL.'/'.$cand['Casier_Path_Candidature'].'" target="_blank" class="doc-link">📄 Voir le Casier</a>' : 'Non fourni' ?>
-            </span>
-        </div>
-    </div>
+    </footer>
 </body>
 </html>

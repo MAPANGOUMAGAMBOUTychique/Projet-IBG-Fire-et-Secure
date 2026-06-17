@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             $_SESSION['user_role'] = 'entreprise';
                             
                             // Redirection vers l'espace entreprise EN PASSANT le service
-                            header("Location: " . BASE_URL . "/CompteEmploye.php" . $param_service);
+                            header("Location: " . BASE_URL . "/CompteEntreprise.php" . $param_service);
                             exit();
                         }
                     } else {
@@ -55,13 +55,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                 }
             } else {
-                // L'email n'est lié à aucun compte -> Mode Invité
-                $_SESSION['invite_email'] = $email_saisi;
-                $_SESSION['user_role'] = 'invite';
-
-                // Redirection vers la page de sollicitation EN PASSANT le service dans l'URL
-                header("Location: " . BASE_URL . "/SolicitationEntreprise.php" . $param_service);
-                exit();
+                // MODIFICATION ICI : Au lieu de rediriger directement, on affiche votre message personnalisé
+                $erreur = "Veuillez créer un compte Entreprise avant de solliciter le service. <a href='CreerUnCompte.php" . $param_service . "' style='color: #721c24; font-weight: bold; text-decoration: underline;'>Créer un compte ici</a>";
             }
         }
     }
@@ -96,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             <?php if ($erreur): ?>
                 <div style="padding: 10px; background: #f8d7da; color: #721c24; border-radius: 4px; margin-bottom: 15px; font-size: 0.9em; border: 1px solid #f5c6cb;">
-                    <strong>❌ Erreur :</strong> <?= htmlspecialchars($erreur) ?>
+                    <strong>❌ Attention :</strong> <?= $erreur ?>
                 </div>
             <?php endif; ?>
 

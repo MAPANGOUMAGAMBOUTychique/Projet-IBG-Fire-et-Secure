@@ -1,59 +1,138 @@
 <?php
-session_start();
+// =========================================================================
+// 1. GESTION DE LA SESSION ET CONFIGURATION DE SÉCURITÉ
+// =========================================================================
+
+// Vérifie si une session est déjà active. Si non, on la démarre pour accéder aux variables $_SESSION.
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Inclusion de la classe Database pour la connexion PDO (Pattern Singleton)
 require_once 'Database.php';
 
-// CORRECTION CRITIQUE : On vérifie la présence des variables et on applique strtolower pour tolérer "Admin" ou "admin"
-if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_role']) || strtolower(trim($_SESSION['user_role'])) !== 'admin') {
+// Configuration de l'affichage des erreurs pour faciliter le débogage en environnement de développement
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Définition de l'URL racine pour garantir que les liens (CSS, images) fonctionnent partout
+define('BASE_URL', 'http://localhost/StageTychique/SiteIbgFireEtSecure');
+
+/**
+ * VÉRIFICATION D'ACCÈS :
+ * On vérifie si l'utilisateur est connecté, s'il a le rôle 'entreprise' (insensible à la casse) 
+ * et si son identifiant entreprise est présent en session.
+ */
+if (!isset($_SESSION['user_id']) || 
+    !isset($_SESSION['user_role']) || 
+    strtolower(trim($_SESSION['user_role'])) !== 'entreprise' || 
+    !isset($_SESSION['entreprise_id'])) {
+    
+    // Si l'utilisateur n'est pas autorisé, redirection forcée vers la page de connexion
     header("Location: SeConnecter.php");
     exit();
 }
 
+// Récupération de l'instance de connexion et sécurisation de l'ID entreprise (cast en entier)
 $db = Database::getInstance();
-$id_demande = intval($_GET['id'] ?? 0);
+$id_entreprise = intval($_SESSION['entreprise_id']);
 
-if (!$id_demande) {
-    header("Location: Administrateur.php");
-    exit();
+// Initialisation des drapeaux pour les messages à l'utilisateur
+$message_succes = false;
+$erreur = "";
+
+// =========================================================================
+// 2. RÉCUPÉRATION DES INFOS DE L'ENTREPRISE
+// =========================================================================
+
+// On récupère les données de l'entreprise connectée pour pré-remplir le formulaire (ex: email)
+$stmt_ent = $db->prepare("SELECT * FROM Entreprise WHERE Id_Entreprise = ?");
+$stmt_ent->execute([$id_entreprise]);
+$entreprise = $stmt_ent->fetch(PDO::FETCH_ASSOC);
+
+// Cas de sécurité : Si l'ID en session ne correspond à rien en BDD
+if (!$entreprise) {
+    die("
+        <div style='font-family: Arial, sans-serif; text-align:center; max-width: 500px; margin: 60px auto; padding: 20px; background: #fff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);'>
+            <h2 style='color:#dc3545;'>❌ Entreprise introuvable</h2>
+            <p style='color:#555; margin-bottom: 20px;'>Votre fiche entreprise n'a pas pu être retrouvée.</p>
+            <a href='SeConnecter.php' style='display:inline-block; padding:10px 20px; background:#6c757d; color:white; text-decoration:none; border-radius:4px; font-weight:bold;'>Se reconnecter</a>
+        </div>
+    ");
 }
 
-// Récupérer la demande + toutes les infos de l'entreprise
-$stmt = $db->prepare("
-    SELECT ds.*,
-           e.Nom_Entreprise, e.Email_Contact_Entreprise, e.Telephone_Entreprise,
-           e.Nom_Referent_Entreprise, e.Fonction_Referent_Entreprise, e.Siret_Entreprise,
-           e.Numero_voie_Entreprise, e.Nom_Voie_Entreprise, e.Complement_,
-           e.Ville_Entreprise, e.Pays_Entreprise, e.Code_NAF_Entreprise, e.Numero_TVA_Entreprise
-    FROM Demande_service ds
-    JOIN Entreprise e ON ds.Id_Entreprise = e.Id_Entreprise
-    WHERE ds.Id_Demande_Service = ?
-");
-$stmt->execute([$id_demande]);
-$demande = $stmt->fetch(PDO::FETCH_ASSOC);
+/**
+ * RÉCUPÉRATION DU SERVICE :
+ * On cherche le type de service demandé. Priorité au paramètre URL (GET), 
+ * puis au champ masqué (POST), sinon valeur par défaut.
+ */
+$type_service = trim($_GET['service'] ?? $_POST['user_type_service'] ?? 'Service divers');
 
-if (!$demande) {
-    header("Location: Administrateur.php");
-    exit();
-}
+// =========================================================================
+// 3. LOGIQUE DE TRAITEMENT DU FORMULAIRE (RÉCEPTION POST)
+// =========================================================================
 
-// Parser le message compilé pour extraire les champs lisibles
-$message_brut = $demande['Message_Demande_Service'] ?? '';
-$lignes = explode("\n", $message_brut);
-$champs = [];
-$message_client = '';
-$in_message = false;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-foreach ($lignes as $ligne) {
-    if ($in_message) {
-        $message_client .= $ligne . "\n";
-        continue;
+    // Nettoyage des entrées utilisateurs (trim) pour supprimer les espaces inutiles
+    $email_demandeur = trim($_POST['user_email'] ?? $entreprise['Email_Contact_Entreprise'] ?? '');
+    $adresse_site     = trim($_POST['user_adresse_site'] ?? '');
+    $duree_mission    = trim($_POST['user_duree_mission'] ?? '');
+    $date_debut       = trim($_POST['user_date_debut'] ?? '');
+    $date_fin         = trim($_POST['user_date_fin'] ?? '');
+    $message_client   = trim($_POST['user_message'] ?? '');
+
+    // --- VALIDATIONS ---
+    if (empty($email_demandeur) || !filter_var($email_demandeur, FILTER_VALIDATE_EMAIL)) {
+        $erreur = "Merci de renseigner une adresse email valide.";
+    } elseif (empty($adresse_site)) {
+        $erreur = "L'adresse du site d'intervention est obligatoire.";
+    } elseif (empty($message_client)) {
+        $erreur = "Merci de préciser votre besoin dans le message.";
+    } elseif (!empty($date_debut) && !empty($date_fin) && strtotime($date_fin) < strtotime($date_debut)) {
+        // Sécurité logique : la fin ne peut pas être avant le début
+        $erreur = "La date de fin ne peut pas être antérieure à la date de début.";
     }
-    if (trim($ligne) === '--- Message client ---') {
-        $in_message = true;
-        continue;
-    }
-    if (strpos($ligne, ' : ') !== false) {
-        [$cle, $valeur] = explode(' : ', $ligne, 2);
-        $champs[trim($cle)] = trim($valeur);
+
+    // --- ENREGISTREMENT ---
+    if (empty($erreur)) {
+        try {
+            /**
+             * COMPILATION DU MESSAGE :
+             * On fusionne les détails spécifiques (adresse, dates) dans un seul champ texte 'message' 
+             * pour simplifier la lecture par l'administrateur dans son back-office.
+             */
+            $message_compile  = "Type de service : " . $type_service . "\n";
+            $message_compile .= "Adresse du site : " . $adresse_site . "\n";
+            if (!empty($duree_mission)) { $message_compile .= "Durée de la mission : " . $duree_mission . "\n"; }
+            if (!empty($date_debut))    { $message_compile .= "Date de début souhaitée : " . $date_debut . "\n"; }
+            if (!empty($date_fin))      { $message_compile .= "Date de fin envisagée : " . $date_fin . "\n"; }
+            $message_compile .= "--- Message client ---\n";
+            $message_compile .= $message_client;
+
+            // Préparation de la requête d'insertion sécurisée (PDO)
+            $stmt_demande = $db->prepare("
+                INSERT INTO Demande_service (
+                    Email_Demandeur_Demande_Service, Message_Demande_Service,
+                    Statut_Demande_Service, Date_Demande_Service, Id_Entreprise
+                ) VALUES (
+                    :email, :message, 'en attente', CURDATE(), :id_entreprise
+                )
+            ");
+
+            // Exécution de la requête avec les paramètres liés (protection injection SQL)
+            $stmt_demande->execute([
+                ':email'         => $email_demandeur,
+                ':message'       => $message_compile,
+                ':id_entreprise' => $id_entreprise,
+            ]);
+
+            // Succès : Le drapeau passe à true pour masquer le formulaire et afficher le message de confirmation
+            $message_succes = true;
+        } catch (PDOException $e) {
+            $erreur = "Erreur lors de l'enregistrement : " . $e->getMessage();
+        }
     }
 }
 ?>
@@ -62,164 +141,82 @@ foreach ($lignes as $ligne) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/index.css">
-    <link rel="stylesheet" href="assets/style.css">
-    <link rel="stylesheet" href="assets/Administrateur.css">
-    <title>Dossier sollicitation | IBG FIRE ET SECURE</title>
-    <style>
-        .dossier {
-            max-width: 780px;
-            margin: 35px auto;
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            padding: 40px;
-        }
-        .dossier h2 {
-            color: #e67e22;
-            border-bottom: 2px solid #e67e22;
-            padding-bottom: 12px;
-            margin-bottom: 30px;
-            font-size: 1.5em;
-        }
-        .section-titre {
-            font-size: 0.85em;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #999;
-            font-weight: bold;
-            margin: 28px 0 12px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid #eee;
-        }
-        .champ {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 12px;
-            gap: 12px;
-        }
-        .champ label {
-            font-weight: bold;
-            min-width: 230px;
-            color: #444;
-            font-size: 0.95em;
-            flex-shrink: 0;
-        }
-        .champ span {
-            color: #555;
-            font-size: 0.95em;
-        }
-        .statut-badge {
-            display: inline-block;
-            padding: 4px 16px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 0.9em;
-        }
-        .statut-en-attente { background: #fff3cd; color: #856404; border: 1px solid #ffc107; }
-        .statut-accepte    { background: #d4edda; color: #155724; border: 1px solid #28a745; }
-        .statut-refuse     { background: #f8d7da; color: #721c24; border: 1px solid #dc3545; }
-        .message-box {
-            background: #f8f9fa;
-            border-left: 4px solid #007bff;
-            padding: 15px 20px;
-            border-radius: 4px;
-            white-space: pre-wrap;
-            color: #444;
-            font-size: 0.92em;
-            line-height: 1.6;
-            margin-top: 5px;
-        }
-        .btn-retour {
-            display: inline-block;
-            margin-top: 35px;
-            padding: 11px 28px;
-            background: #6c757d;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            font-size: 0.95em;
-            transition: background 0.2s;
-        }
-        .btn-retour:hover { background: #5a6268; }
-        .vide { color: #bbb; font-style: italic; font-size: 0.9em; }
-    </style>
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/index.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/style.css">
+    <title>Sollicitation de service | IBG FIRE ET SECURE</title>
 </head>
 <body>
     <header>
-        <a href="index.php">
-            <img src="assets/image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo">
+        <a href="<?= BASE_URL ?>/index.php">
+            <img src="<?= BASE_URL ?>/assets/image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo">
         </a>
         <nav class="navbar">
             <ul>
-                <li><a href="index.php">Accueil</a></li>
-                <li><a href="Statistique.php">Statistiques</a></li>
-                <li><a href="Entreprises.php">Entreprises</a></li>
-                <li><a href="Employers.php">Employés</a></li>
-                <li><a href="Services.php">Services</a></li>
-                <li><a href="Missions.php">Missions</a></li>
+                <li><a href="<?= BASE_URL ?>/index.php">Accueil</a></li>
+                <li><a href="<?= BASE_URL ?>/CompteEntreprise.php">Mon espace entreprise</a></li>
+                <li><a href="<?= BASE_URL ?>/NousContacter.php">Nous contacter</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <div class="dossier">
-            <h2>Dossier de Demande de Service - <?= htmlspecialchars($demande['Nom_Entreprise']) ?></h2>
-            
-            <div class="section-titre">Statut de la demande</div>
-            <div class="champ">
-                <label>État actuel :</label>
-                <span class="statut-badge statut-<?= str_replace('é', 'e', $demande['Statut_Demande_Service']) ?>">
-                    <?= ucfirst(htmlspecialchars($demande['Statut_Demande_Service'])) ?>
-                </span>
-            </div>
-
-            <div class="section-titre">Informations Entreprise</div>
-            <div class="champ">
-                <label>Nom de l'entreprise :</label>
-                <span><?= htmlspecialchars($demande['Nom_Entreprise']) ?></span>
-            </div>
-            <div class="champ">
-                <label>N° SIRET :</label>
-                <span><?= htmlspecialchars($demande['Siret_Entreprise']) ?></span>
-            </div>
-            <div class="champ">
-                <label>Code NAF / TVA :</label>
-                <span><?= htmlspecialchars($demande['Code_NAF_Entreprise']) ?> / <?= htmlspecialchars($demande['Numero_TVA_Entreprise'] ?? 'Non renseigné') ?></span>
-            </div>
-            <div class="champ">
-                <label>Adresse :</label>
-                <span><?= htmlspecialchars(($demande['Numero_voie_Entreprise'] ?? '') . ' ' . ($demande['Nom_Voie_Entreprise'] ?? '') . ' ' . ($demande['Complement_'] ?? '') . ', ' . ($demande['Rom_Entreprise'] ?? '') . ' ' . $demande['Ville_Entreprise'] . ' (' . $demande['Pays_Entreprise'] . ')') ?></span>
-            </div>
-
-            <div class="section-titre">Contact Référent</div>
-            <div class="champ">
-                <label>Nom du contact :</label>
-                <span><?= htmlspecialchars($demande['Nom_Referent_Entreprise'] . ' (' . $demande['Fonction_Referent_Entreprise'] . ')') ?></span>
-            </div>
-            <div class="champ">
-                <label>Email :</label>
-                <span><a href="mailto:<?= htmlspecialchars($demande['Email_Contact_Entreprise']) ?>"><?= htmlspecialchars($demande['Email_Contact_Entreprise']) ?></a></span>
-            </div>
-            <div class="champ">
-                <label>Téléphone :</label>
-                <span><?= htmlspecialchars($demande['Telephone_Entreprise'] ?? 'Non fourni') ?></span>
-            </div>
-
-            <div class="section-titre">Détails de la sollicitation</div>
-            <div class="champ">
-                <label>Type de Service demandé :</label>
-                <span><strong><?= htmlspecialchars($demande['Type_Demande_Service'] ?? 'Général') ?></strong></span>
-            </div>
-
-            <?php if (!empty($message_client)): ?>
-                <div class="section-titre">Message additionnel de l'entreprise</div>
-                <div class="message-box"><?= htmlspecialchars(trim($message_client)) ?></div>
+        <h1>Solliciter : <?= htmlspecialchars($type_service) ?></h1>
+        
+        <section>
+            <?php if (!empty($erreur)): ?>
+                <div style="background-color:#f8d7da; color:#721c24; padding:15px; margin-bottom:20px; border-radius:4px; font-weight:bold; text-align:center;">
+                    ⚠️ <?= htmlspecialchars($erreur) ?>
+                </div>
             <?php endif; ?>
 
-            <a href="Administrateur.php" class="btn-retour">← Retour au panneau Admin</a>
-        </div>
+            <?php if ($message_succes): ?>
+                <section class="reponse" style="text-align:center; padding:40px; background:#e2f0d9; border-radius:8px; border:1px solid #385723;">
+                    <img src="<?= BASE_URL ?>/assets/image/Logo_IBG_FS-removebg-preview.png" alt="LOGO IBG FIRE ET SECURE" style="max-width:150px;">
+                    <p style="color:#385723; font-size:1.3em; font-weight:bold; margin-top:20px;">Votre demande de sollicitation a été envoyée avec succès !</p>
+                    <p style="color:#666;">État actuel : <strong>En attente</strong> de traitement par notre équipe.</p>
+                    <a href="<?= BASE_URL ?>/CompteEntreprise.php" style="display:inline-block; margin-top:20px; padding:10px 20px; background:#385723; color:white; text-decoration:none; border-radius:4px;">Retour à mon espace entreprise</a>
+                </section>
+            <?php else: ?>
+
+                <form action="?service=<?= urlencode($type_service) ?>" method="post" class="formulaire">
+
+                    <h2>Vos coordonnées</h2>
+                    <div class="form-group">
+                        <label for="user_email">Email de contact pour cette demande :</label>
+                        <input type="email" name="user_email" id="user_email" placeholder="Ex : contact@entreprise.fr" value="<?= htmlspecialchars($_POST['user_email'] ?? $entreprise['Email_Contact_Entreprise'] ?? '') ?>" required>
+                    </div>
+
+                    <h2>Détails de la mission</h2>
+                    <div class="form-group">
+                        <label for="user_adresse_site">Adresse du site d'intervention :</label>
+                        <input type="text" name="user_adresse_site" id="user_adresse_site" placeholder="Ex : 23 rue Michel, 44600 Saint-Nazaire" value="<?= htmlspecialchars($_POST['user_adresse_site'] ?? '') ?>" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="user_duree_mission">Durée de la mission :</label>
+                        <input type="text" name="user_duree_mission" id="user_duree_mission" placeholder="Ex : 3 mois, ponctuel, longue durée..." value="<?= htmlspecialchars($_POST['user_duree_mission'] ?? '') ?>">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="user_date_debut">Date de début souhaitée :</label>
+                        <input type="date" name="user_date_debut" id="user_date_debut" value="<?= htmlspecialchars($_POST['user_date_debut'] ?? '') ?>">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="user_date_fin">Date de fin envisagée :</label>
+                        <input type="date" name="user_date_fin" id="user_date_fin" value="<?= htmlspecialchars($_POST['user_date_fin'] ?? '') ?>">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="user_message">Message / précisions sur le besoin :</label>
+                        <textarea name="user_message" id="user_message" rows="5" placeholder="Décrivez votre besoin (effectif souhaité, contraintes particulières, horaires...)" required><?= htmlspecialchars($_POST['user_message'] ?? '') ?></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Envoyer la demande</button>
+                </form>
+
+            <?php endif; ?>
+        </section>
     </main>
 
     <footer>

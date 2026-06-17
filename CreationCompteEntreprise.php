@@ -1,21 +1,35 @@
 <?php
+// ==========================================
+// 1. INITIALISATION ET CONFIGURATION
+// ==========================================
+
+// Démarrage de la session pour suivre l'état de l'utilisateur
 session_start();
+
+// Inclusion de la classe Singleton pour la connexion à la base de données
 require_once 'Database.php';
 
+// Configuration de l'affichage des erreurs pour faciliter le débogage en développement
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+// Initialisation des variables d'état pour la vue HTML
 $message_succes = false;
 $erreur = "";
 
+// ==========================================
+// 2. TRAITEMENT DU FORMULAIRE D'INSCRIPTION (POST)
+// ==========================================
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Récupération de l'instance PDO unique
     $db = Database::getInstance();
 
+    // Récupération, nettoyage des espaces blancs (trim) et normalisation des données reçues
     $nom_entreprise = trim($_POST['user_nom_entreprise']);
-    $siret          = str_replace(' ', '', trim($_POST['user_siret_entreprise']));
+    $siret          = str_replace(' ', '', trim($_POST['user_siret_entreprise'])); // Supprime les espaces dans le SIRET
     $code_naf       = trim($_POST['user_code_naf']);
-    $tva            = str_replace(' ', '', trim($_POST['user_numero_de_tva']));
+    $tva            = str_replace(' ', '', trim($_POST['user_numero_de_tva']));    // Supprime les espaces dans la TVA
     $telephone      = trim($_POST['user_telephone_entreprise']);
     $numero_voie    = trim($_POST['user_numero_voie']);
     $nom_voie       = trim($_POST['user_nom_voie']);
@@ -28,26 +42,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password       = $_POST['user_mot_de_passe'];
     $password_conf  = $_POST['user_conmimation_mot_de_passe'];
 
+    // --- VALIDATION DES MOTS DE PASSE ---
     if ($password !== $password_conf) {
         $erreur = "Les mots de passe ne correspondent pas.";
     } elseif (strlen($password) < 8) {
         $erreur = "Le mot de passe doit contenir au moins 8 caractères.";
     } else {
         try {
-            // Vérification SIRET déjà existant dans Candidature ou Entreprise
+            // --- ÉTAPE 1 : VÉRIFICATION DE L'UNICITÉ DU SIRET ---
+            // On vérifie si le SIRET existe déjà dans les candidatures d'entreprises
             $check_cand = $db->prepare("SELECT Id_Candidature FROM Candidature WHERE Siret_Candidature = ? AND Type_Candidature = 'entreprise'");
             $check_cand->execute([$siret]);
 
+            // On vérifie si le SIRET existe déjà parmi les entreprises validées et actives
             $check_active = $db->prepare("SELECT Id_Entreprise FROM Entreprise WHERE Siret_Entreprise = ?");
             $check_active->execute([$siret]);
 
             if ($check_cand->fetch() || $check_active->fetch()) {
                 $erreur = "Ce numéro SIRET est déjà enregistré ou en cours de validation.";
             } else {
+                // Hachage sécurisé du mot de passe avec l'algorithme standard BCrypt
                 $password_hashed = password_hash($password, PASSWORD_BCRYPT);
 
                 // ------------------------------------------------
-                // ÉTAPE 1 : Insertion dans Utilisateur
+                // ÉTAPE 2 : INSERTION DANS LA TABLE 'Utilisateur'
                 // ------------------------------------------------
                 $stmt_user = $db->prepare("
                     INSERT INTO Utilisateur 
@@ -61,38 +79,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ':mdp'   => $password_hashed,
                 ]);
 
+                // Récupération de l'ID utilisateur généré automatiquement (Clé primaire)
                 $id_utilisateur = $db->lastInsertId();
 
                 // ------------------------------------------------
-                // ÉTAPE 2 : Insertion dans Candidature
-                // Type_Candidature = 'entreprise'
-                // Statut_Candidature = 'en attente'
+                // ÉTAPE 3 : INSERTION DANS LA TABLE 'Candidature'
                 // ------------------------------------------------
                 $stmt_cand = $db->prepare("
                     INSERT INTO Candidature (
-                        Statut_Candidature,
-                        Date_Candidature,
-                        Id_Utilisateur,
-                        Type_Candidature,
-                        Nom_Entreprise_Candidature,
-                        Siret_Candidature,
-                        Code_NAF_Candidature,
-                        Numero_TVA_Candidature,
-                        Telephone_Entreprise_Candidature,
-                        Numero_Voie_Candidature,
-                        Nom_Voie_Candidature,
-                        Complement_Candidature,
-                        Ville_Candidature,
-                        Pays_Entreprise_Candidature,
-                        Nom_Referent_Candidature,
-                        Fonction_Referent_Candidature,
-                        Email_Contact_Candidature,
-                        Mot_De_Passe_Entreprise_Candidature
+                        Statut_Candidature, Date_Candidature, Id_Utilisateur, Type_Candidature,
+                        Nom_Entreprise_Candidature, Siret_Candidature, Code_NAF_Candidature,
+                        Numero_TVA_Candidature, Telephone_Entreprise_Candidature, Numero_Voie_Candidature,
+                        Nom_Voie_Candidature, Complement_Candidature, Ville_Candidature,
+                        Pays_Entreprise_Candidature, Nom_Referent_Candidature, Fonction_Referent_Candidature,
+                        Email_Contact_Candidature, Mot_De_Passe_Entreprise_Candidature
                     ) VALUES (
                         'en attente', CURDATE(), :id_utilisateur, 'entreprise',
-                        :nom_entreprise, :siret, :code_naf, :tva, :telephone,
-                        :numero_voie, :nom_voie, :complement, :ville, :pays,
-                        :referent, :fonction, :email_contact, :mdp
+                        :nom_entreprise, :siret, :code_naf, :tva, :telephone, :numero_voie,
+                        :nom_voie, :complement, :ville, :pays, :referent, :fonction, :email_contact, :mdp
                     )
                 ");
 
@@ -105,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ':telephone'      => $telephone,
                     ':numero_voie'    => $numero_voie,
                     ':nom_voie'       => $nom_voie,
-                    ':complement'     => $complement ?: null,
+                    ':complement'     => $complement ?: null, // Force la valeur NULL si le champ est laissé vide
                     ':ville'          => $ville,
                     ':pays'           => $pays,
                     ':referent'       => $referent,
@@ -114,9 +118,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ':mdp'            => $password_hashed,
                 ]);
 
+                // Changement d'état pour masquer le formulaire et afficher le message de félicitations
                 $message_succes = true;
             }
         } catch (PDOException $e) {
+            // Capture des éventuelles exceptions SQL ou problèmes réseau liés à la base de données
             $erreur = "Erreur lors de l'inscription : " . $e->getMessage();
         }
     }
@@ -162,6 +168,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <a href="index.php" style="display:inline-block; margin-top:20px; padding:10px 20px; background:#385723; color:white; text-decoration:none; border-radius:4px;">Retour à l'accueil</a>
                 </section>
             <?php else: ?>
+                
                 <form action="" method="post" class="formulaire">
 
                     <h2>Identité de l'entreprise</h2>
@@ -207,9 +214,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label for="Pays">Pays du siège social :</label>
                         <div class="custom-select-container" style="position:relative;">
                             <input type="hidden" name="user_pays" id="selected-nat" value="France" required>
+                            
                             <div class="select-display" id="select-trigger" tabindex="0" style="border:1px solid #ccc; padding:10px; cursor:pointer; background:white;">
                                 <img src="https://flagcdn.com/16x12/fr.png" alt=""> France
                             </div>
+                            
                             <ul class="options-list" id="options-list" style="display:none; border:1px solid #ccc; list-style:none; padding:0; max-height:200px; overflow-y:auto; background:white; position:absolute; width:100%; z-index:1000;">
                                 <li data-value="Allemagne" style="padding:10px; cursor:pointer;"><img src="https://flagcdn.com/16x12/de.png" alt=""> Allemagne</li>
                                 <li data-value="Belgique" style="padding:10px; cursor:pointer;"><img src="https://flagcdn.com/16x12/be.png" alt=""> Belgique</li>
@@ -257,16 +266,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         const list    = document.getElementById('options-list');
         const hidden  = document.getElementById('selected-nat');
 
+        // Basculer l'affichage (afficher/masquer) de la liste au clic sur le sélecteur
         trigger.addEventListener('click', () => {
             list.style.display = list.style.display === 'none' ? 'block' : 'none';
         });
+
+        // Assigner les événements de clic sur chaque option (chaque pays de la liste)
         document.querySelectorAll('#options-list li').forEach(item => {
             item.addEventListener('click', function() {
+                // Met à jour l'affichage visible avec le texte et l'image sélectionnés
                 trigger.innerHTML = this.innerHTML;
+                // Assigne la valeur textuelle brute (ex: "France") à l'input masqué
                 hidden.value = this.getAttribute('data-value');
+                // Masque la liste déroulante après sélection
                 list.style.display = 'none';
             });
         });
+
+        // Fermer automatiquement le menu déroulant si l'utilisateur clique en dehors du composant
         document.addEventListener('click', function(e) {
             if (!trigger.contains(e.target) && !list.contains(e.target)) {
                 list.style.display = 'none';

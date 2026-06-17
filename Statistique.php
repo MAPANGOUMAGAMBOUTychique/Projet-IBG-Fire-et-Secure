@@ -1,48 +1,52 @@
 <?php
+// =========================================================================
 // 1. DÉMARRAGE DE LA SESSION ET SÉCURITÉ
+// =========================================================================
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
 require_once 'Database.php';
 
-// Active l'affichage des erreurs pour le développement
+// Active l'affichage des erreurs pour le développement local
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 define('BASE_URL', 'http://localhost/StageTychique/SiteIbgFireEtSecure'); 
 
-// 2. CONTRÔLE D'ACCÈS : Strictement réservé à l'administrateur connecté
-// On vérifie le rôle enregistré lors de la connexion ($_SESSION['user_role'] définie dans SeConnecter.php)
+/* CONTRÔLE D'ACCÈS STRICT : 
+   Seul l'administrateur authentifié est autorisé à consulter les métriques globales.
+*/
 if (!isset($_SESSION['user_id']) || strtolower($_SESSION['user_role']) !== 'admin') {
-    // Si l'utilisateur n'est pas admin, on le redirige immédiatement vers la page de connexion
     header("Location: " . BASE_URL . "/SeConnecter.php");
     exit();
 }
 
-// 3. RÉCUPÉRATION DYNAMIQUE DES STATISTIQUES
+// =========================================================================
+// 2. RÉCUPÉRATION DYNAMIQUE DES STATISTIQUES
+// =========================================================================
 try {
     $db = Database::getInstance(); 
 
-    // Compte des entreprises
+    // Compte du volume total d'entreprises partenaires
     $queryEntreprises = $db->query("SELECT COUNT(*) FROM Entreprise");
     $nbEntreprises = $queryEntreprises->fetchColumn();
 
-    // Compte des missions
+    // Compte du volume total de missions de surveillance/incendie enregistrées
     $queryMissions = $db->query("SELECT COUNT(*) FROM Mission");
     $nbMissions = $queryMissions->fetchColumn();
 
-    // Compte des employés
+    // Compte de l'effectif global des employés (agents de sécurité, équipiers)
     $queryEmployes = $db->query("SELECT COUNT(*) FROM Employe");
     $nbEmployes = $queryEmployes->fetchColumn();
 
-    // Compte des services
+    // Compte des typologies de services ou pôles d'activité configurés
     $queryServices = $db->query("SELECT COUNT(*) FROM Service");
     $nbServices = $queryServices->fetchColumn();
 
 } catch (Exception $e) {
-    // Valeurs de secours si la base de données rencontre un problème
+    // Mesure de contournement (Fallback) en cas de panne de liaison SQL
     $nbEntreprises = "N/A";
     $nbMissions = "N/A";
     $nbEmployes = "N/A";
@@ -55,25 +59,25 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/index.css">
-    <link rel="stylesheet" href="assets/style.css">
-    <link rel="stylesheet" href="assets/Administrateur.css">
-    <link rel="stylesheet" href="assets/Statistiques.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/index.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/style.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/Administrateur.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/Statistiques.css">
     <title>Statistiques | Espace Administrateur</title>
 </head>
 <body>
     <header>
         <a href="<?= BASE_URL ?>/index.php">
-            <img src="assets/image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo">
+            <img src="<?= BASE_URL ?>/assets/image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo">
         </a>
         <nav class="navbar">
             <ul>
-                <li><a href="Administrateur.php">Accueil Admin</a></li> 
-                <li><a href="Statistique.php">Statistiques</a></li> 
-                <li><a href="Entreprises.php">Entreprises</a></li> 
-                <li><a href="Employers.php">Employés</a></li> 
-                <li><a href="Services.php">Services</a></li>
-                <li><a href="Missions.php">Missions</a></li>   
+                <li><a href="<?= BASE_URL ?>/Administrateur.php">Accueil Admin</a></li> 
+                <li><a href="<?= BASE_URL ?>/Statistique.php">Statistiques</a></li> 
+                <li><a href="<?= BASE_URL ?>/Entreprises.php">Entreprises</a></li> 
+                <li><a href="<?= BASE_URL ?>/Employers.php">Employés</a></li> 
+                <li><a href="<?= BASE_URL ?>/Services.php">Services</a></li>
+                <li><a href="<?= BASE_URL ?>/Missions.php">Missions</a></li>   
             </ul>
         </nav>
     </header>
@@ -112,7 +116,7 @@ try {
         </div>
 
         <div class="logout-wrapper">
-            <a href="Deconnexion.php" class="logout-link">Se déconnecter</a>
+            <a href="<?= BASE_URL ?>/Deconnexion.php" class="logout-link">Se déconnecter</a>
         </div>
     </main>
 
@@ -120,7 +124,7 @@ try {
         <ul>
             <li>
                 <a href="<?= BASE_URL ?>/index.php">
-                    <img src="assets/image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo">
+                    <img src="<?= BASE_URL ?>/assets/image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo">
                 </a>
             </li>
             <li>
@@ -130,12 +134,26 @@ try {
                 </article>
             </li>
             <li>
+                <article>
+                    <h4>Nos Services</h4>
+                    <ul>
+                        <li><a href="<?= BASE_URL ?>/NosServices.php#SecuriteEtIncendie">Sécurité et Incendie</a></li>
+                        <li><a href="<?= BASE_URL ?>/NosServices.php#GardiennageEtSurveillance">Gardiennage et Surveillance</a></li>
+                        <li><a href="<?= BASE_URL ?>/NosServices.php#ConseilEtExpertise">Conseil et Expertise</a></li>
+                    </ul>                
+                </article>
+            </li>
+            <li>
                 <h4>Liens</h4>
                 <nav>
                     <ul>
-                        <li><a href="MentionsLégales.php">Mentions légales</a></li>
-                        <li><a href="PolitiquesDeConfidentialités.php">Politique de Confidentialité</a></li>
-                        <li><a href="index.php">Retour au site public</a></li>
+                        <li><a href="<?= BASE_URL ?>/MentionsLégales.php">Mentions légales</a></li>
+                        <li><a href="<?= BASE_URL ?>/PolitiquesDeConfidentialités.php">Politique de Confidentialité</a></li>
+                        <li><a href="<?= BASE_URL ?>/index.php">Accueil</a></li>
+                        <li><a href="<?= BASE_URL ?>/NosServices.php">Nos Services</a></li>
+                        <li><a href="<?= BASE_URL ?>/NousContacter.php">Nous contacter</a></li>
+                        <li><a href="<?= BASE_URL ?>/SeConnecter.php">Se connecter</a></li>
+                        <li><a href="<?= BASE_URL ?>/CreerUnCompte.php">Créer un compte</a></li>
                     </ul>
                 </nav> 
             </li>

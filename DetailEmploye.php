@@ -1,42 +1,64 @@
 <?php
+// ==========================================
+// 1. INITIALISATION DE LA SESSION & SÉCURITÉ
+// ==========================================
+
+// Démarrage de la session si elle n'est pas déjà active
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
+// Inclusion de la classe de connexion Singleton à la base de données
 require_once 'Database.php';
 
+// Configuration de l'affichage des erreurs (Utile en développement)
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+// Définition de la racine du site web pour centraliser les URLs
 define('BASE_URL', 'http://localhost/StageTychique/SiteIbgFireEtSecure'); 
 
-// Sécurité Admin
+// Contrôle d'accès : Redirection vers la page de connexion si l'utilisateur n'est pas un administrateur connecté
 if (!isset($_SESSION['user_id']) || strtolower($_SESSION['user_role']) !== 'admin') {
     header("Location: " . BASE_URL . "/SeConnecter.php");
-    exit();
+    exit(); // Interruption immédiate du script après redirection
 }
 
+// Initialisation des variables de traitement
 $employe = null;
 $message_erreur = "";
 
+// ==========================================
+// 2. RÉCUPÉRATION ET TRAITEMENT DES DONNÉES
+// ==========================================
+
+// Vérification de l'existence et de la validité du paramètre "id" passé dans l'URL (ex: ?id=5)
 if (isset($_GET['id']) && !empty($_GET['id'])) {
+    // Sécurisation de la variable en forçant le type ENTIER (protection contre les injections XSS/Paramètres invalides)
     $id_employe = intval($_GET['id']);
     
     try {
+        // Récupération de l'instance de connexion PDO
         $bdd = Database::getInstance();
         
-        // Extraction de toutes les colonnes de l'employé ciblé
+        // Préparation de la requête SQL pour extraire le profil de l'employé ciblé
         $stmt = $bdd->prepare("SELECT * FROM Employe WHERE Id_Employe = ?");
         $stmt->execute([$id_employe]);
+        
+        // Stockage du résultat sous forme de tableau associatif
         $employe = $stmt->fetch(PDO::FETCH_ASSOC);
         
+        // Si aucun enregistrement ne correspond à cet ID dans la base de données
         if (!$employe) {
             $message_erreur = "Aucun employé ne correspond à cet identifiant.";
         }
     } catch (PDOException $e) {
+        // Capture et affichage d'une erreur propre en cas de défaillance SQL
         $message_erreur = "Erreur lors de la récupération des données : " . $e->getMessage();
     }
 } else {
+    // Cas où le paramètre ID est vide ou absent de l'URL
     $message_erreur = "Identifiant de l'employé manquant ou incorrect.";
 }
 ?>
@@ -45,10 +67,12 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/index.css">
-    <link rel="stylesheet" href="assets/style.css">
-    <link rel="stylesheet" href="assets/Administrateur.css">
+    
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/index.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/style.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/Administrateur.css">
     <title>Détails Employé | Espace Admin</title>
+    
     <style>
         .detail-box {
             background: #fff;
@@ -97,16 +121,16 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 <body>
     <header>
         <a href="<?= BASE_URL ?>/index.php">
-            <img src="assets/image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo">
+            <img src="<?= BASE_URL ?>/assets/image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo">
         </a>
         <nav class="navbar">
             <ul>
-                <li><a href="Administrateur.php">Accueil Admin</a></li> 
-                <li><a href="Statistique.php">Statistiques</a></li> 
-                <li><a href="Entreprises.php">Entreprises</a></li> 
-                <li><a href="Employers.php">Employés</a></li> 
-                <li><a href="Services.php">Services</a></li>
-                <li><a href="Missions.php">Missions</a></li>   
+                <li><a href="<?= BASE_URL ?>/Administrateur.php">Accueil Admin</a></li> 
+                <li><a href="<?= BASE_URL ?>/Statistique.php">Statistiques</a></li> 
+                <li><a href="<?= BASE_URL ?>/Entreprises.php">Entreprises</a></li> 
+                <li><a href="<?= BASE_URL ?>/Employers.php">Employés</a></li> 
+                <li><a href="<?= BASE_URL ?>/Services.php">Services</a></li>
+                <li><a href="<?= BASE_URL ?>/Missions.php">Missions</a></li>   
             </ul>
         </nav>
     </header>
@@ -119,7 +143,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                 ⚠️ <?= htmlspecialchars($message_erreur) ?>
             </p>
             <div style="text-align:center;">
-                <a href="Employers.php" class="btn-back">Retour à la liste</a>
+                <a href="<?= BASE_URL ?>/Employers.php" class="btn-back">Retour à la liste</a>
             </div>
         <?php endif; ?>
 
@@ -178,9 +202,9 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                     </div>
                 </div>
 
-                <div style="text-align: space-between; display: flex; justify-content: space-between;">
-                    <a href="Employers.php" class="btn-back">⬅️ Retour à la liste</a>
-                    <a href="Deconnexion.php" class="btn-back" style="background-color: #c90000;">Se déconnecter</a>
+                <div style="display: flex; justify-content: space-between;">
+                    <a href="<?= BASE_URL ?>/Employers.php" class="btn-back">⬅️ Retour à la liste</a>
+                    <a href="<?= BASE_URL ?>/Deconnexion.php" class="btn-back" style="background-color: #c90000;">Se déconnecter</a>
                 </div>
             </div>
         <?php endif; ?>

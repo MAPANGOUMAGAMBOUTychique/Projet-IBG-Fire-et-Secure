@@ -16,7 +16,7 @@
     width: 90%;
     max-width: 900px;
     margin: 20px auto;
-    border-radius: px;
+    border-radius: 30px;
 }
 
 /* Chaque bloc de stat */
@@ -60,4 +60,31 @@
 
 .logout-link:hover {
     background-color: #ddd;
+}
+
+.stats-grid {
+    background-color: #dcdcdc; 
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 40px; 
+    padding: 60px;
+    width: 90%;
+    max-width: 900px;
+    margin: 20px auto;
+    border-radius: 15px; /* Arrondi des angles corrigé */
+}
+
+.stat-card h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #111111;
+}
+
+.stat-card .value {
+    font-family: 'Inter', sans-serif;
+    font-size: 2rem; /* Légèrement augmenté pour détacher le chiffre du titre */
+    font-weight: 600;
+    color: #000000;
 }

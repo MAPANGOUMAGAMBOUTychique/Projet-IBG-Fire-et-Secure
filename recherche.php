@@ -116,7 +116,6 @@ $images_services = [
                                 <h4><?= htmlspecialchars($service['Nom_Service']) ?></h4>
                                 <img src="<?= $image_url ?>" alt="Image <?= htmlspecialchars($service['Nom_Service']) ?>">
                                 <p><?= htmlspecialchars($service['Description_Service']) ?></p>
-                                <a href="Identification.php" class="btn-solliciter">Solliciter</a>
                             </article>
                         </li>
                     <?php endforeach; ?>

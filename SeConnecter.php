@@ -1,56 +1,76 @@
 <?php
+// =========================================================================
 // 1. CONFIGURATION SÉCURISÉE DES COOKIES DE SESSION (OPTIMISÉE POUR LOCALHOST)
+// =========================================================================
 session_set_cookie_params([
-    'lifetime' => 0,                      
-    'path' => '/',                        
-    'secure' => false, // Garder à false tant que tu n'as pas de HTTPS (SSL) en local
-    'httponly' => true,                   
-    'samesite' => 'Lax' // Remplacé 'Strict' par 'Lax' pour éviter les pertes de session lors des redirections en local
+    'lifetime' => 0,          // La session s'éteint dès la fermeture du navigateur de l'utilisateur.
+    'path' => '/',            // La session est active sur l'intégralité des répertoires du site.
+    'secure' => false,        // Reste à 'false' en développement local non-HTTPS (passer à true en production SSL).
+    'httponly' => true,       // Bloque l'accessibilité aux cookies de session via scripts JavaScript (Contre failles XSS).
+    'samesite' => 'Lax'       // Protection contre les attaques CSRF tout en maintenant l'état de connexion lors des redirections.
 ]);
 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Inclusion de l'accès centralisé à la base de données.
 require_once 'Database.php';
 
+// Affichage explicite des erreurs PHP pour faciliter le débogage technique en cours de stage.
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+// Centralisation de l'adresse racine racine du projet.
 define('BASE_URL', 'http://localhost/StageTychique/SiteIbgFireEtSecure'); 
 
+// Initialisation des variables de retour d'erreurs d'authentification.
 $erreur_employe = "";
 $erreur_entreprise = "";
 
-// LOGIQUE DU CONTRÔLEUR UNIQUE
+// =========================================================================
+// 2. LOGIQUE DU CONTRÔLEUR UNIQUE : RECEPTION ET DISPATCH DES FORMULAIRES POST
+// =========================================================================
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['action_type'])) {
     
     $bdd = Database::getInstance();
 
-    // ==========================================================
-    // 1. CONNEXION EMPLOYÉ & ADMIN (Via Email de l'Utilisateur)
-    // ==========================================================
+    // ---------------------------------------------------------------------
+    // CAS 1 : BLOC DE CONNEXION DES EMPLOYÉS & DE L'ADMINISTRATEUR
+    // ---------------------------------------------------------------------
     if ($_POST['action_type'] === 'login_employe') {
+        // Nettoyage et validation du format de l'adresse email soumise.
         $email = filter_var(trim($_POST['user_email']), FILTER_SANITIZE_EMAIL);
         $password = $_POST['user_mot_de_passe'];
 
         if (!empty($email) && !empty($password)) {
             try {
+                // Recherche de l'utilisateur sur son adresse email unique.
                 $stmt = $bdd->prepare("SELECT * FROM Utilisateur WHERE Email_Utilisateur = ?");
                 $stmt->execute([$email]);
                 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
                 if ($user) {
-                    // Vérification hybride : supporte le hash sécurisé OU le texte brut
+                    /* SYSTEME DE VERIFICATION HYBRIDE :
+                       Le code accepte à la fois les mots de passe hachés via BCRYPT (password_verify) 
+                       et les mots de passe en texte brut (pour vos comptes de tests créés à la main en base).
+                    */
                     if (password_verify($password, $user['Mot_De_Passe_Utilisateur']) || $password === $user['Mot_De_Passe_Utilisateur']) {
                         
+                        // Hydratation des variables de session globales de l'utilisateur.
                         $_SESSION['user_id'] = $user['Id_Utilisateur'];
                         $_SESSION['user_nom'] = $user['Nom_Utilisateur'];
-                        // CORRECTION CRITIQUE : On force le rôle en minuscules pour éviter les conflits de casse
+                        
+                        // Sécurisation de la casse du rôle utilisateur pour éviter les conflits ('Admin' vs 'admin').
                         $_SESSION['user_role'] = strtolower(trim($user['Role'])); 
 
+                        // Dispatching vers l'espace applicatif dédié selon le niveau de privilège.
                         if ($_SESSION['user_role'] === 'admin') {
                             header("Location: " . BASE_URL . "/Administrateur.php");
                             exit();
                         } else {
+                            // Vérification complémentaire si l'ID existe spécifiquement dans la table Employe.
                             $stmt_emp = $bdd->prepare("SELECT Id_Employe FROM Employe WHERE Id_Employe = ?");
                             $stmt_emp->execute([$user['Id_Utilisateur']]);
                             $employe = $stmt_emp->fetch(PDO::FETCH_ASSOC);
@@ -78,35 +98,37 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['action_type'])) {
         }
     }
 
-    // ==========================================================
-    // 2. CONNEXION ENTREPRISE (Via le SIRET de l'Entreprise)
-    // ==========================================================
+    // ---------------------------------------------------------------------
+    // CAS 2 : BLOC DE CONNEXION DE L'ENTREPRISE PARTENAIRE
+    // ---------------------------------------------------------------------
     if ($_POST['action_type'] === 'login_entreprise') {
+        // Suppression de tous les espaces saisis par l'utilisateur pour standardiser la chaîne SIRET (14 caractères).
         $siret = str_replace(' ', '', trim($_POST['user_siret']));
         $password = $_POST['user_mot_de_passe_entreprise'];
 
         if (!empty($siret) && !empty($password)) {
             try {
-                // 1. On trouve l'entreprise par son SIRET
+                // ETAPE 1 : Localisation de l'entreprise via son numéro SIRET épuré d'espaces en BDD.
                 $stmt = $bdd->prepare("SELECT * FROM Entreprise WHERE REPLACE(Siret_Entreprise, ' ', '') = ?");
                 $stmt->execute([$siret]);
                 $entreprise = $stmt->fetch(PDO::FETCH_ASSOC);
 
                 if ($entreprise) {
-                    // 2. On cherche le compte de connexion dans Utilisateur via l'Email_Contact_Entreprise
+                    // ETAPE 2 : Extraction du compte d'accès lié à l'adresse e-mail de contact de cette entreprise.
                     $stmt_user = $bdd->prepare("SELECT * FROM Utilisateur WHERE Email_Utilisateur = ?");
                     $stmt_user->execute([$entreprise['Email_Contact_Entreprise']]);
                     $user = $stmt_user->fetch(PDO::FETCH_ASSOC);
 
                     if ($user) {
-                        // 3. Vérification du mot de passe
+                        // ETAPE 3 : Contrôle de concordance du mot de passe (Hybride).
                         if (password_verify($password, $user['Mot_De_Passe_Utilisateur']) || $password === $user['Mot_De_Passe_Utilisateur']) {
                             
+                            // Configuration de la session profilée "Entreprise".
                             $_SESSION['user_id'] = $user['Id_Utilisateur'];
                             $_SESSION['user_nom'] = $entreprise['Nom_Entreprise'];
                             $_SESSION['user_role'] = 'entreprise';
                             $_SESSION['entreprise_id'] = $entreprise['Id_Entreprise'];
-                            $_SESSION['employe_id'] = $user['Id_Utilisateur']; // Évite les bugs de redirection
+                            $_SESSION['employe_id'] = $user['Id_Utilisateur']; // Évite les ruptures de scripts intermédiaires.
 
                             header("Location: " . BASE_URL . "/CompteEntreprise.php");
                             exit();
@@ -175,7 +197,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['action_type'])) {
                 </div>
             <?php endif; ?>
 
-            <form action="SeConnecter.php" method="post" class="formulaire">
+            <form action="<?= BASE_URL ?>/SeConnecter.php" method="post" class="formulaire">
                 <input type="hidden" name="action_type" value="login_employe">
 
                 <div class="form-group">
@@ -185,8 +207,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['action_type'])) {
                 <div class="form-group">
                     <label for="Mot_de_passe_employe">Mot de Passe :</label>
                     <input type="password" name="user_mot_de_passe" id="Mot_de_passe_employe" required>
-                    <a href="MotDePasseOublier.php">Mot de passe oublié ?</a>
-                    <a href="CreerUnCompte.php">Créer un compte ?</a>
+                    <a href="<?= BASE_URL ?>/MotDePasseOublier.php">Mot de passe oublié ?</a>
+                    <a href="<?= BASE_URL ?>/CreerUnCompte.php">Créer un compte ?</a>
                 </div>
                 <button type="submit" class="btn-submit">Connexion</button>
             </form>
@@ -201,7 +223,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['action_type'])) {
                 </div>
             <?php endif; ?>
 
-            <form action="SeConnecter.php" method="post" class="formulaire">
+            <form action="<?= BASE_URL ?>/SeConnecter.php" method="post" class="formulaire">
                 <input type="hidden" name="action_type" value="login_entreprise">
 
                 <div class="form-group">
@@ -211,8 +233,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['action_type'])) {
                 <div class="form-group">
                     <label for="Mot_de_passe_entreprise">Mot de Passe :</label>
                     <input type="password" name="user_mot_de_passe_entreprise" id="Mot_de_passe_entreprise" required>
-                    <a href="MotDePasseOublier.php">Mot de passe oublié ?</a>
-                    <a href="CreerUnCompte.php">Créer un compte ?</a>
+                    <a href="<?= BASE_URL ?>/MotDePasseOublier.php">Mot de passe oublié ?</a>
+                    <a href="<?= BASE_URL ?>/CreerUnCompte.php">Créer un compte ?</a>
                 </div>
                 <button type="submit" class="btn-submit">Connexion</button>
             </form>
@@ -220,6 +242,45 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['action_type'])) {
     </main>
 
     <footer>
+        <ul>
+            <li>
+                <a href="<?= BASE_URL ?>/index.php">
+                    <img src="<?= BASE_URL ?>/assets/image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo">
+                </a>
+            </li>
+            <li>
+                <article>
+                    <h4>Siège social IBG FIRE ET SECURE</h4>
+                    <p>24 allée de la mer d'iroise 44600 Saint-Nazaire</p>
+                </article>
+            </li>
+            <li>
+                <article>
+                    <h4>Nos Services</h4>
+                    <ul>
+                        <li><a href="<?= BASE_URL ?>/NosServices.php#SecuriteEtIncendie">Sécurité et Incendie</a></li>
+                        <li><a href="<?= BASE_URL ?>/NosServices.php#GardiennageEtSurveillance">Gardiennage et Surveillance</a></li>
+                        <li><a href="<?= BASE_URL ?>/NosServices.php#ConseilEtExpertise">Conseil et Expertise</a></li>
+                    </ul>                
+                </article>
+            </li>
+            <li>
+                <h4>Liens</h4>
+                <nav>
+                    <ul>
+                        <li><a href="<?= BASE_URL ?>/MentionsLégales.php">Mentions légales</a></li>
+                        <li><a href="<?= BASE_URL ?>/PolitiquesDeConfidentialités.php">Politique de Confidentialité</a></li>
+                        <li><a href="<?= BASE_URL ?>/index.php">Accueil</a></li>
+                        <li><a href="<?= BASE_URL ?>/NosServices.php">Nos Services</a></li>
+                        <li><a href="<?= BASE_URL ?>/NousContacter.php">Nous contacter</a></li>
+                        <li><a href="<?= BASE_URL ?>/Postuler.php">Je postule</a></li>
+                        <li><a href="<?= BASE_URL ?>/SeConnecter.php">Se connecter</a></li>
+                        <li><a href="<?= BASE_URL ?>/CreerUnCompte.php">Créer un compte</a></li>
+                    </ul>
+                </nav> 
+            </li>
+        </ul>
+
         <div class="footer-bottom">
             <p>&copy; 2026 IBG FIRE ET SECURE. Tous droits réservés.</p>
         </div>

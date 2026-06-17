@@ -1,4 +1,5 @@
 <?php
+// 1. GESTION DE LA SESSION ET SÉCURITÉ D'ACCÈS
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -45,9 +46,9 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/index.css">
-    <link rel="stylesheet" href="assets/style.css">
-    <link rel="stylesheet" href="assets/Administrateur.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/index.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/style.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/Administrateur.css">
     <title>Détails Mission | Espace Admin</title>
     <style>
         .detail-box {
@@ -105,16 +106,16 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 <body>
     <header>
         <a href="<?= BASE_URL ?>/index.php">
-            <img src="assets/image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo">
+            <img src="<?= BASE_URL ?>/assets/image/Logo_IBG_FS-removebg-preview.png" alt="logo IBG FIRE ET SECURE" class="logo">
         </a>
         <nav class="navbar">
             <ul>
-                <li><a href="Administrateur.php">Accueil Admin</a></li> 
-                <li><a href="Statistique.php">Statistiques</a></li> 
-                <li><a href="Entreprises.php">Entreprises</a></li> 
-                <li><a href="Employers.php">Employés</a></li> 
-                <li><a href="Services.php">Services</a></li>
-                <li><a href="Missions.php">Missions</a></li>   
+                <li><a href="<?= BASE_URL ?>/Administrateur.php">Accueil Admin</a></li> 
+                <li><a href="<?= BASE_URL ?>/Statistique.php">Statistiques</a></li> 
+                <li><a href="<?= BASE_URL ?>/Entreprises.php">Entreprises</a></li> 
+                <li><a href="<?= BASE_URL ?>/Employers.php">Employés</a></li> 
+                <li><a href="<?= BASE_URL ?>/Services.php">Services</a></li>
+                <li><a href="<?= BASE_URL ?>/Missions.php">Missions</a></li>   
             </ul>
         </nav>
     </header>
@@ -127,7 +128,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                 ⚠️ <?= htmlspecialchars($message_erreur) ?>
             </p>
             <div style="text-align:center;">
-                <a href="Missions.php" class="btn-back">Retour à la liste</a>
+                <a href="<?= BASE_URL ?>/Missions.php" class="btn-back">Retour à la liste</a>
             </div>
         <?php endif; ?>
 
@@ -159,9 +160,9 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                     </p>
                 </div>
 
-                <div style="text-align: space-between; display: flex; justify-content: space-between;">
-                    <a href="Missions.php" class="btn-back">⬅️ Retour à la liste</a>
-                    <a href="Deconnexion.php" class="btn-back" style="background-color: #c90000;">Se déconnecter</a>
+                <div style="display: flex; justify-content: space-between;">
+                    <a href="<?= BASE_URL ?>/Missions.php" class="btn-back">⬅️ Retour à la liste</a>
+                    <a href="<?= BASE_URL ?>/Deconnexion.php" class="btn-back" style="background-color: #c90000;">Se déconnecter</a>
                 </div>
             </div>
         <?php endif; ?>

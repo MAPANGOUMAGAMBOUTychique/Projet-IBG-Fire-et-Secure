@@ -1,53 +1,87 @@
 <?php
+// --- CONFIGURATION ET INITIALISATION DE LA SESSION ---
+
+// Vérification et démarrage sécurisé de la session si elle n'est pas déjà active
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
+// Inclusion de la classe de connexion à la base de données (utilisation du pattern Singleton)
 require_once 'Database.php';
 
-// 1. SÉCURITÉ : Vérifier que l'utilisateur est connecté et est bien une entreprise
-if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'entreprise' || !isset($_SESSION['entreprise_id'])) {
+// Configuration de l'affichage des erreurs pour faciliter le développement et le débogage
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Correctif technique pour éviter les erreurs d'allocation de mémoire JIT avec certaines versions de PCRE
+ini_set('pcre.jit', 0); 
+
+// Définition de la constante de l'URL racine du site
+define('BASE_URL', 'http://localhost/StageTychique/SiteIbgFireEtSecure');
+
+
+// --- CONTRÔLE D'ACCÈS ET SÉCURITÉ ---
+
+// 1. SÉCURITÉ : On s'assure que l'utilisateur est connecté, possède le rôle 'entreprise' (sans vérifier la casse) et un ID valide
+if (!isset($_SESSION['user_id']) || 
+    !isset($_SESSION['user_role']) || 
+    strtolower(trim($_SESSION['user_role'])) !== 'entreprise' || 
+    !isset($_SESSION['entreprise_id'])) {
+    
+    // Si l'une des conditions échoue, l'utilisateur est immédiatement renvoyé vers la page de connexion
     header("Location: SeConnecter.php");
     exit();
 }
 
+// Récupération de l'instance unique de la base de données PDO
 $bdd = Database::getInstance();
 $entreprise_id = $_SESSION['entreprise_id'];
 
+// Initialisation des variables de contrôle pour les messages utilisateurs
 $changement_reussi = false;
 $message_erreur = "";
 
-// 2. TRAITEMENT DE LA MODIFICATION APRÈS LE CLIC SUR "OUI"
+
+// --- TRAITEMENT DU FORMULAIRE : MODIFICATION DES INFORMATIONS ---
+
+// 2. TRAITEMENT DE LA MODIFICATION APRÈS LE CLIC SUR "OUI" (Validation du formulaire de mise à jour)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmer_modification'])) {
+    // Nettoyage et sécurisation des données reçues par le formulaire
     $nom = trim($_POST['user_nom_entreprise']);
-    $email = filter_var(trim($_POST['user_email_entreprise']), FILTER_SANITIZE_EMAIL);
+    $email = filter_var(trim($_POST['user_email_entreprise']), FILTER_SANITIZE_EMAIL); // Supprime les caractères invalides d'un email
     $password = $_POST['user_mot_de_passe_entreprise'];
 
+    // Vérification que les champs obligatoires ne sont pas vides
     if (!empty($nom) && !empty($email)) {
         try {
-            // A. Récupérer l'ancien email pour synchroniser la table Utilisateur
+            // A. Récupération de l'ancien email de l'entreprise afin de pouvoir cibler correctement la table Utilisateur associée
             $stmt_old = $bdd->prepare("SELECT Email_Contact_Entreprise FROM Entreprise WHERE Id_Entreprise = ?");
             $stmt_old->execute([$entreprise_id]);
             $ancien_email = $stmt_old->fetchColumn();
 
-            // B. Mettre à jour la table Entreprise
+            // B. Mise à jour des informations spécifiques dans la table 'Entreprise'
             $stmt_ent = $bdd->prepare("UPDATE Entreprise SET Nom_Entreprise = ?, Email_Contact_Entreprise = ? WHERE Id_Entreprise = ?");
             $stmt_ent->execute([$nom, $email, $entreprise_id]);
 
-            // C. Mettre à jour la table Utilisateur
+            // C. Mise à jour de la table transverse 'Utilisateur' (Gestion de l'authentification globale)
             if (!empty($password)) {
+                // Si un nouveau mot de passe est saisi, on le hache de manière sécurisée (BCRYPT) et on met tout à jour
                 $password_hash = password_hash($password, PASSWORD_BCRYPT);
                 $stmt_user = $bdd->prepare("UPDATE Utilisateur SET Email_Utilisateur = ?, Nom_Utilisateur = ?, Mot_De_Passe_Utilisateur = ? WHERE Email_Utilisateur = ?");
                 $stmt_user->execute([$email, $nom, $password_hash, $ancien_email]);
             } else {
+                // Si le mot de passe reste inchangé, on met uniquement à jour l'email et le nom
                 $stmt_user = $bdd->prepare("UPDATE Utilisateur SET Email_Utilisateur = ?, Nom_Utilisateur = ? WHERE Email_Utilisateur = ?");
                 $stmt_user->execute([$email, $nom, $ancien_email]);
             }
 
-            // Mettre à jour la session active
+            // D. Synchronisation des informations de la session active de l'utilisateur
             $_SESSION['user_nom'] = $nom;
             $changement_reussi = true;
 
         } catch (PDOException $e) {
+            // Capturation et affichage de l'erreur SQL en cas de problème
             $message_erreur = "Erreur lors de la modification : " . $e->getMessage();
         }
     } else {
@@ -55,29 +89,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmer_modificatio
     }
 }
 
-// 3. TRAITEMENT DE LA SUPPRESSION RÉELLE DU COMPTE APRÈS LE CLIC SUR "OUI"
+
+// --- TRAITEMENT DU FORMULAIRE : SUPPRESSION DU COMPTE ---
+
+// 3. TRAITEMENT DE LA SUPPRESSION RÉELLE DU COMPTE APRÈS LE CLIC SUR "OUI" (Confirmation finale)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmer_suppression'])) {
     try {
-        // A. Récupérer l'email de l'entreprise pour nettoyer aussi la table Utilisateur
+        // A. Récupération de l'email actuel pour nettoyer proprement la table Utilisateur correspondante
         $stmt_email = $bdd->prepare("SELECT Email_Contact_Entreprise FROM Entreprise WHERE Id_Entreprise = ?");
         $stmt_email->execute([$entreprise_id]);
         $email_entreprise = $stmt_email->fetchColumn();
 
         if ($email_entreprise) {
-            // B. Supprimer de la table Utilisateur
+            // B. Suppression du compte dans la table générique 'Utilisateur'
             $stmt_del_user = $bdd->prepare("DELETE FROM Utilisateur WHERE Email_Utilisateur = ?");
             $stmt_del_user->execute([$email_entreprise]);
         }
 
-        // C. Supprimer de la table Entreprise
+        // C. Suppression définitive de l'entité dans la table 'Entreprise'
         $stmt_del_ent = $bdd->prepare("DELETE FROM Entreprise WHERE Id_Entreprise = ?");
         $stmt_del_ent->execute([$entreprise_id]);
 
-        // D. Destruction de la session et redirection propre
+        // D. Sécurisation : Destruction complète des variables de session et fermeture de la session
         session_unset();
         session_destroy();
         
-        // Redirection vers une page d'accueil ou page de confirmation déconnectée
+        // Redirection vers l'accueil avec un paramètre de succès dans l'URL
         header("Location: index.php?statut=compte_supprime");
         exit();
 
@@ -86,11 +123,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmer_suppression
     }
 }
 
-// 4. RÉCUPÉRATION DES DONNÉES ACTUELLES DE L'ENTREPRISE POUR LES INPUTS
+
+// --- LECTURE DES DONNÉES DE L'ENTREPRISE POUR L'AFFICHAGE ---
+
+// 4. RÉCUPÉRATION DES DONNÉES ACTUELLES DE L'ENTREPRISE POUR PRÉ-REMPLIR LES CHAMPS DU FORMULAIRE
 try {
     $stmt = $bdd->prepare("SELECT * FROM Entreprise WHERE Id_Entreprise = ?");
     $stmt->execute([$entreprise_id]);
     $entreprise = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    // Si l'entreprise n'existe plus en base (cas rare ou suppression externe), on déconnecte de force par sécurité
+    if (!$entreprise) {
+        session_unset();
+        session_destroy();
+        header("Location: SeConnecter.php");
+        exit();
+    }
 } catch (PDOException $e) {
     $message_erreur = "Erreur de base de données : " . $e->getMessage();
 }
@@ -103,7 +151,7 @@ try {
     <link rel="stylesheet" href="assets/style.css">
     <link rel="stylesheet" href="assets/index.css">
     <link rel="stylesheet" href="assets/CompteEmployer.css">
-    <title>Compte entreprise | Site IBG FIRE ET SECURE</title>
+    <title>Compte entreprise | <?= htmlspecialchars($entreprise['Nom_Entreprise'] ?? 'Mon Espace') ?> | IBG FIRE ET SECURE</title>
     
     <style>
         /* On cache la section de confirmation de modification et de suppression par défaut */
@@ -117,12 +165,12 @@ try {
             text-align: center;
         }
 
-        /* Quand on clique sur "Modifier", l'ancre devient active et affiche cette section */
+        /* MÉCANISME CSS : Quand l'URL contient l'ancre correspondante (ex: #Modification_compte), la section s'affiche dynamiquement sans JavaScript */
         #Modification_compte:target {
             display: block !important;
         }
 
-        /* Quand on clique sur "Supprimer le compte", l'ancre affiche la boîte de confirmation */
+        /* Quand on clique sur "Supprimer le compte", l'ancre s'active et affiche la boîte de confirmation */
         #Zone_Confirmation_Suppression:target {
             display: block !important;
         }
@@ -134,7 +182,7 @@ try {
         <nav class="navbar">
             <ul>
                 <li><a href="index.php">Accueil</a></li> 
-                <li><a href="views/pages/NousContacter.php">Nous contacter</a></li>  
+                <li><a href="views/pages/NousContacter.php">Nous contacter</a></li> 
                 <li><a href="SeConnecter.php">Se déconnecter</a></li> 
             </ul>
         </nav>
@@ -144,7 +192,7 @@ try {
         <h1><?= htmlspecialchars($entreprise['Nom_Entreprise'] ?? 'Nom de l\'entreprise') ?></h1>
         
         <?php if (!empty($message_erreur)): ?>
-            <p style="color: red; text-align: center; font-weight: bold;"><?= $message_erreur ?></p>
+            <p style="color: red; text-align: center; font-weight: bold;"><?= htmlspecialchars($message_erreur) ?></p>
         <?php endif; ?>
 
         <form action="" method="post" class="formulaire">
@@ -231,7 +279,7 @@ try {
                         <article>
                             <h4>Maintenance des Systèmes de Sécurité Incendie</h4>
                             <img src="assets/image/Jour4/Image maintenance des systèmes incendies-1482775856-612x612.webp" alt="Image Maintenance de sécurité Incendie">
-                            <p>Garantissez l'opérationnalité de vos dispositifs de secours. Nous réalisisons des audits approfondis et la maintenance technique de vos systèmes (SSI).</p>
+                            <p>Garantissez l'opérationnalité de vos dispositifs de secours. We réalisisons des audits approfondis et la maintenance technique de vos systèmes (SSI).</p>
                             <a href="SolicitationEntreprise.php?service=Maintenance%20des%20Systèmes%20de%20Sécurité%20Incendie" class="btn-solliciter">Solliciter</a>
                         </article>
                     </li>
@@ -253,7 +301,7 @@ try {
                         <article>
                             <h4>Audit et Conseil en Ingénierie et Sûreté</h4>
                             <img src="assets/image/Jour4/Image conseil et expertise-1661695279211-dfc3866380d1.avif" alt="Image Audit et conseil ingénieur en sureté">
-                            <p>Anticipez les menaces par une approche analytique de votre sûreté. Nos experts réalisent un audit complet des vulnérabilités de vos infrastructures.</p>
+                            <p>Anticiisez les menaces par une approche analytique de votre sûreté. Nos experts réalisent un audit complet des vulnérabilités de vos infrastructures.</p>
                             <a href="SolicitationEntreprise.php?service=Audit%20et%20Conseil%20en%20Ingénierie%20et%20Sûreté" class="btn-solliciter">Solliciter</a>
                         </article>
                     </li>
@@ -283,12 +331,12 @@ try {
             <div id="Zone_Confirmation_Suppression">
                 <div class="reponse" style="display: block; margin-bottom: 15px;">
                     <img src="assets/image/Logo_IBG_FS-removebg-preview.png" alt="image logo IBG FIRE ET SECURE">
-                    <p class="logo_text" style="font-weight: bold; color: #d9534f;">Voulez-vous vraiment supprimer définitivement votre compte entreprise ?</p>
+                    <p class="logo_text" style="font-weight: bold; color: black;">Voulez-vous vraiment supprimer définitivement votre compte entreprise ?</p>
                 </div>
 
                 <form action="" method="post">
                     <div class="oui-non">
-                        <button type="submit" name="confirmer_suppression" class="btn-solliciter" style="background: #d9534f; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 4px;">Oui</button>
+                        <button type="submit" name="confirmer_suppression" class="btn-solliciter" style="background: black; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 4px;">Oui</button>
                         <a href="#Compte_entreprise" class="btn-solliciter" style="display: inline-block; text-decoration: none; line-height: 20px; background: #666; color: white; padding: 10px 20px; border-radius: 4px;">Non</a>
                     </div>
                 </form>
